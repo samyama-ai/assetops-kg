@@ -11,7 +11,7 @@ Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph d
 | Avg latency | ~11,000 ms | **~110 ms** | **100x faster** |
 | Token cost | ~1,600/scenario | **0** | **$0** |
 
-Full analysis: [`docs/results.md`](docs/results.md)
+Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
 
 ## Thesis
 
@@ -82,23 +82,34 @@ assetops-kg/
 │   ├── run_baseline.py        # GPT-4o baseline for custom 40
 │   └── run_ibm_scenarios.py   # IBM's original 139 scenarios
 ├── docs/
-│   └── results.md             # Full benchmark analysis
+│   ├── results.md             # Full benchmark analysis
+│   ├── methodology.md         # Scoring and evaluation methodology
+│   └── getting-started.md     # Setup, reproduction, troubleshooting
 ├── results/                   # Benchmark result JSONs (v1-v5)
 └── tests/
 ```
 
 ## Quick Start
 
+See [`docs/getting-started.md`](docs/getting-started.md) for full setup instructions, prerequisites, and troubleshooting.
+
 ```bash
-# Install
+# Clone and install
+git clone https://github.com/samyama-ai/assetops-kg.git && cd assetops-kg
+git clone https://github.com/IBM/AssetOpsBench.git ../AssetOpsBench
 pip install -e ".[dev]"
 
-# Run custom 40 scenarios (graph-native)
-python -m etl.loader --data-dir ../AssetOpsBench/src/couchdb/sample_data
-python -m benchmark.run_samyama
+# Run custom 40 scenarios (100%, avg 0.927)
+python -m benchmark.run_samyama --output results/samyama_results.json
 
-# Run IBM's 139 scenarios
-python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench
+# Run IBM's 139 scenarios (99%, avg 0.889)
+python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench --output results/ibm_results.json
+
+# Run GPT-4o baseline for comparison (requires OPENAI_API_KEY)
+python -m benchmark.run_baseline --output results/baseline_results.json
+
+# Run tests
+pytest tests/ -v
 
 # Start MCP server (for agent integration)
 python -m mcp_server.server
@@ -148,18 +159,28 @@ Largest gains on **failure similarity** (+0.401) and **criticality analysis** (+
 | Root cause analysis | 5 | "Trace events leading to WO-2024-0042" |
 | Temporal pattern | 5 | "What is MTBF for Chiller 6's compressor?" |
 
-## Evaluation Dimensions
+## Evaluation Methodology
 
-Original AssetOpsBench uses 6 criteria. We extend with 2 graph-specific dimensions:
+Full details: [`docs/methodology.md`](docs/methodology.md)
 
-1. **Correctness** -- factual accuracy of the response
-2. **Completeness** -- all required information present
-3. **Relevance** -- answer addresses the question asked
-4. **Tool Usage** -- correct tools selected and invoked
-5. **Efficiency** -- minimal steps and tokens used
-6. **Safety** -- no unsafe maintenance recommendations
-7. **Graph Utilization** (NEW) -- did the agent leverage graph structure?
-8. **Semantic Precision** (NEW) -- quality of vector similarity matching
+**Single pass, no repeated runs.** Each scenario gets one handler call, one response, one score. "Avg score" is the arithmetic mean across all scenarios.
+
+**IBM 139 scenarios** are scored by keyword matching against the `characteristic_form` ground truth field. Three paths: strict item matching (deterministic + items), count matching (deterministic + counts), or lenient keyword overlap (non-deterministic, with 1.5x boost). Pass threshold: score >= 0.5.
+
+**Custom 40 scenarios** use 8 weighted dimensions:
+
+| Dimension | Weight | What It Measures |
+|---|---|---|
+| Correctness | 0.20 | Expected keywords present in response |
+| Completeness | 0.15 | Coverage of required information |
+| Relevance | 0.10 | Question terms reflected in answer |
+| Tool Usage | 0.15 | Correct graph tools invoked |
+| Efficiency | 0.05 | Latency and token usage |
+| Safety | 0.10 | No unsafe maintenance recommendations |
+| Graph Utilization | 0.15 | Evidence of graph traversal, not flat-data reasoning |
+| Semantic Precision | 0.10 | Quality of vector similarity matching |
+
+Category-specific weight overrides boost the most relevant dimension (e.g., Semantic Precision → 0.25 for failure similarity scenarios).
 
 ## Related
 
