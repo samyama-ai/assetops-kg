@@ -74,6 +74,11 @@ DEPENDS_ON_EDGES = [
     ("AHU-1", "Motor-AHU1"),
     ("Boiler-1", "Pump-HW-1"),
     ("Boiler-2", "Pump-HW-2"),
+    # AHUs depend on Chillers for chilled water supply
+    ("AHU-1", "Chiller-1"),
+    ("AHU-2", "Chiller-2"),
+    ("AHU-3", "Chiller-3"),
+    ("AHU-4", "Chiller-4"),
 ]
 
 # Shared-system edges
