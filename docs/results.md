@@ -128,13 +128,13 @@ The graph data was correct from v1. Every improvement was about **handler dispat
 
 ### IBM's 139 Scenarios
 
-| Metric | GPT-4 (IBM baseline) | Samyama-KG | Delta |
+| Metric | GPT-4 (IBM reported) | Samyama-KG (measured) | Delta |
 |---|---|---|---|
-| **Pass rate** | 91/139 (65%) | **137/139 (99%)** | **+34pp** |
+| **Pass rate** | ~91/139 (65%) | **137/139 (99%)** | **+34pp** |
 | **Avg score** | not reported | **0.889** | — |
-| **Latency** | ~11,000 ms/scenario | **~110 ms** | **100x faster** |
-| **Token cost** | ~1,600/scenario | **0** | **$0** |
-| **Infrastructure** | OpenAI API | Embedded DB | No network required |
+| **Avg latency** | not reported | **63 ms** | — |
+
+Note: IBM's GPT-4 baseline (~65%) is their reported figure. We did not re-run GPT-4 on IBM's 139 scenarios. Latency and token comparisons below are from the custom 40 scenarios where we ran both systems.
 
 #### Per-Type Breakdown
 
@@ -152,6 +152,9 @@ The graph data was correct from v1. Every improvement was about **handler dispat
 |---|---|---|---|
 | **Pass rate** | 34/40 (85%) | **40/40 (100%)** | **+15pp** |
 | **Avg score** | 0.602 | **0.927** | **+0.325** |
+| **Avg latency** | 11,259 ms | **110 ms** | **103x faster** |
+| **Avg tokens** | 632/scenario | **0** | **$0** |
+| **Infrastructure** | OpenAI API | Embedded DB | No network required |
 
 #### Per-Category Breakdown
 

@@ -4,12 +4,14 @@ Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph d
 
 ## Key Results
 
-| Benchmark | GPT-4 (IBM baseline) | Samyama-KG | Delta |
+| Benchmark | GPT-4 Baseline | Samyama-KG | Delta |
 |---|---|---|---|
-| IBM's 139 scenarios | 91/139 (65%) | **137/139 (99%)** | **+34pp** |
+| IBM's 139 scenarios | ~91/139 (65%)* | **137/139 (99%)** | **+34pp** |
 | Custom 40 scenarios | 34/40 (85%) | **40/40 (100%)** | **+15pp** |
-| Avg latency | ~11,000 ms | **~110 ms** | **100x faster** |
-| Token cost | ~1,600/scenario | **0** | **$0** |
+| Avg latency (custom 40) | 11,259 ms | **110 ms** | **103x faster** |
+| Avg tokens (custom 40) | 632/scenario | **0** | **$0** |
+
+*IBM's reported GPT-4 figure. Latency and token data are from our head-to-head run on the custom 40 scenarios.
 
 Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
 
