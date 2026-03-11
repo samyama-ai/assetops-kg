@@ -153,21 +153,39 @@ def tool_criticality_ranking(client: SamyamaClient, graph: str, params: dict) ->
     }
 
 
+def _get_query_embedder():
+    """Get the same embedder used by ETL for query-time embedding."""
+    try:
+        from sentence_transformers import SentenceTransformer
+        model = SentenceTransformer("all-MiniLM-L6-v2")
+        return model, model.get_sentence_embedding_dimension(), True
+    except Exception:
+        return None, 384, False
+
+
+# Cache the embedder so we don't reload per query
+_QUERY_EMBEDDER, _QUERY_DIM, _REAL_EMBEDDINGS = _get_query_embedder()
+
+
 def tool_vector_search(client: SamyamaClient, graph: str, params: dict) -> dict:
     """Semantic similarity search on failure mode embeddings."""
     query = params.get("query", "compressor overheating")
     k = params.get("top_k", 5)
 
-    # Use mock query embedding (hash-based, same as ETL embedding_gen fallback)
-    import hashlib
-    dim = 384
-    h = hashlib.sha256(query.encode()).digest()
-    qvec = []
-    for i in range(dim):
-        byte_idx = i % len(h)
-        qvec.append((h[byte_idx] + i * 7) % 256 / 255.0)
-    norm = sum(v * v for v in qvec) ** 0.5
-    qvec = [v / norm for v in qvec]
+    if _REAL_EMBEDDINGS and _QUERY_EMBEDDER is not None:
+        # Use real sentence-transformers for query embedding
+        qvec = _QUERY_EMBEDDER.encode([query])[0].tolist()
+    else:
+        # Fallback: mock hash-based embedding
+        import hashlib
+        dim = 384
+        h = hashlib.sha256(query.encode()).digest()
+        qvec = []
+        for i in range(dim):
+            byte_idx = i % len(h)
+            qvec.append((h[byte_idx] + i * 7) % 256 / 255.0)
+        norm = sum(v * v for v in qvec) ** 0.5
+        qvec = [v / norm for v in qvec]
 
     results = client.vector_search("FailureMode", "embedding", qvec, k)
 
@@ -594,7 +612,7 @@ def load_graph_data(client: SamyamaClient, graph: str) -> dict:
     stats["fmsr"] = load_fmsr(client, ".", graph)
     stats["couchdb"] = load_couchdb(client, ".", graph)
     stats["workorders"] = load_workorders(client, ".", graph)
-    stats["embed"] = generate_embeddings(client, graph, "mock")
+    stats["embed"] = generate_embeddings(client, graph, "all-MiniLM-L6-v2")
     return stats
 
 
