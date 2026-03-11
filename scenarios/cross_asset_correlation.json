@@ -1,0 +1,56 @@
+[
+  {
+    "id": "graph_corr_001",
+    "category": "cross_asset_correlation",
+    "description": "Chiller CH-01 discharge pressure rose 15% over 48 hours. Are any connected AHUs or pumps showing correlated anomalies in the same period?",
+    "expected_tools": ["anomaly_correlation", "cypher_query"],
+    "expected_output_contains": ["correlated", "AHU", "pressure"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_corr_002",
+    "category": "cross_asset_correlation",
+    "description": "Three sensors on different equipment in Building-A triggered high-temperature alerts within 10 minutes. Are these assets connected through shared systems?",
+    "expected_tools": ["anomaly_correlation", "cypher_query"],
+    "expected_output_contains": ["SHARES_SYSTEM_WITH", "temperature", "Building-A"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_corr_003",
+    "category": "cross_asset_correlation",
+    "description": "Vibration anomaly detected on Motor MTR-22. Check if any equipment that DEPENDS_ON or SHARES_SYSTEM_WITH MTR-22 has had anomalies in the last 7 days.",
+    "expected_tools": ["anomaly_correlation", "cypher_query"],
+    "expected_output_contains": ["vibration", "DEPENDS_ON", "SHARES_SYSTEM_WITH", "7 days"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_corr_004",
+    "category": "cross_asset_correlation",
+    "description": "Condenser water flow dropped 20% on the east loop. Correlate sensor readings across all equipment on that loop to find the source.",
+    "expected_tools": ["anomaly_correlation", "sensor_trend"],
+    "expected_output_contains": ["condenser", "flow", "correlation", "east loop"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_corr_005",
+    "category": "cross_asset_correlation",
+    "description": "Work order WO-8834 reports unusual noise from AHU-15. Find all equipment sharing the same mechanical room and check for concurrent anomalies.",
+    "expected_tools": ["anomaly_correlation", "cypher_query"],
+    "expected_output_contains": ["AHU-15", "mechanical room", "concurrent"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_corr_006",
+    "category": "cross_asset_correlation",
+    "description": "Electrical power quality anomaly on feeder FDR-03. Identify all downstream equipment with simultaneous sensor deviations to confirm propagation path.",
+    "expected_tools": ["anomaly_correlation", "impact_analysis"],
+    "expected_output_contains": ["power quality", "feeder", "propagation", "simultaneous"],
+    "difficulty": "hard",
+    "requires_graph": true
+  }
+]

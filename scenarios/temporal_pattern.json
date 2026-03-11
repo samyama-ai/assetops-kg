@@ -1,0 +1,47 @@
+[
+  {
+    "id": "graph_temp_001",
+    "category": "temporal_pattern",
+    "description": "Calculate the Mean Time Between Failures (MTBF) for all Chiller equipment over the past 24 months. Which chiller has the worst MTBF?",
+    "expected_tools": ["cypher_query"],
+    "expected_output_contains": ["MTBF", "Chiller", "24 months", "worst"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_temp_002",
+    "category": "temporal_pattern",
+    "description": "Analyze seasonal failure patterns: do Chiller failures peak in summer and Boiler failures peak in winter? Show monthly failure counts over 2 years.",
+    "expected_tools": ["cypher_query", "sensor_trend"],
+    "expected_output_contains": ["seasonal", "summer", "winter", "monthly", "Chiller", "Boiler"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_temp_003",
+    "category": "temporal_pattern",
+    "description": "Sensor S-045 (bearing temperature on Motor MTR-19) has been trending upward over 30 days. Extrapolate when it will breach the max_threshold.",
+    "expected_tools": ["sensor_trend"],
+    "expected_output_contains": ["trend", "temperature", "threshold", "extrapolate"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_temp_004",
+    "category": "temporal_pattern",
+    "description": "Identify equipment where the interval between consecutive work orders is decreasing, indicating accelerating degradation.",
+    "expected_tools": ["cypher_query"],
+    "expected_output_contains": ["interval", "decreasing", "degradation", "work order"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_temp_005",
+    "category": "temporal_pattern",
+    "description": "For the top 5 most failure-prone equipment, plot the cumulative failure count over time. Do any exhibit bathtub curve behavior (early failures, steady state, wear-out)?",
+    "expected_tools": ["cypher_query", "sensor_trend"],
+    "expected_output_contains": ["cumulative", "bathtub curve", "wear-out", "failure-prone"],
+    "difficulty": "hard",
+    "requires_graph": true
+  }
+]

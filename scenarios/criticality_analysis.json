@@ -1,0 +1,47 @@
+[
+  {
+    "id": "graph_crit_001",
+    "category": "criticality_analysis",
+    "description": "Rank all equipment by graph-based criticality using PageRank on the DEPENDS_ON network. Which are the top 10 most critical assets?",
+    "expected_tools": ["criticality_ranking"],
+    "expected_output_contains": ["PageRank", "criticality", "top 10"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_crit_002",
+    "category": "criticality_analysis",
+    "description": "Compare PageRank-based criticality scores with the static criticality_score property on Equipment nodes. Where do they disagree?",
+    "expected_tools": ["criticality_ranking", "cypher_query"],
+    "expected_output_contains": ["PageRank", "criticality_score", "disagree", "comparison"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_crit_003",
+    "category": "criticality_analysis",
+    "description": "Identify single points of failure: equipment with high in-degree on DEPENDS_ON that, if removed, would disconnect the dependency graph.",
+    "expected_tools": ["criticality_ranking", "cypher_query"],
+    "expected_output_contains": ["single point of failure", "in-degree", "disconnect"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_crit_004",
+    "category": "criticality_analysis",
+    "description": "Which Location contains the highest concentration of critical equipment (top quartile by PageRank)? Flag it for redundancy review.",
+    "expected_tools": ["criticality_ranking", "cypher_query"],
+    "expected_output_contains": ["Location", "concentration", "quartile", "redundancy"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_crit_005",
+    "category": "criticality_analysis",
+    "description": "Using weakly connected components on the SHARES_SYSTEM_WITH edges, identify independent system clusters. Which cluster has the highest aggregate criticality?",
+    "expected_tools": ["criticality_ranking", "cypher_query"],
+    "expected_output_contains": ["connected component", "cluster", "aggregate", "SHARES_SYSTEM_WITH"],
+    "difficulty": "hard",
+    "requires_graph": true
+  }
+]

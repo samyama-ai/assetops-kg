@@ -1,0 +1,56 @@
+[
+  {
+    "id": "graph_sim_001",
+    "category": "failure_similarity",
+    "description": "Compressor CMP-07 shows early signs of bearing wear. Find the top 5 most similar historical failure modes using vector search.",
+    "expected_tools": ["vector_search"],
+    "expected_output_contains": ["bearing wear", "similarity", "CMP"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_sim_002",
+    "category": "failure_similarity",
+    "description": "A new anomaly 'intermittent high-frequency vibration with thermal cycling' was detected. Find failure modes with similar semantic embeddings.",
+    "expected_tools": ["vector_search"],
+    "expected_output_contains": ["vibration", "thermal", "embedding", "similarity"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_sim_003",
+    "category": "failure_similarity",
+    "description": "Refrigerant leak detected on Chiller CH-05. Retrieve similar past incidents and their resolution work orders. What was the average repair cost?",
+    "expected_tools": ["vector_search", "cypher_query"],
+    "expected_output_contains": ["refrigerant", "leak", "work order", "cost"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_sim_004",
+    "category": "failure_similarity",
+    "description": "An operator described a failure as 'pump cavitation with suction line blockage'. Find semantically similar failure modes even if they use different terminology.",
+    "expected_tools": ["vector_search"],
+    "expected_output_contains": ["cavitation", "similarity", "semantic"],
+    "difficulty": "medium",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_sim_005",
+    "category": "failure_similarity",
+    "description": "Anomaly ANM-312 was detected on Boiler BLR-01. Find similar anomalies across the entire fleet and rank by severity-weighted similarity.",
+    "expected_tools": ["vector_search", "cypher_query"],
+    "expected_output_contains": ["anomaly", "fleet", "severity", "similarity"],
+    "difficulty": "hard",
+    "requires_graph": true
+  },
+  {
+    "id": "graph_sim_006",
+    "category": "failure_similarity",
+    "description": "Motor MTR-33 experienced 'stator winding insulation degradation'. Which other motors had similar failure modes, and what spare parts were used in their repairs?",
+    "expected_tools": ["vector_search", "cypher_query"],
+    "expected_output_contains": ["stator", "insulation", "SparePart", "USES_PART"],
+    "difficulty": "hard",
+    "requires_graph": true
+  }
+]
