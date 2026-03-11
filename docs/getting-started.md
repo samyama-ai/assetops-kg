@@ -5,7 +5,7 @@
 - **Python >= 3.10**
 - **Rust toolchain** (for building the Samyama Python SDK from source)
 - **IBM AssetOpsBench** clone (for IBM's 139 scenarios)
-- **OpenAI API key** (only if running the GPT-4o baseline comparison)
+- **OpenAI API key** (only if running the GPT-4o baseline or NLQ benchmark)
 
 ## Setup
 
@@ -152,6 +152,48 @@ python -m benchmark.run_baseline --model gpt-4-turbo --output results/baseline_t
 
 ---
 
+## Reproducing the NLQ Benchmark (83%, avg 0.789)
+
+This is an apples-to-apples comparison: GPT-4o generates Cypher queries against the same knowledge graph used by the deterministic handlers. Both approaches use an LLM — the only variable is the data layer (flat docs vs. graph).
+
+```bash
+# Set your OpenAI API key
+export OPENAI_API_KEY="sk-..."
+
+# Run all 139 scenarios via NLQ
+python -m benchmark.run_nlq --output results/my_nlq_results.json
+
+# Run a single category
+python -m benchmark.run_nlq --category fmsr
+
+# Use a different provider (if supported)
+python -m benchmark.run_nlq --provider anthropic --output results/nlq_claude.json
+```
+
+**What happens:**
+1. Creates an embedded Samyama graph and runs the IBM ETL pipeline (same as `run_ibm_scenarios`)
+2. For each scenario, sends the question + graph schema + few-shot examples to GPT-4o
+3. GPT-4o generates a Cypher query; the runner executes it against the graph
+4. If execution fails, the error is fed back to GPT-4o for retry (up to 2 retries)
+5. GPT-4o synthesizes a natural language answer from the query results
+6. Scores responses against IBM's `characteristic_form` ground truth
+
+**Expected output:**
+```
+Summary: 115/139 passed (83%), avg score 0.789
+
+Per-type breakdown:
+  IoT      17/20 passed, avg=0.742
+  FMSR     37/40 passed, avg=0.880
+  WO       32/36 passed, avg=0.723
+  TSFM     21/23 passed, avg=0.936
+  Multi     8/20 passed, avg=0.605
+```
+
+**Note:** Multi stays at 40% because 12/20 Multi scenarios require TSFM pipeline execution (forecasting, anomaly detection) that cannot be expressed as Cypher queries. This is a structural limitation, not a prompt engineering problem.
+
+---
+
 ## Running Tests
 
 ```bash
@@ -207,7 +249,8 @@ assetops-kg/
 ├── benchmark/
 │   ├── run_samyama.py            # Custom 40 scenarios (graph-native)
 │   ├── run_ibm_scenarios.py      # IBM's original 139 scenarios
-│   └── run_baseline.py           # GPT-4o baseline (requires OPENAI_API_KEY)
+│   ├── run_baseline.py           # GPT-4o baseline (requires OPENAI_API_KEY)
+│   └── run_nlq.py                # NLQ benchmark — LLM generates Cypher (requires OPENAI_API_KEY)
 ├── evaluation/
 │   ├── extended_criteria.py      # 8-dimensional scoring framework
 │   └── runner.py                 # Scenario loader + output formatter
