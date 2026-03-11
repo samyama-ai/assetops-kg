@@ -4,14 +4,20 @@ Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph d
 
 ## Key Results
 
-| Benchmark | GPT-4 Baseline | Samyama-KG | Delta |
+| Benchmark | GPT-4 (IBM) | NLQ (GPT-4o + graph) | Samyama-KG (deterministic) | Delta vs IBM |
+|---|---|---|---|---|
+| IBM's 139 scenarios | ~91/139 (65%)* | 115/139 (83%) | **137/139 (99%)** | **+34pp** |
+| Avg latency | not reported | 5,874 ms | **63 ms** | -- |
+| Avg tokens | not reported | 4,616/scenario | **0** | **$0** |
+
+| Benchmark | GPT-4o (no graph) | Samyama-KG | Delta |
 |---|---|---|---|
-| IBM's 139 scenarios | ~91/139 (65%)* | **137/139 (99%)** | **+34pp** |
 | Custom 40 scenarios | 34/40 (85%) | **40/40 (100%)** | **+15pp** |
 | Avg latency (custom 40) | 11,259 ms | **110 ms** | **103x faster** |
-| Avg tokens (custom 40) | 632/scenario | **0** | **$0** |
 
-*IBM's reported GPT-4 figure. Latency and token data are from our head-to-head run on the custom 40 scenarios.
+*IBM's reported GPT-4 figure.
+
+**Three tiers of performance emerge:** LLM + flat docs (65%) < LLM + graph via NLQ (83%) < Deterministic handlers + graph (99%). The graph data model alone is worth +18pp even with imperfect LLM query generation.
 
 Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
 
@@ -27,8 +33,9 @@ AssetOpsBench shows GPT-4 completes only 65% of industrial maintenance tasks usi
 ## How It Works
 
 ```
-IBM's approach:     Question → LLM → document search → LLM reasoning → answer
-Our approach:       Question → handler routing → Cypher query → graph traversal → answer
+IBM's approach:     Question → LLM → flat document search → LLM reasoning → answer
+NLQ approach:       Question → LLM → Cypher generation → graph traversal → LLM synthesis → answer
+Handler approach:   Question → deterministic routing → Cypher query → answer (no LLM)
 ```
 
 The knowledge graph replaces LLM reasoning with deterministic graph traversal. Instead of asking GPT-4 to reason over JSON/CSV/YAML fragments, we run Cypher queries that traverse typed relationships (`DEPENDS_ON`, `MONITORS`, `HAS_SENSOR`) and return exact answers.
@@ -82,7 +89,8 @@ assetops-kg/
 ├── benchmark/                 # Benchmark runners
 │   ├── run_samyama.py         # Custom 40 scenarios
 │   ├── run_baseline.py        # GPT-4o baseline for custom 40
-│   └── run_ibm_scenarios.py   # IBM's original 139 scenarios
+│   ├── run_ibm_scenarios.py   # IBM's original 139 scenarios
+│   └── run_nlq.py             # NLQ benchmark (GPT-4o generates Cypher)
 ├── docs/
 │   ├── results.md             # Full benchmark analysis
 │   ├── methodology.md         # Scoring and evaluation methodology
@@ -110,6 +118,9 @@ python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench --output resul
 # Run GPT-4o baseline for comparison (requires OPENAI_API_KEY)
 python -m benchmark.run_baseline --output results/baseline_results.json
 
+# Run NLQ benchmark — GPT-4o generates Cypher against the graph (requires OPENAI_API_KEY)
+python -m benchmark.run_nlq --output results/nlq_results.json
+
 # Run tests
 pytest tests/ -v
 
@@ -121,19 +132,23 @@ python -m mcp_server.server
 
 ### IBM's Original 139 Scenarios
 
-IBM's reported GPT-4 baseline: **~65% (91/139)**.
+| Approach | Pass Rate | Avg Score | Avg Latency | Tokens |
+|---|---|---|---|---|
+| GPT-4 (IBM reported) | ~91/139 (65%) | not reported | not reported | not reported |
+| NLQ v3 (GPT-4o + graph) | 115/139 (83%) | 0.789 | 5,874 ms | 4,616/scenario |
+| **Deterministic (graph)** | **137/139 (99%)** | **0.889** | **63 ms** | **0** |
 
-Samyama-KG: **99% (137/139), avg score 0.889.**
+#### Per-Type Breakdown (Deterministic vs NLQ)
 
-| Type | Count | Pass Rate | Avg Score |
-|---|---|---|---|
-| IoT | 20 | **20/20 (100%)** | 0.988 |
-| FMSR | 40 | **40/40 (100%)** | 0.907 |
-| TSFM | 23 | **23/23 (100%)** | 0.920 |
-| Multi | 20 | **20/20 (100%)** | 0.877 |
-| WO | 36 | 34/36 (94%) | 0.801 |
+| Type | Deterministic Pass | Deterministic Avg | NLQ Pass | NLQ Avg |
+|---|---|---|---|---|
+| IoT (20) | **20/20 (100%)** | 0.988 | 17/20 (85%) | 0.742 |
+| FMSR (40) | **40/40 (100%)** | 0.907 | 37/40 (93%) | 0.880 |
+| TSFM (23) | **23/23 (100%)** | 0.920 | 21/23 (91%) | 0.936 |
+| Multi (20) | **20/20 (100%)** | 0.877 | 8/20 (40%) | 0.605 |
+| WO (36) | 34/36 (94%) | 0.801 | 32/36 (89%) | 0.723 |
 
-Only 2 failures remain (WO bundling algorithm edge cases).
+NLQ (83%) beats IBM's GPT-4 baseline (65%) by +18pp -- the graph data model alone provides significant value even when an LLM handles query generation. Only 2 deterministic failures remain (WO bundling edge cases).
 
 ### Custom 40 Scenarios (Graph-Native)
 
