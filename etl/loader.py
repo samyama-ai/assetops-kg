@@ -7,6 +7,7 @@ from samyama import SamyamaClient
 from .eamlite_loader import load_eamlite
 from .couchdb_loader import load_couchdb
 from .fmsr_loader import load_fmsr
+from .workorder_loader import load_workorders
 from .embedding_gen import generate_embeddings
 
 console = Console()
@@ -47,8 +48,18 @@ def main(data_dir: str, graph: str, embed_model: str):
         f"MONITORS edges: {fmsr_stats['monitors_edges']}"
     )
 
-    # Step 4: Generate embeddings for failure modes and anomalies
-    console.print("\n[bold]Step 4:[/bold] Generating embeddings...")
+    # Step 4: Load work orders, anomalies, maintenance windows, spare parts
+    console.print("\n[bold]Step 4:[/bold] Loading work orders & maintenance data...")
+    wo_stats = load_workorders(client, data_dir, graph)
+    console.print(
+        f"  WorkOrders: {wo_stats['work_orders']}, "
+        f"Anomalies: {wo_stats['anomalies']}, "
+        f"Windows: {wo_stats['maintenance_windows']}, "
+        f"SpareParts: {wo_stats['spare_parts']}"
+    )
+
+    # Step 5: Generate embeddings for failure modes and anomalies
+    console.print("\n[bold]Step 5:[/bold] Generating embeddings...")
     embed_stats = generate_embeddings(client, graph, embed_model)
     console.print(
         f"  Embedded: {embed_stats['embedded_nodes']} nodes "

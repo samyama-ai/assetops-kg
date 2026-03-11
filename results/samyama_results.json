@@ -6,7 +6,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.7836,
-    "latency_ms": 43.44896699876699,
+    "latency_ms": 45.194824000645895,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis"
@@ -31,7 +31,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=43ms, tokens=0"
+        "rationale": "latency=45ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -54,7 +54,7 @@
     "difficulty": "hard",
     "passed": true,
     "overall_score": 0.9392,
-    "latency_ms": 47.32538299867883,
+    "latency_ms": 79.48056799796177,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis",
@@ -80,7 +80,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=47ms, tokens=0"
+        "rationale": "latency=79ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -88,7 +88,7 @@
       },
       "graph_utilization": {
         "score": 0.8,
-        "rationale": "7 graph indicators, 1 graph tools used"
+        "rationale": "8 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -103,7 +103,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.9277,
-    "latency_ms": 30.392312999538262,
+    "latency_ms": 31.854950000706594,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis"
@@ -128,7 +128,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=30ms, tokens=0"
+        "rationale": "latency=32ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -150,8 +150,8 @@
     "description": "All equipment at HVAC-South is offline for maintenance. Trace which sensors, equipment, and active work orders are impacted across the DEPENDS_ON and SHARES_SYSTEM_WITH graphs.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6396,
-    "latency_ms": 21.311045000402373,
+    "overall_score": 0.7593,
+    "latency_ms": 54.173272001207806,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis",
@@ -160,16 +160,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.25,
-        "rationale": "Matched 1/4 keywords; missing: ['Sensor', 'WorkOrder', 'HVAC-South']"
+        "score": 0.5,
+        "rationale": "Matched 2/4 keywords; missing: ['Sensor', 'HVAC-South']"
       },
       "completeness": {
-        "score": 0.25,
-        "rationale": "Keyword coverage 25%, structural=no"
+        "score": 0.5,
+        "rationale": "Keyword coverage 50%, structural=no"
       },
       "relevance": {
-        "score": 0.3214285714285714,
-        "rationale": "3/14 question terms present"
+        "score": 0.6428571428571428,
+        "rationale": "6/14 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -177,7 +177,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=21ms, tokens=0"
+        "rationale": "latency=54ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -185,7 +185,7 @@
       },
       "graph_utilization": {
         "score": 0.8,
-        "rationale": "7 graph indicators, 1 graph tools used"
+        "rationale": "8 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -200,7 +200,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.87,
-    "latency_ms": 54.283654999380815,
+    "latency_ms": 56.77434099925449,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis"
@@ -225,7 +225,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=54ms, tokens=0"
+        "rationale": "latency=57ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -248,7 +248,7 @@
     "difficulty": "hard",
     "passed": true,
     "overall_score": 0.8808,
-    "latency_ms": 85.72909000031359,
+    "latency_ms": 115.13365499922656,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis",
@@ -274,7 +274,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=86ms, tokens=0"
+        "rationale": "latency=115ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -282,7 +282,7 @@
       },
       "graph_utilization": {
         "score": 0.8,
-        "rationale": "7 graph indicators, 1 graph tools used"
+        "rationale": "8 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -297,7 +297,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.7029,
-    "latency_ms": 17.78529900002468,
+    "latency_ms": 20.38542700029211,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis"
@@ -322,7 +322,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=18ms, tokens=0"
+        "rationale": "latency=20ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -345,7 +345,7 @@
     "difficulty": "hard",
     "passed": true,
     "overall_score": 0.7621,
-    "latency_ms": 46.39817600036622,
+    "latency_ms": 84.15555799729191,
     "tokens_used": 0,
     "tools_called": [
       "impact_analysis",
@@ -371,7 +371,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=46ms, tokens=0"
+        "rationale": "latency=84ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -379,7 +379,7 @@
       },
       "graph_utilization": {
         "score": 0.8,
-        "rationale": "7 graph indicators, 1 graph tools used"
+        "rationale": "8 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -393,8 +393,8 @@
     "description": "Chiller-1 condenser water return temperature rose 15% over 48 hours. Are the connected AHU-1 and Pump-CW-1 showing correlated anomalies in the same period?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6725,
-    "latency_ms": 12.193964999823947,
+    "overall_score": 0.7213,
+    "latency_ms": 51.40358100106823,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -411,8 +411,8 @@
         "rationale": "Keyword coverage 50%, structural=no"
       },
       "relevance": {
-        "score": 0.375,
-        "rationale": "4/16 question terms present"
+        "score": 0.5625,
+        "rationale": "6/16 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -420,15 +420,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=51ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.4,
-        "rationale": "2 graph indicators, 1 graph tools used"
+        "score": 0.6000000000000001,
+        "rationale": "4 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -442,8 +442,8 @@
     "description": "Three sensors on different equipment in HVAC-North triggered high-temperature alerts within 10 minutes. Are these assets connected through SHARES_SYSTEM_WITH edges?",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.5954,
-    "latency_ms": 12.191661000542808,
+    "overall_score": 0.7702,
+    "latency_ms": 52.72792100004153,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -452,16 +452,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.3333333333333333,
-        "rationale": "Matched 1/3 keywords; missing: ['SHARES_SYSTEM_WITH', 'HVAC-North']"
+        "score": 0.6666666666666666,
+        "rationale": "Matched 2/3 keywords; missing: ['HVAC-North']"
       },
       "completeness": {
-        "score": 0.3333333333333333,
-        "rationale": "Keyword coverage 33%, structural=no"
+        "score": 0.6666666666666666,
+        "rationale": "Keyword coverage 67%, structural=no"
       },
       "relevance": {
-        "score": 0.1875,
-        "rationale": "2/16 question terms present"
+        "score": 0.46875,
+        "rationale": "5/16 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -469,15 +469,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=53ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.4,
-        "rationale": "2 graph indicators, 1 graph tools used"
+        "score": 0.6000000000000001,
+        "rationale": "4 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -491,8 +491,8 @@
     "description": "Vibration anomaly detected on Motor-CH1. Check if Chiller-1 (which Motor-CH1 DEPENDS_ON) and any equipment that SHARES_SYSTEM_WITH Chiller-1 has had anomalies in the last 7 days.",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.685,
-    "latency_ms": 12.139398000726942,
+    "overall_score": 0.8525,
+    "latency_ms": 50.313184001424816,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -501,16 +501,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.5,
-        "rationale": "Matched 2/4 keywords; missing: ['DEPENDS_ON', 'SHARES_SYSTEM_WITH']"
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['DEPENDS_ON']"
       },
       "completeness": {
-        "score": 0.5,
-        "rationale": "Keyword coverage 50%, structural=no"
+        "score": 0.75,
+        "rationale": "Keyword coverage 75%, structural=no"
       },
       "relevance": {
-        "score": 0.5,
-        "rationale": "4/12 question terms present"
+        "score": 1.0,
+        "rationale": "9/12 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -518,15 +518,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=50ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.4,
-        "rationale": "2 graph indicators, 1 graph tools used"
+        "score": 0.6000000000000001,
+        "rationale": "4 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -541,7 +541,7 @@
     "difficulty": "hard",
     "passed": true,
     "overall_score": 0.6333,
-    "latency_ms": 11.563285999727668,
+    "latency_ms": 28.047612999216653,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -567,7 +567,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=28ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -589,8 +589,8 @@
     "description": "A work order reports unusual noise from AHU-3. Find all equipment sharing the same system via SHARES_SYSTEM_WITH (AHU-4) and check for concurrent anomalies.",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.6631,
-    "latency_ms": 12.290856000618078,
+    "overall_score": 0.8275,
+    "latency_ms": 47.48948500127881,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -599,16 +599,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.5,
-        "rationale": "Matched 2/4 keywords; missing: ['SHARES_SYSTEM_WITH', 'concurrent']"
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['concurrent']"
       },
       "completeness": {
-        "score": 0.5,
-        "rationale": "Keyword coverage 50%, structural=no"
+        "score": 0.75,
+        "rationale": "Keyword coverage 75%, structural=no"
       },
       "relevance": {
-        "score": 0.28125,
-        "rationale": "3/16 question terms present"
+        "score": 0.75,
+        "rationale": "8/16 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -616,15 +616,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=47ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.4,
-        "rationale": "2 graph indicators, 1 graph tools used"
+        "score": 0.6000000000000001,
+        "rationale": "4 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -638,8 +638,8 @@
     "description": "Electrical anomaly detected at Utilities-East. Identify all equipment at that location and check for simultaneous sensor deviations to confirm propagation path through the DEPENDS_ON graph.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6728,
-    "latency_ms": 23.559594999824185,
+    "overall_score": 0.6904,
+    "latency_ms": 28.766141000232892,
     "tokens_used": 0,
     "tools_called": [
       "anomaly_correlation",
@@ -656,8 +656,8 @@
         "rationale": "Keyword coverage 25%, structural=no"
       },
       "relevance": {
-        "score": 0.3529411764705882,
-        "rationale": "4/17 question terms present"
+        "score": 0.5294117647058824,
+        "rationale": "6/17 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -665,7 +665,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=24ms, tokens=0"
+        "rationale": "latency=29ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -688,7 +688,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.8548,
-    "latency_ms": 7.230262999655679,
+    "latency_ms": 7.799572998919757,
     "tokens_used": 0,
     "tools_called": [
       "vector_search"
@@ -713,7 +713,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=7ms, tokens=0"
+        "rationale": "latency=8ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -736,7 +736,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.7952,
-    "latency_ms": 7.181046999903629,
+    "latency_ms": 6.749492000380997,
     "tokens_used": 0,
     "tools_called": [
       "vector_search"
@@ -783,8 +783,8 @@
     "description": "Condenser water side fouling detected on Chiller-3. Retrieve similar past failure modes across all chillers and their associated work orders. What was the average repair cost?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.7952,
-    "latency_ms": 13.560064999182941,
+    "overall_score": 0.8833,
+    "latency_ms": 37.43938300249283,
     "tokens_used": 0,
     "tools_called": [
       "vector_search",
@@ -810,19 +810,19 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=14ms, tokens=0"
+        "rationale": "latency=37ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
-        "score": 0.5,
-        "rationale": "Present: ['embedding_reference', 'multiple_results']; absent: ['similarity_score', 'ranked_results']"
+        "score": 0.75,
+        "rationale": "Present: ['ranked_results', 'embedding_reference', 'multiple_results']; absent: ['similarity_score']"
       }
     }
   },
@@ -833,7 +833,7 @@
     "difficulty": "medium",
     "passed": true,
     "overall_score": 0.7952,
-    "latency_ms": 7.0141720007086406,
+    "latency_ms": 6.351546002406394,
     "tokens_used": 0,
     "tools_called": [
       "vector_search"
@@ -858,7 +858,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=7ms, tokens=0"
+        "rationale": "latency=6ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -880,8 +880,8 @@
     "description": "Scale buildup detected on Boiler-1. Find similar failure modes across the entire boiler fleet (Boiler-1 through Boiler-4) and rank by severity-weighted similarity.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.8548,
-    "latency_ms": 12.965960999281378,
+    "overall_score": 0.8833,
+    "latency_ms": 36.03558699978748,
     "tokens_used": 0,
     "tools_called": [
       "vector_search",
@@ -907,15 +907,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=13ms, tokens=0"
+        "rationale": "latency=36ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 0.75,
@@ -929,60 +929,12 @@
     "description": "Motor-AHU1 experienced 'Stator winding insulation breakdown'. Which other motors (Motor-CH1, Motor-P1, Motor-BL1) had similar failure modes, and what spare parts were used in their repairs?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6524,
-    "latency_ms": 13.08208100090269,
+    "overall_score": 0.8833,
+    "latency_ms": 36.331218001578236,
     "tokens_used": 0,
     "tools_called": [
       "vector_search",
       "cypher_query"
-    ],
-    "error": null,
-    "dimensions": {
-      "correctness": {
-        "score": 0.5,
-        "rationale": "Matched 2/4 keywords; missing: ['SparePart', 'USES_PART']"
-      },
-      "completeness": {
-        "score": 0.5,
-        "rationale": "Keyword coverage 50%, structural=no"
-      },
-      "relevance": {
-        "score": 1.0,
-        "rationale": "19/19 question terms present"
-      },
-      "tool_usage": {
-        "score": 1.0,
-        "rationale": "correct: ['cypher_query', 'vector_search']"
-      },
-      "efficiency": {
-        "score": 1.0,
-        "rationale": "latency=13ms, tokens=0"
-      },
-      "safety": {
-        "score": 1.0,
-        "rationale": "No unsafe recommendations detected"
-      },
-      "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
-      },
-      "semantic_precision": {
-        "score": 0.5,
-        "rationale": "Present: ['embedding_reference', 'multiple_results']; absent: ['similarity_score', 'ranked_results']"
-      }
-    }
-  },
-  {
-    "scenario_id": "graph_crit_001",
-    "category": "criticality_analysis",
-    "description": "Rank all equipment by graph-based criticality using PageRank on the DEPENDS_ON network. Which are the top 5 most critical assets?",
-    "difficulty": "medium",
-    "passed": true,
-    "overall_score": 0.9048,
-    "latency_ms": 13.01535000129661,
-    "tokens_used": 0,
-    "tools_called": [
-      "criticality_ranking"
     ],
     "error": null,
     "dimensions": {
@@ -996,6 +948,54 @@
       },
       "relevance": {
         "score": 1.0,
+        "rationale": "19/19 question terms present"
+      },
+      "tool_usage": {
+        "score": 1.0,
+        "rationale": "correct: ['cypher_query', 'vector_search']"
+      },
+      "efficiency": {
+        "score": 1.0,
+        "rationale": "latency=36ms, tokens=0"
+      },
+      "safety": {
+        "score": 1.0,
+        "rationale": "No unsafe recommendations detected"
+      },
+      "graph_utilization": {
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
+      },
+      "semantic_precision": {
+        "score": 0.75,
+        "rationale": "Present: ['ranked_results', 'embedding_reference', 'multiple_results']; absent: ['similarity_score']"
+      }
+    }
+  },
+  {
+    "scenario_id": "graph_crit_001",
+    "category": "criticality_analysis",
+    "description": "Rank all equipment by graph-based criticality using PageRank on the DEPENDS_ON network. Which are the top 5 most critical assets?",
+    "difficulty": "medium",
+    "passed": true,
+    "overall_score": 0.8214,
+    "latency_ms": 14.438109999900917,
+    "tokens_used": 0,
+    "tools_called": [
+      "criticality_ranking"
+    ],
+    "error": null,
+    "dimensions": {
+      "correctness": {
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['Chiller-1']"
+      },
+      "completeness": {
+        "score": 0.75,
+        "rationale": "Keyword coverage 75%, structural=no"
+      },
+      "relevance": {
+        "score": 1.0,
         "rationale": "8/11 question terms present"
       },
       "tool_usage": {
@@ -1004,7 +1004,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=13ms, tokens=0"
+        "rationale": "latency=14ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -1026,8 +1026,8 @@
     "description": "Compare PageRank-based criticality scores with the static criticality_score property on Equipment nodes. Where do they disagree?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6786,
-    "latency_ms": 18.309328999748686,
+    "overall_score": 0.7381,
+    "latency_ms": 44.89119600111735,
     "tokens_used": 0,
     "tools_called": [
       "criticality_ranking",
@@ -1044,8 +1044,8 @@
         "rationale": "Keyword coverage 50%, structural=no"
       },
       "relevance": {
-        "score": 0.375,
-        "rationale": "3/12 question terms present"
+        "score": 0.5,
+        "rationale": "4/12 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1053,15 +1053,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=18ms, tokens=0"
+        "rationale": "latency=45ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.6000000000000001,
-        "rationale": "4 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1075,8 +1075,8 @@
     "description": "Identify single points of failure: equipment with high in-degree on DEPENDS_ON that, if removed, would disconnect the dependency graph. Check Chiller-1 and Chiller-2 which have the most dependents.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.6825,
-    "latency_ms": 18.185160000939504,
+    "overall_score": 0.746,
+    "latency_ms": 45.44889500175486,
     "tokens_used": 0,
     "tools_called": [
       "criticality_ranking",
@@ -1093,8 +1093,8 @@
         "rationale": "Keyword coverage 50%, structural=no"
       },
       "relevance": {
-        "score": 0.4166666666666667,
-        "rationale": "5/18 question terms present"
+        "score": 0.5833333333333334,
+        "rationale": "7/18 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1102,15 +1102,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=18ms, tokens=0"
+        "rationale": "latency=45ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.6000000000000001,
-        "rationale": "4 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1124,8 +1124,8 @@
     "description": "Which Location contains the highest concentration of critical equipment (top quartile by PageRank)? Flag it for redundancy review. Consider HVAC-North, HVAC-South, Utilities-East, and Utilities-West.",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.5863,
-    "latency_ms": 16.982471001028898,
+    "overall_score": 0.9107,
+    "latency_ms": 44.52724600196234,
     "tokens_used": 0,
     "tools_called": [
       "criticality_ranking",
@@ -1134,16 +1134,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.25,
-        "rationale": "Matched 1/4 keywords; missing: ['Location', 'concentration', 'redundancy']"
+        "score": 1.0,
+        "rationale": "Matched 4/4 keywords"
       },
       "completeness": {
-        "score": 0.25,
-        "rationale": "Keyword coverage 25%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=no"
       },
       "relevance": {
-        "score": 0.28125,
-        "rationale": "3/16 question terms present"
+        "score": 0.5625,
+        "rationale": "6/16 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1151,15 +1151,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=17ms, tokens=0"
+        "rationale": "latency=45ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.6000000000000001,
-        "rationale": "4 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1173,8 +1173,8 @@
     "description": "Using weakly connected components on the SHARES_SYSTEM_WITH edges, identify independent system clusters (e.g., Chiller-1/Chiller-2 cooling loop A, Boiler-1/Boiler-2). Which cluster has the highest aggregate criticality?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.519,
-    "latency_ms": 15.654701999665122,
+    "overall_score": 0.9429,
+    "latency_ms": 49.361833996954374,
     "tokens_used": 0,
     "tools_called": [
       "criticality_ranking",
@@ -1183,16 +1183,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/4 keywords; missing: ['connected component', 'cluster', 'SHARES_SYSTEM_WITH', 'aggregate']"
+        "score": 1.0,
+        "rationale": "Matched 4/4 keywords"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=no"
       },
       "relevance": {
-        "score": 0.44999999999999996,
-        "rationale": "6/20 question terms present"
+        "score": 0.8999999999999999,
+        "rationale": "12/20 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1200,15 +1200,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=16ms, tokens=0"
+        "rationale": "latency=49ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.6000000000000001,
-        "rationale": "4 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1222,8 +1222,8 @@
     "description": "Schedule preventive maintenance for the 4 chillers (Chiller-1 through Chiller-4) within the next available MaintenanceWindow, minimizing total downtime.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.5769,
-    "latency_ms": 4.956447999575175,
+    "overall_score": 0.8682,
+    "latency_ms": 39.01658899849281,
     "tokens_used": 0,
     "tools_called": [
       "maintenance_scheduler"
@@ -1231,16 +1231,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.25,
-        "rationale": "Matched 1/4 keywords; missing: ['schedule', 'MaintenanceWindow', 'downtime']"
+        "score": 1.0,
+        "rationale": "Matched 4/4 keywords"
       },
       "completeness": {
-        "score": 0.25,
-        "rationale": "Keyword coverage 25%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=yes"
       },
       "relevance": {
-        "score": 0.3214285714285714,
-        "rationale": "3/14 question terms present"
+        "score": 0.75,
+        "rationale": "7/14 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1248,15 +1248,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=5ms, tokens=0"
+        "rationale": "latency=39ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.2,
+        "rationale": "2 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1269,9 +1269,9 @@
     "category": "maintenance_optimization",
     "description": "There are open work orders and maintenance windows this month. Assign work orders to windows to minimize total cost while respecting crew_size constraints.",
     "difficulty": "hard",
-    "passed": false,
-    "overall_score": 0.4864,
-    "latency_ms": 12.139161999584758,
+    "passed": true,
+    "overall_score": 0.8682,
+    "latency_ms": 72.5133640007698,
     "tokens_used": 0,
     "tools_called": [
       "maintenance_scheduler",
@@ -1280,16 +1280,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/5 keywords; missing: ['work order', 'window', 'cost', 'crew_size', 'constraint']"
+        "score": 0.8,
+        "rationale": "Matched 4/5 keywords; missing: ['work order']"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 0.9,
+        "rationale": "Keyword coverage 80%, structural=yes"
       },
       "relevance": {
-        "score": 0.2,
-        "rationale": "2/15 question terms present"
+        "score": 1.0,
+        "rationale": "10/15 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1297,15 +1297,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=73ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1319,8 +1319,8 @@
     "description": "Pump-CW-1 and Pump-HW-1 share a system (SHARES_SYSTEM_WITH). Can their maintenance be bundled into a single window to reduce repeated shutdowns?",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.6269,
-    "latency_ms": 11.634841001068708,
+    "overall_score": 0.9112,
+    "latency_ms": 71.69948699811357,
     "tokens_used": 0,
     "tools_called": [
       "maintenance_scheduler",
@@ -1329,16 +1329,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.4,
-        "rationale": "Matched 2/5 keywords; missing: ['bundle', 'SHARES_SYSTEM_WITH', 'window']"
+        "score": 1.0,
+        "rationale": "Matched 5/5 keywords"
       },
       "completeness": {
-        "score": 0.4,
-        "rationale": "Keyword coverage 40%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=yes"
       },
       "relevance": {
-        "score": 0.34615384615384615,
-        "rationale": "3/13 question terms present"
+        "score": 0.9230769230769231,
+        "rationale": "8/13 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1346,15 +1346,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=72ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1367,9 +1367,9 @@
     "category": "maintenance_optimization",
     "description": "Generate a Pareto-optimal set of maintenance schedules trading off total cost versus maximum equipment downtime for Q2 2026.",
     "difficulty": "hard",
-    "passed": false,
-    "overall_score": 0.4806,
-    "latency_ms": 6.012488000123994,
+    "passed": true,
+    "overall_score": 0.862,
+    "latency_ms": 37.68133999983547,
     "tokens_used": 0,
     "tools_called": [
       "maintenance_scheduler"
@@ -1377,16 +1377,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/4 keywords; missing: ['Pareto', 'cost', 'downtime', 'trade-off']"
+        "score": 1.0,
+        "rationale": "Matched 4/4 keywords"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=yes"
       },
       "relevance": {
-        "score": 0.13636363636363635,
-        "rationale": "1/11 question terms present"
+        "score": 0.6818181818181818,
+        "rationale": "5/11 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1394,15 +1394,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=6ms, tokens=0"
+        "rationale": "latency=38ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.2,
+        "rationale": "2 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1415,9 +1415,9 @@
     "category": "maintenance_optimization",
     "description": "A compressor gasket set spare part has a 14-day lead time and only 2 units in stock. Which pending work orders for chillers require this part, and can they all be completed before stock runs out?",
     "difficulty": "medium",
-    "passed": false,
-    "overall_score": 0.4682,
-    "latency_ms": 12.104733001251589,
+    "passed": true,
+    "overall_score": 0.8295,
+    "latency_ms": 71.49002399819437,
     "tokens_used": 0,
     "tools_called": [
       "maintenance_scheduler",
@@ -1426,16 +1426,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/4 keywords; missing: ['lead time', 'stock', 'SparePart', 'USES_PART']"
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['lead time']"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 0.85,
+        "rationale": "Keyword coverage 75%, structural=yes"
       },
       "relevance": {
-        "score": 0.0,
-        "rationale": "0/18 question terms present"
+        "score": 0.75,
+        "rationale": "9/18 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1443,15 +1443,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=71ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.1,
-        "rationale": "1 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1465,8 +1465,8 @@
     "description": "A work order reports Chiller-2 tripped on high head pressure. Trace backward through sensor readings (Chiller-2-CondWaterRetTemp, Chiller-2-Efficiency), anomalies, and upstream equipment to find the root cause.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.8979,
-    "latency_ms": 30.75120900030015,
+    "overall_score": 0.9414,
+    "latency_ms": 56.85844999970868,
     "tokens_used": 0,
     "tools_called": [
       "root_cause_trace",
@@ -1483,8 +1483,8 @@
         "rationale": "Keyword coverage 100%, structural=no"
       },
       "relevance": {
-        "score": 0.42857142857142855,
-        "rationale": "6/21 question terms present"
+        "score": 0.7142857142857142,
+        "rationale": "10/21 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1492,15 +1492,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=31ms, tokens=0"
+        "rationale": "latency=57ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.7,
-        "rationale": "5 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1514,8 +1514,8 @@
     "description": "AHU-1 and AHU-2 in HVAC-North reported low supply air temperature within 2 hours. Trace the event chain to determine if the root cause is a shared chilled water supply issue from Chiller-1 or Chiller-2.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.72,
-    "latency_ms": 25.443819000429357,
+    "overall_score": 0.7275,
+    "latency_ms": 35.70760799993877,
     "tokens_used": 0,
     "tools_called": [
       "root_cause_trace",
@@ -1532,8 +1532,8 @@
         "rationale": "Keyword coverage 40%, structural=no"
       },
       "relevance": {
-        "score": 0.44999999999999996,
-        "rationale": "6/20 question terms present"
+        "score": 0.5249999999999999,
+        "rationale": "7/20 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1541,7 +1541,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=25ms, tokens=0"
+        "rationale": "latency=36ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -1563,8 +1563,8 @@
     "description": "A vibration anomaly on Motor-P1 triggered a work order. Walk back the DETECTED_ANOMALY and TRIGGERED edges through Motor-P1's sensors to reconstruct the full event timeline.",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.6019,
-    "latency_ms": 18.200524998974288,
+    "overall_score": 0.6356,
+    "latency_ms": 49.75357399962377,
     "tokens_used": 0,
     "tools_called": [
       "root_cause_trace",
@@ -1581,8 +1581,8 @@
         "rationale": "Keyword coverage 25%, structural=no"
       },
       "relevance": {
-        "score": 0.09375,
-        "rationale": "1/16 question terms present"
+        "score": 0.28125,
+        "rationale": "3/16 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1590,15 +1590,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=18ms, tokens=0"
+        "rationale": "latency=50ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.7,
-        "rationale": "5 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1612,8 +1612,8 @@
     "description": "Boiler-3 experienced burner flame instability. Traverse the DEPENDS_ON graph and SHARES_SYSTEM_WITH (Boiler-4) to check if related equipment had prior anomalies.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.695,
-    "latency_ms": 18.47018100124842,
+    "overall_score": 0.81,
+    "latency_ms": 49.93414400087204,
     "tokens_used": 0,
     "tools_called": [
       "root_cause_trace",
@@ -1622,16 +1622,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.4,
-        "rationale": "Matched 2/5 keywords; missing: ['Burner flame instability', 'SHARES_SYSTEM_WITH', 'anomaly']"
+        "score": 0.6,
+        "rationale": "Matched 3/5 keywords; missing: ['Burner flame instability', 'anomaly']"
       },
       "completeness": {
-        "score": 0.4,
-        "rationale": "Keyword coverage 40%, structural=no"
+        "score": 0.6,
+        "rationale": "Keyword coverage 60%, structural=no"
       },
       "relevance": {
-        "score": 0.5,
-        "rationale": "5/15 question terms present"
+        "score": 0.8,
+        "rationale": "8/15 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1639,15 +1639,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=18ms, tokens=0"
+        "rationale": "latency=50ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.7,
-        "rationale": "5 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1661,8 +1661,8 @@
     "description": "Over the past month, multiple work orders have been created for Motor-AHU1 for 'Stator winding insulation breakdown'. Is this a recurring issue? What was the root cause in each case and are repairs addressing it?",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.905,
-    "latency_ms": 24.590246001025662,
+    "overall_score": 0.945,
+    "latency_ms": 53.79625400018995,
     "tokens_used": 0,
     "tools_called": [
       "root_cause_trace",
@@ -1689,19 +1689,19 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=25ms, tokens=0"
+        "rationale": "latency=54ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.7,
-        "rationale": "5 graph indicators, 1 graph tools used"
+        "score": 0.8,
+        "rationale": "7 graph indicators, 1 graph tools used"
       },
       "semantic_precision": {
-        "score": 0.5,
-        "rationale": "Present: ['embedding_reference', 'multiple_results']; absent: ['similarity_score', 'ranked_results']"
+        "score": 0.75,
+        "rationale": "Present: ['ranked_results', 'embedding_reference', 'multiple_results']; absent: ['similarity_score']"
       }
     }
   },
@@ -1711,8 +1711,8 @@
     "description": "Calculate the Mean Time Between Failures (MTBF) for all Chiller equipment (Chiller-1 through Chiller-4) over the past 24 months. Which chiller has the worst MTBF?",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.625,
-    "latency_ms": 6.0946900011913385,
+    "overall_score": 0.715,
+    "latency_ms": 34.0888669998094,
     "tokens_used": 0,
     "tools_called": [
       "cypher_query"
@@ -1728,8 +1728,8 @@
         "rationale": "Keyword coverage 50%, structural=no"
       },
       "relevance": {
-        "score": 0.5,
-        "rationale": "5/15 question terms present"
+        "score": 0.8,
+        "rationale": "8/15 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1737,15 +1737,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=6ms, tokens=0"
+        "rationale": "latency=34ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.0,
-        "rationale": "0 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1759,8 +1759,8 @@
     "description": "Analyze seasonal failure patterns: do Chiller failures peak in summer and Boiler failures peak in winter? Show monthly failure counts over 2 years for all 4 chillers and 4 boilers.",
     "difficulty": "hard",
     "passed": true,
-    "overall_score": 0.5643,
-    "latency_ms": 12.64257299953897,
+    "overall_score": 0.8894,
+    "latency_ms": 45.13572799987742,
     "tokens_used": 0,
     "tools_called": [
       "cypher_query",
@@ -1769,16 +1769,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.3333333333333333,
-        "rationale": "Matched 2/6 keywords; missing: ['seasonal', 'summer', 'winter', 'monthly']"
+        "score": 1.0,
+        "rationale": "Matched 6/6 keywords"
       },
       "completeness": {
-        "score": 0.3333333333333333,
-        "rationale": "Keyword coverage 33%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=no"
       },
       "relevance": {
-        "score": 0.1764705882352941,
-        "rationale": "2/17 question terms present"
+        "score": 0.7941176470588236,
+        "rationale": "9/17 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1786,15 +1786,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=13ms, tokens=0"
+        "rationale": "latency=45ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.2,
-        "rationale": "2 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1808,8 +1808,8 @@
     "description": "Sensor Motor-CH1-BearingTemp on Motor-CH1 has been trending upward over 30 days. Extrapolate when it will breach the max_threshold based on the trend.",
     "difficulty": "medium",
     "passed": true,
-    "overall_score": 0.6829,
-    "latency_ms": 6.600270000490127,
+    "overall_score": 0.8657,
+    "latency_ms": 11.742610000510467,
     "tokens_used": 0,
     "tools_called": [
       "sensor_trend"
@@ -1817,16 +1817,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.6,
-        "rationale": "Matched 3/5 keywords; missing: ['trend', 'extrapolate']"
+        "score": 1.0,
+        "rationale": "Matched 5/5 keywords"
       },
       "completeness": {
-        "score": 0.6,
-        "rationale": "Keyword coverage 60%, structural=no"
+        "score": 1.0,
+        "rationale": "Keyword coverage 100%, structural=no"
       },
       "relevance": {
-        "score": 0.42857142857142855,
-        "rationale": "4/14 question terms present"
+        "score": 0.8571428571428571,
+        "rationale": "8/14 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1834,7 +1834,7 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=7ms, tokens=0"
+        "rationale": "latency=12ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
@@ -1855,9 +1855,9 @@
     "category": "temporal_pattern",
     "description": "Identify equipment where the interval between consecutive work orders is decreasing, indicating accelerating degradation. Check across all equipment at MainPlant.",
     "difficulty": "hard",
-    "passed": false,
-    "overall_score": 0.41,
-    "latency_ms": 7.679095000639791,
+    "passed": true,
+    "overall_score": 0.7925,
+    "latency_ms": 31.19378500196035,
     "tokens_used": 0,
     "tools_called": [
       "cypher_query"
@@ -1865,16 +1865,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/4 keywords; missing: ['interval', 'decreasing', 'degradation', 'work order']"
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['work order']"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 0.75,
+        "rationale": "Keyword coverage 75%, structural=no"
       },
       "relevance": {
-        "score": 0.1,
-        "rationale": "1/15 question terms present"
+        "score": 0.7,
+        "rationale": "7/15 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1882,15 +1882,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=8ms, tokens=0"
+        "rationale": "latency=31ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.0,
-        "rationale": "0 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
@@ -1903,9 +1903,9 @@
     "category": "temporal_pattern",
     "description": "For the top 5 most failure-prone equipment across Chillers, AHUs, Pumps, Motors, and Boilers, plot the cumulative failure count over time. Do any exhibit bathtub curve behavior (early failures, steady state, wear-out)?",
     "difficulty": "hard",
-    "passed": false,
-    "overall_score": 0.4425,
-    "latency_ms": 12.289016000067932,
+    "passed": true,
+    "overall_score": 0.8037,
+    "latency_ms": 42.05320999972173,
     "tokens_used": 0,
     "tools_called": [
       "cypher_query",
@@ -1914,16 +1914,16 @@
     "error": null,
     "dimensions": {
       "correctness": {
-        "score": 0.0,
-        "rationale": "Matched 0/4 keywords; missing: ['cumulative', 'bathtub curve', 'wear-out', 'failure-prone']"
+        "score": 0.75,
+        "rationale": "Matched 3/4 keywords; missing: ['bathtub curve']"
       },
       "completeness": {
-        "score": 0.0,
-        "rationale": "Keyword coverage 0%, structural=no"
+        "score": 0.75,
+        "rationale": "Keyword coverage 75%, structural=no"
       },
       "relevance": {
-        "score": 0.125,
-        "rationale": "2/24 question terms present"
+        "score": 0.8125,
+        "rationale": "13/24 question terms present"
       },
       "tool_usage": {
         "score": 1.0,
@@ -1931,15 +1931,15 @@
       },
       "efficiency": {
         "score": 1.0,
-        "rationale": "latency=12ms, tokens=0"
+        "rationale": "latency=42ms, tokens=0"
       },
       "safety": {
         "score": 1.0,
         "rationale": "No unsafe recommendations detected"
       },
       "graph_utilization": {
-        "score": 0.2,
-        "rationale": "2 graph indicators, 0 graph tools used"
+        "score": 0.4,
+        "rationale": "4 graph indicators, 0 graph tools used"
       },
       "semantic_precision": {
         "score": 1.0,
