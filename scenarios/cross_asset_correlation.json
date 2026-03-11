@@ -2,54 +2,54 @@
   {
     "id": "graph_corr_001",
     "category": "cross_asset_correlation",
-    "description": "Chiller CH-01 discharge pressure rose 15% over 48 hours. Are any connected AHUs or pumps showing correlated anomalies in the same period?",
+    "description": "Chiller-1 condenser water return temperature rose 15% over 48 hours. Are the connected AHU-1 and Pump-CW-1 showing correlated anomalies in the same period?",
     "expected_tools": ["anomaly_correlation", "cypher_query"],
-    "expected_output_contains": ["correlated", "AHU", "pressure"],
+    "expected_output_contains": ["correlated", "AHU-1", "Pump-CW-1", "DEPENDS_ON"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_corr_002",
     "category": "cross_asset_correlation",
-    "description": "Three sensors on different equipment in Building-A triggered high-temperature alerts within 10 minutes. Are these assets connected through shared systems?",
+    "description": "Three sensors on different equipment in HVAC-North triggered high-temperature alerts within 10 minutes. Are these assets connected through SHARES_SYSTEM_WITH edges?",
     "expected_tools": ["anomaly_correlation", "cypher_query"],
-    "expected_output_contains": ["SHARES_SYSTEM_WITH", "temperature", "Building-A"],
+    "expected_output_contains": ["SHARES_SYSTEM_WITH", "temperature", "HVAC-North"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_corr_003",
     "category": "cross_asset_correlation",
-    "description": "Vibration anomaly detected on Motor MTR-22. Check if any equipment that DEPENDS_ON or SHARES_SYSTEM_WITH MTR-22 has had anomalies in the last 7 days.",
+    "description": "Vibration anomaly detected on Motor-CH1. Check if Chiller-1 (which Motor-CH1 DEPENDS_ON) and any equipment that SHARES_SYSTEM_WITH Chiller-1 has had anomalies in the last 7 days.",
     "expected_tools": ["anomaly_correlation", "cypher_query"],
-    "expected_output_contains": ["vibration", "DEPENDS_ON", "SHARES_SYSTEM_WITH", "7 days"],
+    "expected_output_contains": ["vibration", "DEPENDS_ON", "SHARES_SYSTEM_WITH", "Motor-CH1"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_corr_004",
     "category": "cross_asset_correlation",
-    "description": "Condenser water flow dropped 20% on the east loop. Correlate sensor readings across all equipment on that loop to find the source.",
+    "description": "Condenser water flow dropped 20% on cooling loop A (Chiller-1 and Chiller-2). Correlate sensor readings across all equipment on that loop including Pump-CW-1 and Pump-CW-2 to find the source.",
     "expected_tools": ["anomaly_correlation", "sensor_trend"],
-    "expected_output_contains": ["condenser", "flow", "correlation", "east loop"],
+    "expected_output_contains": ["condenser", "flow", "correlation", "Chiller-1", "Pump-CW-1"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_corr_005",
     "category": "cross_asset_correlation",
-    "description": "Work order WO-8834 reports unusual noise from AHU-15. Find all equipment sharing the same mechanical room and check for concurrent anomalies.",
+    "description": "A work order reports unusual noise from AHU-3. Find all equipment sharing the same system via SHARES_SYSTEM_WITH (AHU-4) and check for concurrent anomalies.",
     "expected_tools": ["anomaly_correlation", "cypher_query"],
-    "expected_output_contains": ["AHU-15", "mechanical room", "concurrent"],
+    "expected_output_contains": ["AHU-3", "SHARES_SYSTEM_WITH", "AHU-4", "concurrent"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_corr_006",
     "category": "cross_asset_correlation",
-    "description": "Electrical power quality anomaly on feeder FDR-03. Identify all downstream equipment with simultaneous sensor deviations to confirm propagation path.",
+    "description": "Electrical anomaly detected at Utilities-East. Identify all equipment at that location and check for simultaneous sensor deviations to confirm propagation path through the DEPENDS_ON graph.",
     "expected_tools": ["anomaly_correlation", "impact_analysis"],
-    "expected_output_contains": ["power quality", "feeder", "propagation", "simultaneous"],
+    "expected_output_contains": ["Utilities-East", "DEPENDS_ON", "propagation", "simultaneous"],
     "difficulty": "hard",
     "requires_graph": true
   }

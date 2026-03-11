@@ -2,72 +2,72 @@
   {
     "id": "graph_dep_001",
     "category": "multi_hop_dependency",
-    "description": "What equipment is affected if Chiller-6 fails? Trace the full downstream dependency chain.",
+    "description": "What equipment is affected if Chiller-1 fails? Trace the full downstream dependency chain through AHU-1, Pump-CW-1, and Motor-CH1 which all depend on it.",
     "expected_tools": ["impact_analysis"],
-    "expected_output_contains": ["AHU", "cascade", "DEPENDS_ON"],
+    "expected_output_contains": ["AHU-1", "Pump-CW-1", "Motor-CH1", "cascade", "DEPENDS_ON"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_dep_002",
     "category": "multi_hop_dependency",
-    "description": "Primary Cooling Water Pump PMP-101 is scheduled for replacement. Identify all equipment within 3 hops that will lose cooling capacity.",
+    "description": "Pump-CW-1 is scheduled for replacement. Identify all equipment within 2 hops that will be affected, considering Pump-CW-1 DEPENDS_ON Chiller-1 and Motor-P1 DEPENDS_ON Pump-CW-1.",
     "expected_tools": ["impact_analysis", "cypher_query"],
-    "expected_output_contains": ["Chiller", "AHU", "3-hop", "cooling"],
+    "expected_output_contains": ["Chiller-1", "Motor-P1", "DEPENDS_ON", "cascade"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_dep_003",
     "category": "multi_hop_dependency",
-    "description": "Boiler BLR-02 has a tube leak. Which downstream heat exchangers, AHUs, and terminal units are affected?",
+    "description": "Boiler-2 has tube corrosion and wall thinning. Which equipment shares a system with it (Boiler-1 via SHARES_SYSTEM_WITH) and what downstream dependencies exist?",
     "expected_tools": ["impact_analysis"],
-    "expected_output_contains": ["heat exchanger", "AHU", "terminal"],
+    "expected_output_contains": ["Boiler-1", "SHARES_SYSTEM_WITH", "DEPENDS_ON", "cascade"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_dep_004",
     "category": "multi_hop_dependency",
-    "description": "The Building Management System (BMS) controller for Zone-3 is offline. Trace which sensors, equipment, and active work orders are impacted.",
+    "description": "All equipment at HVAC-South is offline for maintenance. Trace which sensors, equipment, and active work orders are impacted across the DEPENDS_ON and SHARES_SYSTEM_WITH graphs.",
     "expected_tools": ["impact_analysis", "cypher_query"],
-    "expected_output_contains": ["Sensor", "WorkOrder", "Zone-3"],
+    "expected_output_contains": ["Sensor", "WorkOrder", "HVAC-South", "DEPENDS_ON"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_dep_005",
     "category": "multi_hop_dependency",
-    "description": "Motor MTR-44 drives Compressor CMP-12 which feeds Chiller CH-03. If the motor bearing fails, what is the full failure cascade?",
+    "description": "Motor-CH1 drives Chiller-1 (Motor-CH1 DEPENDS_ON Chiller-1). If the motor bearing fails, what is the full failure cascade through AHU-1 and Pump-CW-1 which also depend on Chiller-1?",
     "expected_tools": ["impact_analysis"],
-    "expected_output_contains": ["Motor", "Compressor", "Chiller", "cascade"],
+    "expected_output_contains": ["Motor-CH1", "Chiller-1", "AHU-1", "Pump-CW-1", "cascade"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_dep_006",
     "category": "multi_hop_dependency",
-    "description": "Electrical switchgear SWG-01 provides power to 14 downstream assets. List the transitive closure of all equipment that loses power if SWG-01 trips.",
+    "description": "Chiller-2 is a hub in the dependency graph with Pump-CW-2 and AHU-2 depending on it. List the transitive closure of all equipment affected if Chiller-2 goes offline.",
     "expected_tools": ["impact_analysis", "cypher_query"],
-    "expected_output_contains": ["transitive", "power", "switchgear"],
+    "expected_output_contains": ["transitive", "Chiller-2", "Pump-CW-2", "AHU-2", "DEPENDS_ON"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_dep_007",
     "category": "multi_hop_dependency",
-    "description": "Cooling tower CT-02 basin is fouled. Which condenser water loops, chillers, and AHUs are within the dependency subgraph?",
+    "description": "Chiller-3 has condenser water side fouling. Which equipment shares cooling loop B (Chiller-4 via SHARES_SYSTEM_WITH) and which AHUs depend on them?",
     "expected_tools": ["impact_analysis"],
-    "expected_output_contains": ["condenser", "Chiller", "AHU", "subgraph"],
+    "expected_output_contains": ["Chiller-3", "Chiller-4", "AHU-3", "AHU-4", "SHARES_SYSTEM_WITH"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_dep_008",
     "category": "multi_hop_dependency",
-    "description": "Compare the blast radius of failing Pump PMP-201 versus Pump PMP-202. Which has a larger downstream impact?",
+    "description": "Compare the blast radius of failing Pump-CW-1 versus Pump-CW-2. Which has a larger downstream impact considering their respective dependency chains?",
     "expected_tools": ["impact_analysis", "cypher_query"],
-    "expected_output_contains": ["blast radius", "PMP-201", "PMP-202", "downstream"],
+    "expected_output_contains": ["blast radius", "Pump-CW-1", "Pump-CW-2", "downstream", "DEPENDS_ON"],
     "difficulty": "hard",
     "requires_graph": true
   }

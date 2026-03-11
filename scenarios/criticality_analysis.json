@@ -2,9 +2,9 @@
   {
     "id": "graph_crit_001",
     "category": "criticality_analysis",
-    "description": "Rank all equipment by graph-based criticality using PageRank on the DEPENDS_ON network. Which are the top 10 most critical assets?",
+    "description": "Rank all equipment by graph-based criticality using PageRank on the DEPENDS_ON network. Which are the top 5 most critical assets?",
     "expected_tools": ["criticality_ranking"],
-    "expected_output_contains": ["PageRank", "criticality", "top 10"],
+    "expected_output_contains": ["PageRank", "criticality", "Chiller-1", "DEPENDS_ON"],
     "difficulty": "medium",
     "requires_graph": true
   },
@@ -20,27 +20,27 @@
   {
     "id": "graph_crit_003",
     "category": "criticality_analysis",
-    "description": "Identify single points of failure: equipment with high in-degree on DEPENDS_ON that, if removed, would disconnect the dependency graph.",
+    "description": "Identify single points of failure: equipment with high in-degree on DEPENDS_ON that, if removed, would disconnect the dependency graph. Check Chiller-1 and Chiller-2 which have the most dependents.",
     "expected_tools": ["criticality_ranking", "cypher_query"],
-    "expected_output_contains": ["single point of failure", "in-degree", "disconnect"],
+    "expected_output_contains": ["single point of failure", "in-degree", "DEPENDS_ON", "Chiller-1"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_crit_004",
     "category": "criticality_analysis",
-    "description": "Which Location contains the highest concentration of critical equipment (top quartile by PageRank)? Flag it for redundancy review.",
+    "description": "Which Location contains the highest concentration of critical equipment (top quartile by PageRank)? Flag it for redundancy review. Consider HVAC-North, HVAC-South, Utilities-East, and Utilities-West.",
     "expected_tools": ["criticality_ranking", "cypher_query"],
-    "expected_output_contains": ["Location", "concentration", "quartile", "redundancy"],
+    "expected_output_contains": ["Location", "concentration", "PageRank", "redundancy"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_crit_005",
     "category": "criticality_analysis",
-    "description": "Using weakly connected components on the SHARES_SYSTEM_WITH edges, identify independent system clusters. Which cluster has the highest aggregate criticality?",
+    "description": "Using weakly connected components on the SHARES_SYSTEM_WITH edges, identify independent system clusters (e.g., Chiller-1/Chiller-2 cooling loop A, Boiler-1/Boiler-2). Which cluster has the highest aggregate criticality?",
     "expected_tools": ["criticality_ranking", "cypher_query"],
-    "expected_output_contains": ["connected component", "cluster", "aggregate", "SHARES_SYSTEM_WITH"],
+    "expected_output_contains": ["connected component", "cluster", "SHARES_SYSTEM_WITH", "aggregate"],
     "difficulty": "hard",
     "requires_graph": true
   }

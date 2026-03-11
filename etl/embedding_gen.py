@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import hashlib
 import logging
-import struct
 from typing import Dict, List
 
 from samyama import SamyamaClient
@@ -26,7 +25,9 @@ logger = logging.getLogger(__name__)
 class _MockEmbedder:
     """Deterministic pseudo-embeddings derived from text hash.
 
-    Produces unit-length vectors so cosine similarity is meaningful.
+    Uses byte-level expansion (not struct.unpack) to avoid NaN/Inf floats
+    that crash the HNSW index. Each dimension is derived from a hash byte
+    combined with positional mixing, producing values in [0, 1].
     """
 
     def __init__(self, dimensions: int = 384):
@@ -35,12 +36,11 @@ class _MockEmbedder:
     def encode(self, texts: list[str]) -> list[list[float]]:
         results = []
         for text in texts:
-            digest = hashlib.sha256(text.encode("utf-8")).digest()
-            # Expand the 32-byte hash to fill `dimensions` floats
-            expanded = digest * ((self.dimensions * 4 // len(digest)) + 1)
-            raw = expanded[: self.dimensions * 4]
-            vec = list(struct.unpack(f"{self.dimensions}f", raw))
-            # Normalize to unit length
+            h = hashlib.sha256(text.encode("utf-8")).digest()
+            vec = []
+            for i in range(self.dimensions):
+                byte_idx = i % len(h)
+                vec.append(((h[byte_idx] + i * 7) % 256) / 255.0)
             norm = max(sum(v * v for v in vec) ** 0.5, 1e-10)
             vec = [v / norm for v in vec]
             results.append(vec)

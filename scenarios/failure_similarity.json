@@ -2,54 +2,54 @@
   {
     "id": "graph_sim_001",
     "category": "failure_similarity",
-    "description": "Compressor CMP-07 shows early signs of bearing wear. Find the top 5 most similar historical failure modes using vector search.",
+    "description": "Chiller-1 shows early signs of compressor overheating. Find the top 5 most similar historical failure modes using vector search on FMSR embeddings.",
     "expected_tools": ["vector_search"],
-    "expected_output_contains": ["bearing wear", "similarity", "CMP"],
+    "expected_output_contains": ["Compressor Overheating", "similarity_score", "embedding", "distance"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_sim_002",
     "category": "failure_similarity",
-    "description": "A new anomaly 'intermittent high-frequency vibration with thermal cycling' was detected. Find failure modes with similar semantic embeddings.",
+    "description": "A new anomaly 'intermittent high-frequency vibration with thermal cycling' was detected on Motor-CH1. Find failure modes with similar semantic embeddings across all equipment types.",
     "expected_tools": ["vector_search"],
-    "expected_output_contains": ["vibration", "thermal", "embedding", "similarity"],
+    "expected_output_contains": ["vibration", "embedding", "similarity_score", "distance"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_sim_003",
     "category": "failure_similarity",
-    "description": "Refrigerant leak detected on Chiller CH-05. Retrieve similar past incidents and their resolution work orders. What was the average repair cost?",
+    "description": "Condenser water side fouling detected on Chiller-3. Retrieve similar past failure modes across all chillers and their associated work orders. What was the average repair cost?",
     "expected_tools": ["vector_search", "cypher_query"],
-    "expected_output_contains": ["refrigerant", "leak", "work order", "cost"],
+    "expected_output_contains": ["Condenser Water side fouling", "similarity_score", "work order", "cost"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_sim_004",
     "category": "failure_similarity",
-    "description": "An operator described a failure as 'pump cavitation with suction line blockage'. Find semantically similar failure modes even if they use different terminology.",
+    "description": "An operator described a failure as 'pump cavitation with suction line blockage' on Pump-CW-1. Find semantically similar failure modes even if they use different terminology, such as 'Impeller erosion or cavitation damage'.",
     "expected_tools": ["vector_search"],
-    "expected_output_contains": ["cavitation", "similarity", "semantic"],
+    "expected_output_contains": ["cavitation", "similarity_score", "Impeller erosion", "distance"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_sim_005",
     "category": "failure_similarity",
-    "description": "Anomaly ANM-312 was detected on Boiler BLR-01. Find similar anomalies across the entire fleet and rank by severity-weighted similarity.",
+    "description": "Scale buildup detected on Boiler-1. Find similar failure modes across the entire boiler fleet (Boiler-1 through Boiler-4) and rank by severity-weighted similarity.",
     "expected_tools": ["vector_search", "cypher_query"],
-    "expected_output_contains": ["anomaly", "fleet", "severity", "similarity"],
+    "expected_output_contains": ["Scale buildup", "Boiler", "severity", "similarity_score"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_sim_006",
     "category": "failure_similarity",
-    "description": "Motor MTR-33 experienced 'stator winding insulation degradation'. Which other motors had similar failure modes, and what spare parts were used in their repairs?",
+    "description": "Motor-AHU1 experienced 'Stator winding insulation breakdown'. Which other motors (Motor-CH1, Motor-P1, Motor-BL1) had similar failure modes, and what spare parts were used in their repairs?",
     "expected_tools": ["vector_search", "cypher_query"],
-    "expected_output_contains": ["stator", "insulation", "SparePart", "USES_PART"],
+    "expected_output_contains": ["Stator winding insulation breakdown", "similarity_score", "SparePart", "USES_PART"],
     "difficulty": "hard",
     "requires_graph": true
   }

@@ -2,7 +2,7 @@
   {
     "id": "graph_maint_001",
     "category": "maintenance_optimization",
-    "description": "Schedule preventive maintenance for the 5 highest-criticality chillers within the next available MaintenanceWindow, minimizing total downtime.",
+    "description": "Schedule preventive maintenance for the 4 chillers (Chiller-1 through Chiller-4) within the next available MaintenanceWindow, minimizing total downtime.",
     "expected_tools": ["maintenance_scheduler"],
     "expected_output_contains": ["schedule", "MaintenanceWindow", "downtime", "Chiller"],
     "difficulty": "hard",
@@ -11,7 +11,7 @@
   {
     "id": "graph_maint_002",
     "category": "maintenance_optimization",
-    "description": "There are 12 open work orders and 3 maintenance windows this month. Assign work orders to windows to minimize total cost while respecting crew_size constraints.",
+    "description": "There are open work orders and maintenance windows this month. Assign work orders to windows to minimize total cost while respecting crew_size constraints.",
     "expected_tools": ["maintenance_scheduler", "cypher_query"],
     "expected_output_contains": ["work order", "window", "cost", "crew_size", "constraint"],
     "difficulty": "hard",
@@ -20,9 +20,9 @@
   {
     "id": "graph_maint_003",
     "category": "maintenance_optimization",
-    "description": "Pump PMP-105 and Pump PMP-106 share a system. Can their maintenance be bundled into a single window to reduce repeated shutdowns?",
+    "description": "Pump-CW-1 and Pump-HW-1 share a system (SHARES_SYSTEM_WITH). Can their maintenance be bundled into a single window to reduce repeated shutdowns?",
     "expected_tools": ["maintenance_scheduler", "cypher_query"],
-    "expected_output_contains": ["bundle", "SHARES_SYSTEM_WITH", "shutdown", "window"],
+    "expected_output_contains": ["bundle", "SHARES_SYSTEM_WITH", "Pump-CW-1", "Pump-HW-1", "window"],
     "difficulty": "medium",
     "requires_graph": true
   },
@@ -38,7 +38,7 @@
   {
     "id": "graph_maint_005",
     "category": "maintenance_optimization",
-    "description": "A spare part SP-2210 (compressor gasket set) has a 14-day lead time and only 2 units in stock. Which pending work orders require this part, and can they all be completed before stock runs out?",
+    "description": "A compressor gasket set spare part has a 14-day lead time and only 2 units in stock. Which pending work orders for chillers require this part, and can they all be completed before stock runs out?",
     "expected_tools": ["maintenance_scheduler", "cypher_query"],
     "expected_output_contains": ["lead time", "stock", "SparePart", "USES_PART"],
     "difficulty": "medium",

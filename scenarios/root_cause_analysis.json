@@ -2,45 +2,45 @@
   {
     "id": "graph_rca_001",
     "category": "root_cause_analysis",
-    "description": "Work order WO-9102 reports Chiller CH-02 tripped on high head pressure. Trace backward through sensor readings, anomalies, and upstream equipment to find the root cause.",
+    "description": "A work order reports Chiller-2 tripped on high head pressure. Trace backward through sensor readings (Chiller-2-CondWaterRetTemp, Chiller-2-Efficiency), anomalies, and upstream equipment to find the root cause.",
     "expected_tools": ["root_cause_trace", "cypher_query"],
-    "expected_output_contains": ["root cause", "head pressure", "upstream", "trace"],
+    "expected_output_contains": ["root cause", "Chiller-2", "DEPENDS_ON", "trace"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_rca_002",
     "category": "root_cause_analysis",
-    "description": "Three AHUs in Building-B reported low supply air temperature within 2 hours. Trace the event chain to determine if the root cause is a shared chilled water supply issue.",
+    "description": "AHU-1 and AHU-2 in HVAC-North reported low supply air temperature within 2 hours. Trace the event chain to determine if the root cause is a shared chilled water supply issue from Chiller-1 or Chiller-2.",
     "expected_tools": ["root_cause_trace", "anomaly_correlation"],
-    "expected_output_contains": ["AHU", "supply air", "chilled water", "shared", "event chain"],
+    "expected_output_contains": ["AHU-1", "AHU-2", "Chiller", "DEPENDS_ON", "event chain"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_rca_003",
     "category": "root_cause_analysis",
-    "description": "Anomaly ANM-455 on Sensor S-078 (vibration) triggered work order WO-9200. Walk back the DETECTED_ANOMALY and TRIGGERED edges to reconstruct the full event timeline.",
+    "description": "A vibration anomaly on Motor-P1 triggered a work order. Walk back the DETECTED_ANOMALY and TRIGGERED edges through Motor-P1's sensors to reconstruct the full event timeline.",
     "expected_tools": ["root_cause_trace", "cypher_query"],
-    "expected_output_contains": ["DETECTED_ANOMALY", "TRIGGERED", "timeline", "Sensor"],
+    "expected_output_contains": ["DETECTED_ANOMALY", "TRIGGERED", "timeline", "Motor-P1"],
     "difficulty": "medium",
     "requires_graph": true
   },
   {
     "id": "graph_rca_004",
     "category": "root_cause_analysis",
-    "description": "Boiler BLR-03 experienced a flame-out. Traverse the DEPENDS_ON graph upstream to check if fuel supply, combustion air fan, or ignition system had prior anomalies.",
+    "description": "Boiler-3 experienced burner flame instability. Traverse the DEPENDS_ON graph and SHARES_SYSTEM_WITH (Boiler-4) to check if related equipment had prior anomalies.",
     "expected_tools": ["root_cause_trace", "cypher_query"],
-    "expected_output_contains": ["flame-out", "fuel supply", "combustion", "upstream", "anomaly"],
+    "expected_output_contains": ["Burner flame instability", "Boiler-3", "DEPENDS_ON", "SHARES_SYSTEM_WITH", "anomaly"],
     "difficulty": "hard",
     "requires_graph": true
   },
   {
     "id": "graph_rca_005",
     "category": "root_cause_analysis",
-    "description": "Over the past month, 4 work orders have been created for Motor MTR-11 for the same failure mode. Is this a recurring issue? What was the root cause in each case and are repairs addressing it?",
+    "description": "Over the past month, multiple work orders have been created for Motor-AHU1 for 'Stator winding insulation breakdown'. Is this a recurring issue? What was the root cause in each case and are repairs addressing it?",
     "expected_tools": ["root_cause_trace", "cypher_query", "vector_search"],
-    "expected_output_contains": ["recurring", "failure mode", "ADDRESSES", "root cause"],
+    "expected_output_contains": ["recurring", "Stator winding insulation breakdown", "Motor-AHU1", "root cause"],
     "difficulty": "hard",
     "requires_graph": true
   }
