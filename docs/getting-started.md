@@ -154,7 +154,7 @@ python -m benchmark.run_baseline --model gpt-4-turbo --output results/baseline_t
 
 ## Reproducing the NLQ Benchmark (83%, avg 0.789)
 
-This is an apples-to-apples comparison: GPT-4o generates Cypher queries against the same knowledge graph used by the deterministic handlers. Both approaches use an LLM — the only variable is the data layer (flat docs vs. graph).
+GPT-4o generates Cypher queries against the same knowledge graph used by the deterministic handlers. Note: IBM used GPT-4 (not GPT-4o), so comparisons between NLQ and IBM's baseline involve both a model difference and a data layer difference. Use `--model gpt-4` for a true same-model comparison.
 
 ```bash
 # Set your OpenAI API key

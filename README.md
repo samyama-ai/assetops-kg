@@ -17,7 +17,7 @@ Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph d
 
 *IBM's reported GPT-4 figure.
 
-**Three tiers of performance emerge:** LLM + flat docs (65%) < LLM + graph via NLQ (83%) < Deterministic handlers + graph (99%). The graph data model alone is worth +18pp even with imperfect LLM query generation.
+**Three tiers of performance emerge:** GPT-4 + flat docs (65%) < GPT-4o + graph via NLQ (83%) < Deterministic handlers + graph (99%). Note: IBM used GPT-4; NLQ used GPT-4o (stronger model), so the +18pp gap is an upper bound on the graph's contribution. GPT-4 NLQ run pending for true same-model comparison.
 
 Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
 
@@ -148,7 +148,7 @@ python -m mcp_server.server
 | Multi (20) | **20/20 (100%)** | 0.877 | 8/20 (40%) | 0.605 |
 | WO (36) | 34/36 (94%) | 0.801 | 32/36 (89%) | 0.723 |
 
-NLQ (83%) beats IBM's GPT-4 baseline (65%) by +18pp -- the graph data model alone provides significant value even when an LLM handles query generation. Only 2 deterministic failures remain (WO bundling edge cases).
+NLQ with GPT-4o (83%) vs IBM's GPT-4 (65%) = +18pp. This gap reflects both the graph data model and a stronger LLM -- a GPT-4 NLQ run is pending to isolate the graph's contribution. Only 2 deterministic failures remain (WO bundling edge cases).
 
 ### Custom 40 Scenarios (Graph-Native)
 

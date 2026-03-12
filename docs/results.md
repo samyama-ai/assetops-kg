@@ -4,7 +4,7 @@
 
 We evaluated Samyama-KG against IBM's AssetOpsBench, a benchmark of 139 industrial maintenance scenarios across 5 agent types. IBM reports GPT-4 achieves ~65% (91/139) using flat document stores with LLM reasoning loops. Samyama-KG, backed by a knowledge graph with vector search, achieves **99% (137/139)** — a **+34 percentage point improvement**.
 
-We also ran an **NLQ (Natural Language Query) benchmark** — an apples-to-apples comparison where GPT-4o generates Cypher queries against the same graph. NLQ achieves **83% (115/139)**, beating IBM's baseline by +18pp and demonstrating that the graph data model alone provides significant value even when an LLM handles query generation.
+We also ran an **NLQ (Natural Language Query) benchmark** where an LLM generates Cypher queries against the same graph. Using GPT-4o, NLQ achieves **83% (115/139)**. Note: IBM used GPT-4 (not GPT-4o), so the +18pp gap over IBM's baseline reflects both the graph data model and a stronger LLM. A GPT-4 NLQ run is pending to isolate the graph's contribution.
 
 We also created 40 new graph-native scenarios that test capabilities beyond IBM's original scope (multi-hop traversal, vector similarity, PageRank criticality, Pareto-optimal scheduling). On these, Samyama-KG scores **100% pass rate, avg 0.927**, while GPT-4o manages **85% pass rate, avg 0.602**.
 
@@ -115,9 +115,9 @@ User question
 
 The graph data was correct from v1. Every improvement was about **handler dispatch precision** — making sure each question routes to the right handler. This is a software engineering problem, not an AI problem.
 
-### NLQ Benchmark: LLM + Graph (Apples-to-Apples)
+### NLQ Benchmark: LLM + Graph
 
-We also ran an NLQ benchmark where GPT-4o generates Cypher queries against the same knowledge graph, providing a fair comparison with IBM's LLM-based approach. Both use an LLM — the only variable is the data layer (flat docs vs. graph).
+We also ran an NLQ benchmark where an LLM generates Cypher queries against the same knowledge graph. This compares the data layer (flat docs vs. graph) while both approaches use LLM reasoning. **Caveat:** IBM used GPT-4; our NLQ runs used GPT-4o (a stronger, cheaper model). A GPT-4 NLQ run is pending to provide a true same-model comparison.
 
 ```
 IBM's approach:     Question → LLM → flat document search → LLM reasoning → answer
@@ -145,18 +145,18 @@ Handler approach:   Question → deterministic routing → Cypher query → answ
 
 #### Key NLQ Findings
 
-1. **NLQ (83%) beats IBM's GPT-4 baseline (65%) by +18pp** — the graph data model alone provides significant value even when an LLM handles query generation.
+1. **NLQ with GPT-4o (83%) vs IBM's GPT-4 baseline (65%) = +18pp** — however, this gap reflects both the graph data model and using a stronger LLM (GPT-4o vs GPT-4). A GPT-4 NLQ run is pending to isolate the graph's contribution.
 
 2. **The #1 failure in v1 was trivial**: the LLM generated `fm.properties` instead of `fm.name` because the schema introspection returned node metadata (`['id', 'labels', 'properties']`) instead of actual property names. Fixing the schema prompt jumped FMSR from 30% → 93%.
 
 3. **Multi stays at 40%** because 12/20 Multi scenarios require TSFM pipeline execution (forecasting, anomaly detection) that cannot be expressed as Cypher queries. This is a structural limitation, not a prompt engineering problem.
 
 4. **Three tiers of performance emerge**:
-   - LLM + flat docs (65%) — IBM's baseline
-   - LLM + graph via NLQ (83%) — same LLM, better data layer
+   - GPT-4 + flat docs (65%) — IBM's baseline
+   - GPT-4o + graph via NLQ (83%) — stronger LLM + better data layer
    - Deterministic handlers + graph (99%) — no LLM needed
 
-5. **The graph's value is in the data model, not NLQ**: The 16pp gap between NLQ (83%) and handlers (99%) shows that deterministic routing outperforms LLM-generated Cypher. But the 18pp gap between NLQ (83%) and IBM (65%) shows the graph data model alone is worth +18pp even with imperfect query generation.
+5. **The graph's value is in the data model, not NLQ**: The 16pp gap between NLQ (83%) and handlers (99%) shows that deterministic routing outperforms LLM-generated Cypher. The 18pp gap between NLQ GPT-4o (83%) and IBM GPT-4 (65%) is an upper bound on the graph's contribution — part of that gain may come from GPT-4o being a stronger model. A GPT-4 NLQ run will isolate the graph's true contribution.
 
 ### Score Progression (Custom 40 Scenarios)
 
@@ -180,7 +180,7 @@ Handler approach:   Question → deterministic routing → Cypher query → answ
 | **Avg latency** | not reported | 5,874 ms | **63 ms** |
 | **Avg tokens** | not reported | 4,616/scenario | **0** |
 
-Note: IBM's GPT-4 baseline (~65%) is their reported figure. NLQ v3 uses GPT-4o to generate Cypher queries against the same Samyama graph — an apples-to-apples comparison where both approaches use an LLM but differ in the data layer. Latency and token data for the custom 40 scenarios are from a separate head-to-head run.
+Note: IBM used GPT-4; NLQ v3 used GPT-4o (a stronger model). The +18pp gap between NLQ and IBM is an upper bound on the graph's contribution — a GPT-4 NLQ run is pending for a true same-model comparison. Latency and token data for the custom 40 scenarios are from a separate head-to-head run.
 
 #### Per-Type Breakdown
 

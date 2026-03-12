@@ -1,10 +1,11 @@
 """Run AssetOpsBench via NLQ: LLM generates Cypher, graph executes it.
 
-This is the apples-to-apples comparison:
-  - IBM's approach:  Question → LLM → flat document search → LLM reasoning → answer
+Compares data layers while both approaches use LLM reasoning:
+  - IBM's approach:  Question → GPT-4 → flat document search → LLM reasoning → answer
   - Our NLQ approach: Question → LLM → Cypher generation → graph traversal → answer
 
-Both use an LLM. The only variable is the data layer.
+Note: IBM used GPT-4. Use --model gpt-4 for a true same-model comparison.
+Default is gpt-4o (stronger model, so results are an upper bound on graph's contribution).
 
 Usage:
     python -m benchmark.run_nlq --provider openai
