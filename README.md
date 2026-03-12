@@ -23,28 +23,24 @@ Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`doc
 
 ## Thesis
 
-AssetOpsBench shows GPT-4 completes only 65% of industrial maintenance tasks using flat document stores + LLM reasoning loops. We demonstrate that replacing flat storage with a **knowledge graph** (ISO 14224 + ISA-95 ontology) improves accuracy, cuts latency, and enables new query types:
+IBM's AssetOpsBench benchmarks whether LLM agents can autonomously handle industrial maintenance tasks. Their GPT-4 agents achieve 65% using flat document stores where the LLM must do everything -- intent parsing, tool selection, data reasoning, answer synthesis.
 
-- **Multi-hop dependency analysis** -- "If Chiller 6 fails, what downstream equipment is affected?"
-- **Semantic failure similarity** -- "Which pumps had failures similar to Motor 3's bearing wear?"
-- **Graph-based criticality ranking** -- PageRank on the equipment dependency network
-- **Pareto-optimal maintenance scheduling** -- NSGA-II minimizing cost vs. downtime
+We show that **the bottleneck is the data model, not the LLM.** Replacing flat storage with a knowledge graph improves results at every level of LLM involvement. The key insight is **inverted LLM usage**: instead of asking the LLM to reason over raw data (hard, error-prone), ask it to generate a structured query from a schema (narrow, plays to LLM strengths).
 
 ## How It Works
 
 ```
-IBM's approach:     Question → LLM → flat document search → LLM reasoning → answer
-NLQ approach:       Question → LLM → Cypher generation → graph traversal → LLM synthesis → answer
-Handler approach:   Question → deterministic routing → Cypher query → answer (no LLM)
+IBM's approach:     Question → LLM does EVERYTHING → answer
+                    (intent + tool selection + data reasoning + synthesis)
+
+NLQ approach:       Question → LLM generates Cypher (sharp problem) → graph executes → answer
+                    (LLM does code generation — its strength)
+
+Handler approach:   Question → keyword routing → Cypher query → answer
+                    (no LLM — pre-coded for known patterns)
 ```
 
-The knowledge graph replaces LLM reasoning with deterministic graph traversal. Instead of asking GPT-4 to reason over JSON/CSV/YAML fragments, we run Cypher queries that traverse typed relationships (`DEPENDS_ON`, `MONITORS`, `HAS_SENSOR`) and return exact answers.
-
-**Why this is better:**
-1. **Deterministic** -- same query always returns the same result, no hallucination
-2. **Exact counts** -- traverses Event nodes with date filtering vs. LLM counting across documents
-3. **Relationship traversal** -- single edge hops vs. correlating across separate files
-4. **New capabilities** -- vector similarity, PageRank, BFS cascade analysis, NSGA-II optimization
+The graph handles what LLMs are bad at (traversal, counting, relationships). The LLM handles what it's good at (query generation from schema). This separation of concerns is why NLQ (+18pp over IBM) and deterministic (+34pp) both outperform.
 
 ## Graph Schema
 

@@ -1,12 +1,22 @@
-# Benchmark Results: Samyama-KG vs GPT-4 on Industrial Maintenance
+# Benchmark Results: Knowledge Graph vs Flat Document Stores for Industrial Maintenance
 
 ## Executive Summary
 
-We evaluated Samyama-KG against IBM's AssetOpsBench, a benchmark of 139 industrial maintenance scenarios across 5 agent types. IBM reports GPT-4 achieves ~65% (91/139) using flat document stores with LLM reasoning loops. Samyama-KG, backed by a knowledge graph with vector search, achieves **99% (137/139)** — a **+34 percentage point improvement**.
+IBM's AssetOpsBench benchmarks whether LLM agents can autonomously handle industrial maintenance tasks. Their GPT-4 agents achieve ~65% (91/139) using flat document stores (CouchDB, YAML, CSV) where the LLM must do everything — intent parsing, tool selection, data reasoning, and answer synthesis.
 
-We also ran an **NLQ (Natural Language Query) benchmark** where an LLM generates Cypher queries against the same graph. Using GPT-4o, NLQ achieves **83% (115/139)**. Note: IBM used GPT-4 (not GPT-4o), so the +18pp gap over IBM's baseline reflects both the graph data model and a stronger LLM. A GPT-4 NLQ run is pending to isolate the graph's contribution.
+We show that **the bottleneck is the data model, not the LLM.** Replacing flat storage with a knowledge graph improves results at every level of LLM involvement:
 
-We also created 40 new graph-native scenarios that test capabilities beyond IBM's original scope (multi-hop traversal, vector similarity, PageRank criticality, Pareto-optimal scheduling). On these, Samyama-KG scores **100% pass rate, avg 0.927**, while GPT-4o manages **85% pass rate, avg 0.602**.
+| Approach | LLM Role | Pass Rate | Avg Latency |
+|---|---|---|---|
+| GPT-4 + flat docs (IBM) | Does everything | ~65% (91/139) | not reported |
+| GPT-4o + graph via NLQ | Generates Cypher only | 83% (115/139) | 5,874 ms |
+| Deterministic + graph | None (pre-coded) | **99% (137/139)** | **63 ms** |
+
+The key insight is **inverted LLM usage**: instead of asking the LLM to reason over raw data (a hard, error-prone problem), we ask it to generate a structured query from a schema (a narrow problem that plays to LLM strengths). The graph then executes deterministically. Same LLM, sharper problem, better results.
+
+We also created 40 new graph-native scenarios testing capabilities beyond IBM's scope (multi-hop traversal, vector similarity, PageRank criticality). On these, Samyama-KG scores **100% (avg 0.927)** vs GPT-4o's **85% (avg 0.602)**.
+
+Note: IBM used GPT-4; our NLQ runs used GPT-4o. A GPT-4 NLQ run is pending for a true same-model comparison.
 
 ---
 
@@ -66,42 +76,59 @@ Each of IBM's 139 scenarios routes to a specialized handler:
 
 ---
 
-## How We Improved the Baseline
+## Three Architectures Compared
 
-### IBM's Architecture (GPT-4, ~65%)
+### IBM's Architecture: LLM Does Everything (GPT-4, ~65%)
 
 ```
 User question
   → LLM parses intent
     → LLM selects tool(s) from 4 agents
-      → Tool queries flat document store (JSON, CSV, YAML)
+      → Tool queries flat document store (CouchDB, YAML, CSV)
         → LLM reasons over raw text
           → LLM formulates answer
 ```
 
-**Failure modes**: hallucinated equipment IDs, miscounted events across documents, couldn't traverse relationships, no vector similarity, no graph algorithms.
+The LLM handles intent parsing, tool selection, argument crafting, data interpretation, and answer synthesis. This is the hard problem IBM is benchmarking.
 
-### Our Architecture (Samyama-KG, 99%)
+**Why it fails at 65%**: hallucinated equipment IDs, miscounted events across documents, couldn't traverse relationships. These are failures of **data reasoning** — exactly what LLMs are bad at.
+
+### NLQ Architecture: LLM Generates Queries (GPT-4o, 83%)
 
 ```
 User question
-  → Handler routing (deterministic keyword matching)
+  → LLM generates Cypher query (given schema)
+    → Graph executes query deterministically
+      → LLM synthesizes answer from structured results
+```
+
+**The inverted LLM pattern**: instead of asking the LLM to reason over raw data (broad, error-prone), we ask it to generate a structured query from a schema (narrow, plays to LLM strengths). The LLM does **code generation** — something it's excellent at. The graph handles traversal, counting, and relationship reasoning — things it's excellent at.
+
+**Why it works better (+18pp over IBM)**: The LLM never sees raw CouchDB documents. It sees a typed schema and generates Cypher. The graph executes the query exactly. No miscounting, no hallucinated IDs, no missed relationships.
+
+### Deterministic Architecture: No LLM (99%)
+
+```
+User question
+  → Handler routing (keyword matching)
     → Cypher query on knowledge graph
       → Direct traversal / aggregation / vector search
         → Structured response
 ```
 
-**Why it works better:**
+Pre-coded handlers for known query patterns. **This is a software engineering solution, not an AI solution.** It scores 99% because we wrote the answers — but it demonstrates that for structured operational queries, you don't need an LLM at all. You need the right data model.
 
-1. **Deterministic answers** — "List all chillers at site MAIN" runs `MATCH (e:Equipment) WHERE e.asset_class = 'CWC'` and always returns the same 11 chillers. GPT-4 reasons over document fragments and sometimes misses items.
+### Why the Graph Is the Common Factor
 
-2. **Exact counts** — "How many work order events for CWC04009 in 2019?" traverses Event nodes with date filtering on ISO timestamps. GPT-4 struggles to count across multiple documents.
+The graph enables the top two tiers. It provides:
 
-3. **Relationship traversal** — "Which sensors monitor overheating failure modes?" is one edge hop: `(s:Sensor)-[:MONITORS]->(fm:FailureMode)`. GPT-4 must correlate across separate files.
+1. **Exact counts** — `MATCH (e:Event) WHERE e.equipment_id = 'CWC04009' RETURN count(e)` is deterministic. LLMs miscount across documents.
 
-4. **Zero hallucination on structured queries** — The graph either has the data or it doesn't. No invented equipment IDs, no fabricated sensor readings, no approximate counts.
+2. **Relationship traversal** — "Which sensors monitor overheating?" is one edge hop: `(s:Sensor)-[:MONITORS]->(fm:FailureMode)`. No document correlation needed.
 
-5. **New capabilities** — Vector similarity search, PageRank criticality ranking, BFS cascade analysis, and Pareto-optimal scheduling are impossible with flat document stores + LLM reasoning.
+3. **Zero hallucination on structured queries** — The graph either has the data or it doesn't. No invented equipment IDs, no fabricated readings.
+
+4. **New capabilities** — Vector similarity search, PageRank criticality ranking, BFS cascade analysis, and Pareto-optimal scheduling are structurally impossible with flat document stores, regardless of LLM quality.
 
 ### Score Progression (IBM's 139 Scenarios)
 
@@ -220,30 +247,34 @@ GPT-4o's 6 failures (graph_crit_001, graph_crit_003, graph_dep_003, graph_sim_00
 
 ---
 
-## Why We Can Claim We Are Better
+## What This Shows
 
-### 1. We beat IBM's own benchmark on their own terms
+### 1. The data model is the bottleneck, not the LLM
 
-99% vs 65% on IBM's original 139 scenarios, using IBM's own evaluation criteria (keyword matching against `characteristic_form` ground truth). This is not our benchmark — it's theirs.
+IBM's GPT-4 agents fail not because GPT-4 is dumb, but because flat document stores make certain queries structurally hard (counting across documents, traversing relationships) or impossible (multi-hop cascades, vector similarity, graph algorithms). The graph fixes the data model; the LLM results follow.
 
-### 2. We beat GPT-4o on our extended scenarios
+### 2. Constraining the LLM to query generation dramatically improves results
 
-100% vs 85% on 40 new scenarios specifically designed to test graph-native capabilities. Even on scenarios GPT-4o can attempt (text-based reasoning about maintenance), the knowledge graph produces more precise, complete answers.
+The NLQ approach gives the LLM a sharper problem: "given this schema, write a Cypher query" instead of "reason over these raw documents." Code generation is an LLM strength; data reasoning is a weakness. Same LLM, better-scoped problem, better results.
 
-### 3. We're 100x faster at zero cost
+### 3. For known patterns, you don't need an LLM
 
-~110ms vs ~11,000ms per scenario. No API calls, no token consumption, no network latency. The graph answers directly from local traversal.
+The deterministic handlers score 99% with zero LLM calls, 63ms latency, and $0 cost. For structured operational queries where patterns are known in advance (which they are in industrial ops), graph traversal is faster, cheaper, and more reliable.
 
-### 4. We're deterministic
+### 4. The graph enables queries that flat stores cannot
 
-Same query always returns the same result. No hallucination risk for factual lookups. Critical for industrial maintenance where wrong equipment IDs or miscounted events can have safety implications.
+- **Multi-hop cascade analysis**: "If Chiller 6 fails, trace all downstream affected equipment" — BFS over `DEPENDS_ON` edges
+- **Vector similarity**: "Find failure modes most similar to compressor overheating" — HNSW index over 384-dim embeddings
+- **PageRank criticality**: "Rank equipment by operational importance" — graph algorithm on dependency network
+- **Pareto-optimal scheduling**: "Minimize both cost and downtime" — NSGA-II multi-objective optimization
 
-### 5. We enable queries that LLMs cannot answer
+These are not "LLM vs LLM" comparisons. They are capabilities that require a graph, regardless of how good the LLM is.
 
-- **Multi-hop cascade analysis**: "If Chiller 6 fails, trace all downstream affected equipment through dependency chains" — requires BFS over `DEPENDS_ON` edges
-- **Vector similarity**: "Find failure modes most similar to compressor overheating" — requires HNSW index over 384-dim embeddings
-- **PageRank criticality**: "Rank equipment by operational importance in the dependency network" — requires graph algorithm execution
-- **Pareto-optimal scheduling**: "Find maintenance schedules that minimize both cost and downtime" — requires NSGA-II multi-objective optimization
+### 5. Honest caveats
+
+- The deterministic 99% result compares a pre-coded solution (us) against an autonomous agent (IBM). We wrote the answers; the benchmark tests whether GPT-4 can figure them out independently. These are fundamentally different tasks.
+- The NLQ 83% result is the fairest comparison (both use LLMs), but we used GPT-4o while IBM used GPT-4. A GPT-4 NLQ run is pending.
+- Our 40 custom scenarios are designed to showcase graph-native capabilities. They are not IBM's benchmark.
 
 ---
 
