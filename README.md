@@ -1,5 +1,8 @@
 # AssetOps-KG: Industrial Asset Operations Knowledge Graph
 
+![Language](https://img.shields.io/badge/language-Python-3776AB)
+
+
 Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph database, vector search, and multi-objective optimization capabilities using [Samyama Graph Database](https://github.com/samyama-ai/samyama-graph).
 
 ## Key Results
