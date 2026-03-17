@@ -1,7 +1,8 @@
 // Industrial Asset Operations Knowledge Graph Schema
 // Based on ISO 14224 (Equipment Reliability) + ISA-95 (Enterprise-Control Integration)
+// Extended with AssetOpsBench HuggingFace scenarios (v2 — 467 scenarios)
 //
-// 11 Node Labels, 16 Edge Types
+// 14 Node Labels, 21 Edge Types
 
 // ============================================================
 // Node Labels
@@ -47,9 +48,33 @@
 // Maintenance window
 // CREATE (:MaintenanceWindow {name, start_date, end_date, shift, crew_size, notes})
 
+// ── New node labels added for AssetOpsBench HF expansion ───────
+
+// Monitoring rule (from rule_logic config — AHU, CRAC, Pump, Boiler, HXU, Cooling Tower)
+// CREATE (:MonitoringRule {rule_id, description, entity, category,
+//                          deterministic, group})
+
+// PHM scenario (Prognostics & Health Management — RUL, fault classification, etc.)
+// CREATE (:PHMScenario {scenario_id, task_type, entity, description,
+//                        deterministic, group})
+
+// HF benchmark scenario (umbrella node linking all 467 HuggingFace rows)
+// CREATE (:HFScenario {scenario_id, type, entity, category, group,
+//                       deterministic, text})
+
+// ── Extended Equipment iso14224_class values ────────────────────
+// Original classes: chiller, ahu, pump, motor, boiler
+// New FMSR classes: electric_motor, steam_turbine, aero_gas_turbine,
+//   industrial_gas_turbine, power_transformer, compressor,
+//   reciprocating_engine, fan, electric_generator
+// New rule_logic classes: crac, hxu, cooling_tower
+// New PHM classes: turbofan_engine, induction_motor, bearing, rotor,
+//   gearbox, turbine
+// New multiagent classes: hydraulic_pump
+
 
 // ============================================================
-// Edge Types (16)
+// Edge Types (21)
 // ============================================================
 
 // Hierarchy
@@ -81,3 +106,26 @@
 
 // Anomaly trigger
 // (:Anomaly)-[:TRIGGERED]->(:WorkOrder)
+
+// ── New edge types for HF expansion ─────────────────────────────
+
+// Equipment → MonitoringRule (rule applies to equipment type)
+// (:Equipment)-[:HAS_RULE]->(:MonitoringRule)
+
+// Equipment → PHMScenario (PHM task targets equipment)
+// (:Equipment)-[:HAS_PHM_SCENARIO]->(:PHMScenario)
+
+// Equipment → FailureMode (equipment experiences a known failure mode — from FMSR)
+// NOTE: EXPERIENCED edge already defined above; reused for FMSR-sourced mappings
+
+// Sensor → Equipment (sensor monitors equipment — from FMSR)
+// NOTE: HAS_SENSOR already defined (Equipment → Sensor); MONITORS reused for FMSR
+
+// HFScenario → Equipment (scenario references equipment)
+// (:HFScenario)-[:TARGETS_EQUIPMENT]->(:Equipment)
+
+// HFScenario → FailureMode (scenario involves failure mode)
+// (:HFScenario)-[:INVOLVES_FAILURE_MODE]->(:FailureMode)
+
+// HFScenario → MonitoringRule (scenario tests monitoring rule)
+// (:HFScenario)-[:TESTS_RULE]->(:MonitoringRule)
