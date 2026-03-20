@@ -20,7 +20,7 @@ Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph d
 
 *IBM's reported GPT-4 figure.
 
-**Three tiers of performance emerge:** GPT-4 + flat docs (65%) < GPT-4o + graph via NLQ (83%) < Deterministic handlers + graph (99%). Note: IBM used GPT-4; NLQ used GPT-4o (stronger model), so the +18pp gap is an upper bound on the graph's contribution. GPT-4 NLQ run pending for true same-model comparison.
+**Same-model comparison (GPT-4 vs GPT-4):** IBM's GPT-4 over flat docs scores 65%. Our GPT-4 over graph NLQ scores **82%** — a **+17pp improvement using the exact same model**, proving the gain comes from the data model, not the LLM. The GPT-4 → GPT-4o uplift is only ~1pp (82% → 83%). Deterministic handlers reach 99% with zero LLM calls.
 
 Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
 
@@ -133,21 +133,22 @@ python -m mcp_server.server
 
 | Approach | Pass Rate | Avg Score | Avg Latency | Tokens |
 |---|---|---|---|---|
-| GPT-4 (IBM reported) | ~91/139 (65%) | not reported | not reported | not reported |
-| NLQ v3 (GPT-4o + graph) | 115/139 (83%) | 0.789 | 5,874 ms | 4,616/scenario |
+| GPT-4 + flat docs (IBM) | ~91/139 (65%) | not reported | not reported | not reported |
+| **GPT-4 + graph NLQ** | **114/139 (82%)** | **0.790** | **~5,800 ms** | **~4,600/scenario** |
+| GPT-4o + graph NLQ | 115/139 (83%) | 0.789 | 5,874 ms | 4,616/scenario |
 | **Deterministic (graph)** | **137/139 (99%)** | **0.889** | **63 ms** | **0** |
 
-#### Per-Type Breakdown (Deterministic vs NLQ)
+#### Per-Type Breakdown (GPT-4 NLQ vs GPT-4o NLQ vs Deterministic)
 
-| Type | Deterministic Pass | Deterministic Avg | NLQ Pass | NLQ Avg |
-|---|---|---|---|---|
-| IoT (20) | **20/20 (100%)** | 0.988 | 17/20 (85%) | 0.742 |
-| FMSR (40) | **40/40 (100%)** | 0.907 | 37/40 (93%) | 0.880 |
-| TSFM (23) | **23/23 (100%)** | 0.920 | 21/23 (91%) | 0.936 |
-| Multi (20) | **20/20 (100%)** | 0.877 | 8/20 (40%) | 0.605 |
-| WO (36) | 34/36 (94%) | 0.801 | 32/36 (89%) | 0.723 |
+| Type | GPT-4 NLQ | GPT-4o NLQ | Deterministic |
+|---|---|---|---|
+| IoT (20) | 17/20 (85%) | 17/20 (85%) | **20/20 (100%)** |
+| FMSR (40) | **38/40 (95%)** | 37/40 (93%) | **40/40 (100%)** |
+| TSFM (23) | **22/23 (96%)** | 21/23 (91%) | **23/23 (100%)** |
+| Multi (20) | 8/20 (40%) | 8/20 (40%) | **20/20 (100%)** |
+| WO (36) | 29/36 (81%) | 32/36 (89%) | 34/36 (94%) |
 
-NLQ with GPT-4o (83%) vs IBM's GPT-4 (65%) = +18pp. This gap reflects both the graph data model and a stronger LLM -- a GPT-4 NLQ run is pending to isolate the graph's contribution. Only 2 deterministic failures remain (WO bundling edge cases).
+Same-model comparison: GPT-4 + graph NLQ (82%) vs IBM's GPT-4 + flat docs (65%) = **+17pp using the exact same model**. The GPT-4 → GPT-4o uplift is only ~1pp, proving the gain is from the data model. Only 2 deterministic failures remain (WO bundling edge cases).
 
 ### Custom 40 Scenarios (Graph-Native)
 
