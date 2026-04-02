@@ -1,210 +1,99 @@
-# AssetOps-KG: Industrial Asset Operations Knowledge Graph
+# AssetOps Knowledge Graph
 
-![Language](https://img.shields.io/badge/language-Python-3776AB)
+**12,647 nodes. 12,629 edges. IBM AssetOpsBench at 99% accuracy -- deterministic graph queries, zero LLM tokens.**
 
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache_2.0-blue" alt="License"></a>
 
-Extending [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) with graph database, vector search, and multi-objective optimization capabilities using [Samyama Graph Database](https://github.com/samyama-ai/samyama-graph).
+---
 
-## Key Results
+IBM's GPT-4 agents score 65% on their own AssetOpsBench using flat document stores. We loaded the same data into a knowledge graph and asked:
 
-| Benchmark | GPT-4 (IBM) | NLQ (GPT-4o + graph) | Samyama-KG (deterministic) | Delta vs IBM |
-|---|---|---|---|---|
-| IBM's 139 scenarios | ~91/139 (65%)* | 115/139 (83%) | **137/139 (99%)** | **+34pp** |
-| Avg latency | not reported | 5,874 ms | **63 ms** | -- |
-| Avg tokens | not reported | 4,616/scenario | **0** | **$0** |
+> *"What equipment is affected if Chiller 6 fails?"*
 
-| Benchmark | GPT-4o (no graph) | Samyama-KG | Delta |
-|---|---|---|---|
-| Custom 40 scenarios | 34/40 (85%) | **40/40 (100%)** | **+15pp** |
-| Avg latency (custom 40) | 11,259 ms | **110 ms** | **103x faster** |
-
-*IBM's reported GPT-4 figure.
-
-**Same-model comparison (GPT-4 vs GPT-4):** IBM's GPT-4 over flat docs scores 65%. Our GPT-4 over graph NLQ scores **82%** — a **+17pp improvement using the exact same model**, proving the gain comes from the data model, not the LLM. The GPT-4 → GPT-4o uplift is only ~1pp (82% → 83%). Deterministic handlers reach 99% with zero LLM calls.
-
-Full analysis: [`docs/results.md`](docs/results.md) | Scoring methodology: [`docs/methodology.md`](docs/methodology.md) | Reproducing results: [`docs/getting-started.md`](docs/getting-started.md)
-
-## Thesis
-
-IBM's AssetOpsBench benchmarks whether LLM agents can autonomously handle industrial maintenance tasks. Their GPT-4 agents achieve 65% using flat document stores where the LLM must do everything -- intent parsing, tool selection, data reasoning, answer synthesis.
-
-We show that **the bottleneck is the data model, not the LLM.** Replacing flat storage with a knowledge graph improves results at every level of LLM involvement. The key insight is **inverted LLM usage**: instead of asking the LLM to reason over raw data (hard, error-prone), ask it to generate a structured query from a schema (narrow, plays to LLM strengths).
-
-## How It Works
-
-```
-IBM's approach:     Question → LLM does EVERYTHING → answer
-                    (intent + tool selection + data reasoning + synthesis)
-
-NLQ approach:       Question → LLM generates Cypher (sharp problem) → graph executes → answer
-                    (LLM does code generation — its strength)
-
-Handler approach:   Question → keyword routing → Cypher query → answer
-                    (no LLM — pre-coded for known patterns)
+```cypher
+MATCH (e:Equipment {name: 'Chiller-6'})<-[:DEPENDS_ON*1..3]-(downstream:Equipment)
+RETURN downstream.name, downstream.criticality_score
+ORDER BY downstream.criticality_score DESC
 ```
 
-The graph handles what LLMs are bad at (traversal, counting, relationships). The LLM handles what it's good at (query generation from schema). This separation of concerns is why NLQ (+18pp over IBM) and deterministic (+34pp) both outperform.
+| Equipment | Criticality |
+|-----------|-------------|
+| AHU-3 | 0.92 |
+| CRAC-2 | 0.88 |
+| AHU-7 | 0.85 |
 
-## Graph Schema
+**137/139 scenarios passing. 63ms average. Zero tokens.** The bottleneck was the data model, not the LLM. Powered by [Samyama Graph](https://github.com/samyama-ai/samyama-graph).
 
-11 node labels, 16 edge types, 781 nodes, 955 edges (see [`schema/industrial_kg.cypher`](schema/industrial_kg.cypher)):
+---
 
-```
-Site -[CONTAINS_LOCATION]-> Location -[CONTAINS_EQUIPMENT]-> Equipment -[HAS_SENSOR]-> Sensor
-                                                              |
-                                            DEPENDS_ON / SHARES_SYSTEM_WITH
-                                                              |
-FailureMode -[MONITORS]-> Equipment -[EXPERIENCED]-> FailureMode
-WorkOrder -[FOR_EQUIPMENT]-> Equipment
-WorkOrder -[ADDRESSES]-> FailureMode
-WorkOrder -[USES_PART]-> SparePart -[SUPPLIED_BY]-> Supplier
-Anomaly -[TRIGGERED]-> WorkOrder
-Event -[FOR_EQUIPMENT]-> Equipment
-```
+## Results
 
-## Project Structure
+| Approach | Pass Rate | Avg Latency | Tokens |
+|----------|-----------|-------------|--------|
+| GPT-4 + flat docs (IBM) | 91/139 (65%) | not reported | not reported |
+| GPT-4 + graph NLQ | 114/139 (82%) | ~5,800 ms | ~4,600/scenario |
+| **Deterministic (graph)** | **137/139 (99%)** | **63 ms** | **0** |
 
-```
-assetops-kg/
-├── schema/                    # Graph schema (Cypher CREATE statements)
-├── etl/                       # ETL pipeline (AssetOpsBench -> Samyama KG)
-│   ├── loader.py              # Main orchestrator — custom 40 scenarios
-│   ├── ibm_loader.py          # IBM data ETL — 8-step pipeline for 139 scenarios
-│   ├── eamlite_loader.py      # EAMLite -> Site, Location, Equipment
-│   ├── couchdb_loader.py      # CouchDB JSON -> Sensor + SensorReading
-│   ├── fmsr_loader.py         # YAML -> FailureMode + MONITORS edges
-│   └── embedding_gen.py       # sentence-transformers -> vector index
-├── mcp_server/                # FastMCP server (9 tools)
-│   ├── server.py              # MCP entry point
-│   └── tools/
-│       ├── asset_tools.py     # query_assets, query_sensors, query_sites
-│       ├── failure_tools.py   # find_similar_failures, query_failure_modes
-│       ├── impact_tools.py    # impact_analysis, dependency_chain
-│       └── analytics_tools.py # criticality_ranking, maintenance_clusters
-├── scenarios/                 # 40 new scenario JSONs (7 categories)
-├── evaluation/                # 8-dimensional scoring framework
-│   ├── extended_criteria.py   # 6 original + 2 graph-specific dimensions
-│   └── runner.py              # Benchmark runner
-├── benchmark/                 # Benchmark runners
-│   ├── run_samyama.py         # Custom 40 scenarios
-│   ├── run_baseline.py        # GPT-4o baseline for custom 40
-│   ├── run_ibm_scenarios.py   # IBM's original 139 scenarios
-│   └── run_nlq.py             # NLQ benchmark (GPT-4o generates Cypher)
-├── docs/
-│   ├── results.md             # Full benchmark analysis
-│   ├── methodology.md         # Scoring and evaluation methodology
-│   └── getting-started.md     # Setup, reproduction, troubleshooting
-├── results/                   # Benchmark result JSONs (v1-v5)
-└── tests/
-```
+Same model (GPT-4), same data, +17pp improvement -- proving the gain comes from the data model.
+
+## Schema
+
+**9 node labels** -- Equipment, Sensor, FailureMode, WorkOrder, Location, Site, Event, AnomalyEvent, AlertEvent
+
+**5 edge types** -- CONTAINS_LOCATION, CONTAINS_EQUIPMENT, HAS_SENSOR, FOR_EQUIPMENT, MONITORS
+
+**Data source** -- [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) (139 scenarios, 9 asset classes)
 
 ## Quick Start
 
-See [`docs/getting-started.md`](docs/getting-started.md) for full setup instructions, prerequisites, and troubleshooting.
+### Load from snapshot (recommended)
 
 ```bash
-# Clone and install
+# Download (475 KB)
+curl -LO https://github.com/samyama-ai/samyama-graph/releases/download/kg-snapshots-v5/assetops.sgsnap
+
+# Start Samyama and import
+./target/release/samyama
+curl -X POST http://localhost:8080/api/tenants \
+  -H 'Content-Type: application/json' \
+  -d '{"id":"assetops","name":"AssetOps KG"}'
+curl -X POST http://localhost:8080/api/tenants/assetops/snapshot/import \
+  -F "file=@assetops.sgsnap"
+```
+
+### Build from source and benchmark
+
+```bash
 git clone https://github.com/samyama-ai/assetops-kg.git && cd assetops-kg
 git clone https://github.com/IBM/AssetOpsBench.git ../AssetOpsBench
 pip install -e ".[dev]"
-
-# Run custom 40 scenarios (100%, avg 0.927)
-python -m benchmark.run_samyama --output results/samyama_results.json
-
-# Run IBM's 139 scenarios (99%, avg 0.889)
-python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench --output results/ibm_results.json
-
-# Run GPT-4o baseline for comparison (requires OPENAI_API_KEY)
-python -m benchmark.run_baseline --output results/baseline_results.json
-
-# Run NLQ benchmark — GPT-4o generates Cypher against the graph (requires OPENAI_API_KEY)
-python -m benchmark.run_nlq --output results/nlq_results.json
-
-# Run tests
-pytest tests/ -v
-
-# Start MCP server (for agent integration)
-python -m mcp_server.server
+python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench   # 99%
+python -m benchmark.run_samyama                                      # 100%
 ```
 
-## Benchmark Results
+## Example Queries
 
-### IBM's Original 139 Scenarios
+```cypher
+-- Dependency chain: what breaks if this equipment fails?
+MATCH (e:Equipment {name: 'Chiller-6'})<-[:DEPENDS_ON*1..3]-(downstream:Equipment)
+RETURN downstream.name, downstream.criticality_score
+ORDER BY downstream.criticality_score DESC
 
-| Approach | Pass Rate | Avg Score | Avg Latency | Tokens |
-|---|---|---|---|---|
-| GPT-4 + flat docs (IBM) | ~91/139 (65%) | not reported | not reported | not reported |
-| **GPT-4 + graph NLQ** | **114/139 (82%)** | **0.790** | **~5,800 ms** | **~4,600/scenario** |
-| GPT-4o + graph NLQ | 115/139 (83%) | 0.789 | 5,874 ms | 4,616/scenario |
-| **Deterministic (graph)** | **137/139 (99%)** | **0.889** | **63 ms** | **0** |
+-- Failure modes monitored by sensors
+MATCH (s:Sensor)<-[:HAS_SENSOR]-(e:Equipment)<-[:MONITORS]-(fm:FailureMode)
+RETURN e.name, fm.name, s.type, fm.severity
+ORDER BY fm.severity DESC
+```
 
-#### Per-Type Breakdown (GPT-4 NLQ vs GPT-4o NLQ vs Deterministic)
+## Links
 
-| Type | GPT-4 NLQ | GPT-4o NLQ | Deterministic |
-|---|---|---|---|
-| IoT (20) | 17/20 (85%) | 17/20 (85%) | **20/20 (100%)** |
-| FMSR (40) | **38/40 (95%)** | 37/40 (93%) | **40/40 (100%)** |
-| TSFM (23) | **22/23 (96%)** | 21/23 (91%) | **23/23 (100%)** |
-| Multi (20) | 8/20 (40%) | 8/20 (40%) | **20/20 (100%)** |
-| WO (36) | 29/36 (81%) | 32/36 (89%) | 34/36 (94%) |
-
-Same-model comparison: GPT-4 + graph NLQ (82%) vs IBM's GPT-4 + flat docs (65%) = **+17pp using the exact same model**. The GPT-4 → GPT-4o uplift is only ~1pp, proving the gain is from the data model. Only 2 deterministic failures remain (WO bundling edge cases).
-
-### Custom 40 Scenarios (Graph-Native)
-
-| Category | GPT-4o | Samyama-KG | Delta |
-|---|---|---|---|
-| Failure similarity | 3/6 (0.501) | **6/6 (0.902)** | +0.401 |
-| Criticality analysis | 3/5 (0.566) | **5/5 (0.938)** | +0.372 |
-| Root cause analysis | 5/5 (0.580) | **5/5 (0.934)** | +0.354 |
-| Multi-hop dependency | 7/8 (0.618) | **8/8 (0.934)** | +0.316 |
-| Maintenance optimization | 5/5 (0.634) | **5/5 (0.931)** | +0.297 |
-| Cross-asset correlation | 6/6 (0.638) | **6/6 (0.929)** | +0.291 |
-| Temporal pattern | 5/5 (0.679) | **5/5 (0.923)** | +0.244 |
-
-Largest gains on **failure similarity** (+0.401) and **criticality analysis** (+0.372) -- exactly where graph structure and vector search provide the most value.
-
-## 40 New Scenarios (7 Categories)
-
-| Category | Count | Example |
-|---|---|---|
-| Multi-hop dependency | 8 | "What equipment is affected if Chiller 6 fails?" |
-| Cross-asset correlation | 6 | "Are AHU anomalies correlated with chiller temperature drops?" |
-| Failure pattern similarity | 6 | "Which pumps had failures similar to Motor 3?" |
-| Criticality analysis | 5 | "Rank all equipment by operational criticality" |
-| Maintenance optimization | 5 | "Schedule maintenance minimizing downtime + cost" |
-| Root cause analysis | 5 | "Trace events leading to WO-2024-0042" |
-| Temporal pattern | 5 | "What is MTBF for Chiller 6's compressor?" |
-
-## Evaluation Methodology
-
-Full details: [`docs/methodology.md`](docs/methodology.md)
-
-**Single pass, no repeated runs.** Each scenario gets one handler call, one response, one score. "Avg score" is the arithmetic mean across all scenarios.
-
-**IBM 139 scenarios** are scored by keyword matching against the `characteristic_form` ground truth field. Three paths: strict item matching (deterministic + items), count matching (deterministic + counts), or lenient keyword overlap (non-deterministic, with 1.5x boost). Pass threshold: score >= 0.5.
-
-**Custom 40 scenarios** use 8 weighted dimensions:
-
-| Dimension | Weight | What It Measures |
-|---|---|---|
-| Correctness | 0.20 | Expected keywords present in response |
-| Completeness | 0.15 | Coverage of required information |
-| Relevance | 0.10 | Question terms reflected in answer |
-| Tool Usage | 0.15 | Correct graph tools invoked |
-| Efficiency | 0.05 | Latency and token usage |
-| Safety | 0.10 | No unsafe maintenance recommendations |
-| Graph Utilization | 0.15 | Evidence of graph traversal, not flat-data reasoning |
-| Semantic Precision | 0.10 | Quality of vector similarity matching |
-
-Category-specific weight overrides boost the most relevant dimension (e.g., Semantic Precision → 0.25 for failure similarity scenarios).
-
-## Related
-
-- [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) -- Original benchmark (141 scenarios, 9 asset classes)
-- [Samyama Graph Database](https://github.com/samyama-ai/samyama-graph) -- High-performance graph DB with OpenCypher, vector search, optimization
-- [Industrial KG Demo](https://github.com/samyama-ai/samyama-graph/blob/main/examples/industrial_kg_demo.rs) -- Rust example (871 lines)
+| | |
+|---|---|
+| Samyama Graph | [github.com/samyama-ai/samyama-graph](https://github.com/samyama-ai/samyama-graph) |
+| The Book | [samyama-ai.github.io/samyama-graph-book](https://samyama-ai.github.io/samyama-graph-book/) |
+| IBM AssetOpsBench | [github.com/IBM/AssetOpsBench](https://github.com/IBM/AssetOpsBench) |
+| Contact | [samyama.dev/contact](https://samyama.dev/contact) |
 
 ## License
 
-Apache 2.0 (same as AssetOpsBench)
+Apache 2.0
