@@ -2,6 +2,9 @@
 
 **12,647 nodes. 12,629 edges. IBM AssetOpsBench at 99% accuracy -- deterministic graph queries, zero LLM tokens.**
 
+> Part of the **Samyama** ecosystem — loaded into and queried via the graph engine at [samyama-ai/samyama-graph](https://github.com/samyama-ai/samyama-graph).
+> This repo holds the loader and source-data specifics for the KG.
+
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache_2.0-blue" alt="License"></a>
 
 ---
