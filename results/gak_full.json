@@ -1,0 +1,835 @@
+{
+  "summary": {
+    "equipment_types": 10,
+    "entities_enriched_ok": 10,
+    "entity_answerability_lift": 10,
+    "entity_answerability_lift_pct": 100.0,
+    "scenarios": 88,
+    "scenario_judge_pass": 72,
+    "scenario_judge_pass_pct": 81.8,
+    "avg_judge_score": 0.882,
+    "total_failure_modes_created": 106,
+    "avg_enrich_latency_ms": 33569.2,
+    "enrich_model": "claude-sonnet-4-5 (engine AgentRuntime)",
+    "judge_model": "gpt-4o",
+    "note": "Enrich once per equipment type (cache miss); subsequent same-entity questions are answered from the materialized, provenance-tagged subgraph (semantic caching). All facts tagged source:'LLM-derived'."
+  },
+  "entity_reports": [
+    {
+      "entity": "electric motor",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 9,
+      "provenance_tagged_failure_modes": 9,
+      "cypher_statements": 42,
+      "create_errors": [],
+      "enrich_latency_ms": 37049.7,
+      "answer": "Failure modes for electric motor:\n- misalignment (severity: medium); detected by: vibration sensor\n- stator windings fault (severity: high); detected by: current sensor, temperature sensor\n- insulation deterioration (severity: medium); detected by: partial discharge sensor, temperature sensor\n- unbalance (severity: medium); detected by: vibration sensor\n- bearing damage (severity: high); detected by: acoustic emission sensor, vibration sensor\n- rotor windings fault (severity: high); detected by: current sensor, flux sensor\n- brush(es) fault (severity: medium); detected by: acoustic emission sensor, temperature sensor\n- loss of input power phase (severity: high); detected by: current sensor, voltage sensor\n- eccentric rotor fault (severity: medium); detected by: current sensor, flux sensor"
+    },
+    {
+      "entity": "steam turbine",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 9,
+      "provenance_tagged_failure_modes": 21,
+      "cypher_statements": 56,
+      "create_errors": [],
+      "enrich_latency_ms": 40820.8,
+      "answer": "Failure modes for steam turbine:\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe\n- damaged rotor blade (severity: high); detected by: Acoustic Emission Sensor, Radial Vibration Probe\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, vibration sensor\n- hogging or sagging rotor (severity: high); detected by: Casing Temperature Sensor, Radial Vibration Probe, Shaft Proximity Probe\n- eccentric rotor (severity: medium); detected by: Keyphasor Phase Reference Sensor, Shaft Proximity Probe\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, vibration sensor\n- bearing damage (severity: high); detected by: Acoustic Emission Sensor, Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, acoustic emission sensor, vibration sensor\n- unequal expansion (severity: high); detected by: Axial Position Sensor, Casing Temperature Sensor, Differential Expansion Sensor\n- damaged labyrinth (severity: medium); detected by: Casing Temperature Sensor, Gland Seal Steam Pressure Sensor, Radial Vibration Probe"
+    },
+    {
+      "entity": "aero gas turbine",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 14,
+      "provenance_tagged_failure_modes": 39,
+      "cypher_statements": 69,
+      "create_errors": [],
+      "enrich_latency_ms": 50983.8,
+      "answer": "Failure modes for aero gas turbine:\n- power turbine damage (severity: critical); detected by: exhaust gas temperature sensor, vibration sensor\n- fuel filter blockage (severity: medium); detected by: fuel flow sensor, fuel pressure sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, shaft displacement probe, vibration sensor\n- compressor damaged (severity: high); detected by: compressor discharge pressure sensor, vibration sensor\n- seal leakage (severity: medium); detected by: compressor discharge pressure sensor, lube oil pressure sensor\n- power turbine dirty (severity: medium); detected by: exhaust gas temperature sensor, speed sensor\n- air inlet blockage (severity: high); detected by: air mass flow sensor, inlet differential pressure sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, shaft displacement probe, vibration sensor\n- gear defects (severity: medium); detected by: lube oil pressure sensor, vibration sensor\n- bearing wear/damage (severity: high); detected by: bearing temperature sensor, vibration sensor\n- compressor stall (severity: high); detected by: compressor discharge pressure sensor, vibration sensor\n- combustion chamber holed (severity: critical); detected by: exhaust gas temperature sensor, flame detector\n- compressor fouled (severity: medium); detected by: air mass flow sensor, compressor discharge pressure sensor\n- burner blocked (severity: high); detected by: exhaust gas temperature sensor, fuel pressure sensor"
+    },
+    {
+      "entity": "industrial gas turbine",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 12,
+      "provenance_tagged_failure_modes": 62,
+      "cypher_statements": 41,
+      "create_errors": [],
+      "enrich_latency_ms": 33798.7,
+      "answer": "Failure modes for industrial gas turbine:\n- burner blocked (severity: high); detected by: burner pressure sensor, exhaust gas temperature sensor, fuel pressure sensor\n- fuel filter blockage (severity: medium); detected by: fuel differential pressure sensor, fuel flow sensor, fuel pressure sensor\n- power turbine damaged (severity: critical); detected by: power turbine speed sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, shaft displacement probe, shaft proximity sensor, vibration sensor\n- compressor damaged (severity: high); detected by: compressor discharge pressure sensor, vibration sensor\n- air inlet blockage (severity: high); detected by: air inlet differential pressure sensor, air mass flow sensor, inlet differential pressure sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, rotor vibration sensor, shaft displacement probe, vibration sensor\n- air inlet blockage (severity: medium); detected by: air inlet differential pressure sensor\n- bearing wear (severity: high); detected by: bearing vibration sensor\n- combustion chamber holed (severity: critical); detected by: exhaust gas temperature sensor, flame detector\n- compressor fouled (severity: medium); detected by: air mass flow sensor, compressor discharge pressure sensor, compressor efficiency sensor\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe, bearing vibration sensor"
+    },
+    {
+      "entity": "pump",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 10,
+      "provenance_tagged_failure_modes": 82,
+      "cypher_statements": 42,
+      "create_errors": [],
+      "enrich_latency_ms": 25928.6,
+      "answer": "Failure modes for pump:\n- damaged impeller (severity: high); detected by: flow sensor, pressure sensor, vibration sensor\n- eccentric impeller (severity: medium); detected by: pressure sensor, vibration sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, proximity probe, shaft displacement probe, shaft proximity sensor, vibration sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, proximity probe, rotor vibration sensor, shaft displacement probe, vibration sensor\n- bearing damage (severity: high); detected by: Acoustic Emission Sensor, Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, acoustic emission sensor, temperature sensor, vibration sensor\n- bearing wear (severity: high); detected by: acoustic emission sensor, bearing vibration sensor, temperature sensor, vibration sensor\n- mounting fault (severity: medium); detected by: vibration sensor\n- damaged seals (severity: high); detected by: acoustic emission sensor, flow sensor, pressure sensor\n- misalignment (severity: high); detected by: proximity probe, vibration sensor\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe, acoustic emission sensor, bearing vibration sensor, temperature sensor, vibration sensor"
+    },
+    {
+      "entity": "power transformer",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 9,
+      "provenance_tagged_failure_modes": 91,
+      "cypher_statements": 44,
+      "create_errors": [],
+      "enrich_latency_ms": 30922.2,
+      "answer": "Failure modes for power transformer:\n- Partial Discharge (severity: High); detected by: Dissolved Gas Analyzer, Partial Discharge Sensor\n- Moisture Ingress (severity: Medium); detected by: Moisture Sensor\n- Overheating (severity: High); detected by: Dissolved Gas Analyzer, Temperature Sensor\n- Oil Leakage (severity: Medium); detected by: Oil Level Sensor, Temperature Sensor\n- Bushing Failure (severity: High); detected by: Bushing Monitor\n- Tap Changer Failure (severity: Medium); detected by: Dissolved Gas Analyzer, Temperature Sensor\n- Winding Deformation (severity: High); detected by: Frequency Response Analyzer, Vibration Sensor\n- Core Lamination Fault (severity: Medium); detected by: Dissolved Gas Analyzer, Temperature Sensor\n- Insulation Degradation (severity: High); detected by: Dissolved Gas Analyzer, Moisture Sensor, Partial Discharge Sensor"
+    },
+    {
+      "entity": "compressor",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 13,
+      "provenance_tagged_failure_modes": 119,
+      "cypher_statements": 44,
+      "create_errors": [],
+      "enrich_latency_ms": 28934.1,
+      "answer": "Failure modes for compressor:\n- valve fault (severity: high); detected by: flow sensor, pressure sensor\n- damaged impeller (severity: high); detected by: flow sensor, pressure sensor, vibration sensor\n- eccentric impeller (severity: medium); detected by: pressure sensor, vibration sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, proximity probe, shaft displacement probe, shaft proximity sensor, vibration sensor\n- damaged seals (severity: medium); detected by: pressure sensor, temperature sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, proximity probe, rotor vibration sensor, shaft displacement probe, speed sensor, vibration sensor\n- oil leakage (severity: medium); detected by: oil debris sensor\n- bearing wear (severity: high); detected by: acoustic emission sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor\n- compressor stall (severity: high); detected by: compressor discharge pressure sensor, flow sensor, pressure sensor, speed sensor, vibration sensor\n- mounting fault (severity: medium); detected by: vibration sensor\n- damaged seals (severity: high); detected by: acoustic emission sensor, flow sensor, pressure sensor, temperature sensor\n- misalignment (severity: high); detected by: proximity probe, vibration sensor\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe, acoustic emission sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor"
+    },
+    {
+      "entity": "reciprocating internal combustion engine",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 8,
+      "provenance_tagged_failure_modes": 138,
+      "cypher_statements": 34,
+      "create_errors": [],
+      "enrich_latency_ms": 28207.4,
+      "answer": "Failure modes for reciprocating internal combustion engine:\n- fuel filter blockage (severity: medium); detected by: fuel differential pressure sensor, fuel flow sensor, fuel pressure sensor\n- ignition fault (severity: medium); detected by: ignition current sensor, vibration sensor\n- piston ring fault (severity: high); detected by: acoustic emission sensor, cylinder pressure sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, proximity probe, rotor vibration sensor, shaft displacement probe, speed sensor, vibration sensor\n- bearing wear (severity: high); detected by: acoustic emission sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor\n- cooling system fault (severity: high); detected by: coolant flow sensor, temperature sensor\n- fuel injector fault (severity: high); detected by: acoustic emission sensor, fuel pressure sensor\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe, acoustic emission sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor"
+    },
+    {
+      "entity": "electric generator",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 12,
+      "provenance_tagged_failure_modes": 168,
+      "cypher_statements": 46,
+      "create_errors": [],
+      "enrich_latency_ms": 32205.2,
+      "answer": "Failure modes for electric generator:\n- insulation deterioration (severity: high); detected by: partial discharge sensor, winding temperature sensor\n- eccentric rotor (severity: high); detected by: air-gap flux sensor, vibration sensor\n- loss of output power phase (severity: high); detected by: stator current sensor, terminal voltage sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, proximity probe, shaft displacement probe, shaft proximity sensor, vibration sensor\n- stator windings fault (severity: high); detected by: current sensor, partial discharge sensor, stator current sensor, temperature sensor, winding temperature sensor\n- insulation deterioration (severity: medium); detected by: partial discharge sensor, temperature sensor, winding temperature sensor\n- eccentric rotor (severity: medium); detected by: Keyphasor Phase Reference Sensor, Shaft Proximity Probe, air-gap flux sensor, vibration sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, proximity probe, rotor vibration sensor, shaft displacement probe, speed sensor, vibration sensor\n- bearing damage (severity: high); detected by: Acoustic Emission Sensor, Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, acoustic emission sensor, bearing temperature sensor, temperature sensor, vibration sensor\n- rotor windings fault (severity: high); detected by: air-gap flux sensor, current sensor, excitation current sensor, flux sensor\n- brush(es) fault (severity: medium); detected by: acoustic emission sensor, excitation current sensor, temperature sensor, winding temperature sensor\n- misalignment (severity: high); detected by: proximity probe, vibration sensor"
+    },
+    {
+      "entity": "fan",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "failure_modes_created": 10,
+      "provenance_tagged_failure_modes": 201,
+      "cypher_statements": 30,
+      "create_errors": [],
+      "enrich_latency_ms": 26841.3,
+      "answer": "Failure modes for fan:\n- damaged impeller (severity: high); detected by: flow sensor, pressure sensor, vibration sensor\n- eccentric impeller (severity: medium); detected by: pressure sensor, proximity probe, vibration sensor\n- misalignment (severity: medium); detected by: Axial Vibration Probe, Radial Vibration Probe, Shaft Proximity Probe, proximity probe, shaft displacement probe, shaft proximity sensor, vibration sensor\n- unbalance (severity: high); detected by: proximity probe, vibration sensor\n- unbalance (severity: medium); detected by: Keyphasor Phase Reference Sensor, Radial Vibration Probe, proximity probe, rotor vibration sensor, shaft displacement probe, speed sensor, vibration sensor\n- rotor fouled (severity: medium); detected by: acoustic sensor\n- bearing wear (severity: high); detected by: acoustic emission sensor, acoustic sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor\n- mounting fault (severity: medium); detected by: vibration sensor\n- misalignment (severity: high); detected by: proximity probe, vibration sensor\n- bearing wear (severity: medium); detected by: Bearing Metal Temperature Sensor, Lube Oil Particle Counter, Radial Vibration Probe, Shaft Proximity Probe, acoustic emission sensor, acoustic sensor, bearing vibration sensor, oil debris sensor, temperature sensor, vibration sensor"
+    }
+  ],
+  "scenario_results": [
+    {
+      "id": 1,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by vibration, cooling gas, or axial flux.",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer lists several failure modes of electric motors, which is a requirement of the rubric. However, it does not correctly associate all failure modes with the detection methods specified in the question (vibration, cooling gas, or axial flux). Only 'misalignment', 'unbalance', and 'bearing damage' are correctly associated with vibration sensors. The answer does not mention detection by cooling gas or axial flux, which is necessary to fully satisfy the rubric."
+    },
+    {
+      "id": 2,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by monitoring the sensors power, current, and vibration.",
+      "judge_pass": true,
+      "judge_score": 0.9,
+      "judge_rationale": "The answer lists several failure modes of electric motors that can be detected by monitoring power, current, and vibration sensors. It includes misalignment, stator windings fault, bearing damage, rotor windings fault, brush(es) fault, loss of input power phase, and eccentric rotor fault, all of which are part of the rubric's list. However, the answer also includes failure modes detected by sensors not mentioned in the question (e.g., temperature sensor, acoustic emission sensor, flux sensor), which slightly detracts from the focus on the specified sensors. Despite this, the core requirement of listing relevant failure modes is met."
+    },
+    {
+      "id": 22,
+      "entity": "electric motor",
+      "question": "What are the failure modes of an electric motor that can be identified using a combination of vibration analysis, temperature monitoring, and current signature analysis?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer includes some correct failure modes from the rubric list: misalignment, stator winding failure, imbalance (unbalance), and bearing failure. However, it also includes failure modes not listed in the rubric, such as insulation deterioration, rotor windings fault, brush fault, loss of input power phase, and eccentric rotor fault. The inclusion of these additional failure modes that are not part of the rubric list affects the overall score."
+    },
+    {
+      "id": 23,
+      "entity": "electric motor",
+      "question": "What are the failure modes of an electric motor that can be identified using a combination of vibration analysis, temperature monitoring, and current signature analysis?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer includes some correct failure modes from the rubric list: misalignment, stator winding failure, and imbalance (unbalance), and bearing failure. However, it also includes failure modes not listed in the rubric, such as insulation deterioration, rotor windings fault, brush fault, loss of input power phase, and eccentric rotor fault. The inclusion of these additional failure modes, which are not part of the rubric, detracts from the answer's alignment with the rubric requirements."
+    },
+    {
+      "id": 38,
+      "entity": "electric motor",
+      "question": "Which sensors are most effective for detecting failure modes related to vibration and overheating in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer includes some correct sensors for detecting vibration and overheating in an electric motor, such as vibration sensors and temperature sensors. However, it also includes sensors not listed in the rubric, such as partial discharge sensors, acoustic emission sensors, flux sensors, and voltage sensors. To fully satisfy the rubric, the answer should only mention sensors from the specified list: vibration sensor, temperature sensor, thermographic sensor, and current sensor."
+    },
+    {
+      "id": 50,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, and stator winding faults in an electric motor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly identifies relevant sensors for detecting bearing wear (vibration sensor, acoustic emission sensor), misalignment (vibration sensor), and stator winding faults (current sensor, temperature sensor) in an electric motor. These sensors align with the examples provided in the rubric."
+    },
+    {
+      "id": 51,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, and stator winding faults in an electric motor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly identifies relevant sensors for detecting bearing wear (vibration sensor, acoustic emission sensor), misalignment (vibration sensor), and stator winding faults (current sensor, temperature sensor) in an electric motor. These sensors align with the examples provided in the rubric."
+    },
+    {
+      "id": 70,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, or imbalance in an electric motor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists relevant sensors for detecting bearing wear (vibration sensor, acoustic emission sensor), misalignment (vibration sensor), and imbalance (vibration sensor) in an electric motor, which aligns with the rubric's requirement."
+    },
+    {
+      "id": 71,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, or imbalance in an electric motor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting bearing wear, misalignment, and imbalance in an electric motor. Specifically, it mentions vibration sensors for misalignment and imbalance, and both acoustic emission and vibration sensors for bearing damage. These align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 3,
+      "entity": "steam turbine",
+      "question": "List all failure modes of steam turbine that can be detected by vibration, oil debris, or length measurement.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists multiple failure modes of a steam turbine that can be detected by vibration, oil debris, or length measurement. The listed failure modes include bearing wear, damaged rotor blade, misalignment, hogging or sagging rotor, eccentric rotor, unbalance, bearing damage, unequal expansion, and damaged labyrinth, all of which are part of the specified list in the rubric. Therefore, the answer satisfies the rubric requirements."
+    },
+    {
+      "id": 4,
+      "entity": "steam turbine",
+      "question": "For a steam turbine, list all the failure modes that can be detected by monitoring the sensors vibration, oil debris, and temperature.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists multiple failure modes of a steam turbine that can be detected by monitoring sensors for vibration, oil debris, and temperature. All the failure modes mentioned are from the specified list in the rubric: bearing wear, damaged rotor blade, misalignment, hogging or sagging rotor, eccentric rotor, bearing damage, unequal expansion, and damaged labyrinth. The answer meets the requirements of the rubric."
+    },
+    {
+      "id": 39,
+      "entity": "steam turbine",
+      "question": "Which sensors are most effective for detecting failure modes related to vibration and temperature anomalies in a steam turbine?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes 'vibration sensor' and 'Casing Temperature Sensor', which align with the rubric's requirement for detecting vibration and temperature-related failure modes. However, it does not explicitly mention 'Temperature Sensor' or 'Thermographic Sensor' from the list provided in the rubric, which slightly reduces the score."
+    },
+    {
+      "id": 52,
+      "entity": "steam turbine",
+      "question": "What sensors can be used to detect or monitor the following failure modes in a steam turbine: vibration, overheating, and low oil pressure?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer provides relevant sensors for detecting the specified failure modes in a steam turbine. It includes vibration sensors (Radial Vibration Probe, Shaft Proximity Probe, Axial Vibration Probe), temperature sensors (Bearing Metal Temperature Sensor, Casing Temperature Sensor), and pressure sensors (Gland Seal Steam Pressure Sensor), which align with the rubric's requirement for detecting vibration, overheating, and low oil pressure."
+    },
+    {
+      "id": 53,
+      "entity": "steam turbine",
+      "question": "What are the relevant sensors for detecting vibration, temperature anomalies, and lubrication issues in a steam turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer provides a comprehensive list of sensors relevant for detecting vibration, temperature anomalies, and lubrication issues in a steam turbine. It includes Vibration Sensors (Radial Vibration Probe, Axial Vibration Probe, Shaft Proximity Probe), Temperature Sensors (Bearing Metal Temperature Sensor, Casing Temperature Sensor), and sensors related to lubrication issues (Lube Oil Particle Counter). This satisfies the rubric's requirement for listing relevant sensors."
+    },
+    {
+      "id": 72,
+      "entity": "steam turbine",
+      "question": "What are the relevant sensors for detecting vibration, temperature anomalies, and lubrication issues in a steam turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer provides a comprehensive list of sensors relevant for detecting vibration, temperature anomalies, and lubrication issues in a steam turbine. It includes Vibration Sensors (Radial Vibration Probe, Axial Vibration Probe, Shaft Proximity Probe), Temperature Sensors (Bearing Metal Temperature Sensor, Casing Temperature Sensor), and sensors related to lubrication issues (Lube Oil Particle Counter). The answer aligns well with the rubric's requirement to list relevant sensors."
+    },
+    {
+      "id": 73,
+      "entity": "steam turbine",
+      "question": "What are the relevant sensors for detecting multiple failure modes, including vibration issues and lubrication problems, in a steam turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple sensors relevant for detecting vibration issues and lubrication problems in a steam turbine. Specifically, it mentions Vibration Sensors (Radial Vibration Probe, Axial Vibration Probe, Shaft Proximity Probe) and sensors related to lubrication issues (Bearing Metal Temperature Sensor, Lube Oil Particle Counter). These align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 5,
+      "entity": "aero gas turbine",
+      "question": "For aero gas turbine, list all the failure modes that can be detected or indicated by abnormal readings from vibration, speed, or fuel pressure/fuel flow.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists multiple failure modes of an aero gas turbine, all of which are included in the specified list from the rubric. Each failure mode is associated with appropriate detection methods, including abnormal readings from vibration, speed, or fuel pressure/fuel flow sensors. Therefore, the answer fully satisfies the rubric requirements."
+    },
+    {
+      "id": 6,
+      "entity": "aero gas turbine",
+      "question": "For aero gas turbine, list all the failure modes that can be detected by the sensors oil debris, compresor pressure/ pressure ratio, and air flow.",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer lists several failure modes of an aero gas turbine, which aligns with the rubric's requirement. However, it does not specifically address which failure modes can be detected by the sensors 'oil debris', 'compressor pressure/pressure ratio', and 'air flow'. The answer should have explicitly linked these sensors to the relevant failure modes from the list provided in the rubric."
+    },
+    {
+      "id": 24,
+      "entity": "aero gas turbine",
+      "question": "What are the failure modes of an aero gas turbine that can be identified by monitoring the vibration, temperature, and fuel flow sensors?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes 'bearing wear/damage', 'compressor stall', and 'burner blocked', which align with the rubric's list of failure modes: 'bearing failure', 'compressor stall', and 'combustion issue'. However, it does not explicitly mention 'blade damage' or 'fuel system malfunction', and some listed failure modes do not match the rubric's specified list. Therefore, while it partially satisfies the rubric, it does not fully meet all criteria."
+    },
+    {
+      "id": 25,
+      "entity": "aero gas turbine",
+      "question": "What are the failure modes of an aero gas turbine that can be identified using a combination of vibration, temperature, and oil pressure sensors?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes 'bearing wear/damage', 'compressor stall', and 'combustion chamber holed', which align with the rubric's failure modes of 'bearing failure', 'compressor stall', and 'combustion issue'. However, it does not explicitly mention 'blade damage', 'lubrication failure', or 'turbine overheat', which are also part of the rubric's list. The answer is mostly correct but not exhaustive."
+    },
+    {
+      "id": 40,
+      "entity": "aero gas turbine",
+      "question": "For an aero gas turbine, which failure modes can be detected using a combination of vibration analysis and thermographic sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer lists several failure modes, but only 'bearing wear/damage' and 'compressor stall' from the provided list are mentioned. However, the answer does not explicitly mention 'bearing failure' or 'shaft imbalance' as per the rubric's list. Additionally, it does not mention 'blade failure', 'combustion instability', 'fuel system malfunction', 'high cycle fatigue', 'low cycle fatigue', or 'oil leakage'. Therefore, the answer partially satisfies the rubric by including some relevant failure modes but misses others."
+    },
+    {
+      "id": 41,
+      "entity": "aero gas turbine",
+      "question": "Which failure modes of an aero gas turbine can be detected using a combination of vibration analysis and thermographic sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer lists several failure modes, but only 'bearing wear/damage' and 'compressor stall' from the rubric's list are mentioned. However, the detection methods for these do not include thermographic sensors, which is a requirement in the question. The answer does not fully align with the rubric as it lacks the specific combination of vibration analysis and thermographic sensors for detecting the listed failure modes."
+    },
+    {
+      "id": 54,
+      "entity": "aero gas turbine",
+      "question": "What are the sensors that can be used to detect combustion instability and high pressure turbine blade failure in an aero gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion instability and high pressure turbine blade failure in an aero gas turbine. Specifically, it mentions the exhaust gas temperature sensor and vibration sensor, which are appropriate for these purposes. The answer aligns well with the rubric requirements."
+    },
+    {
+      "id": 55,
+      "entity": "aero gas turbine",
+      "question": "What are the sensors that can be used to detect combustion instability and fuel system malfunction in an aero gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer contains relevant sensors for detecting combustion instability and fuel system malfunction in an aero gas turbine. Specifically, it mentions vibration sensors, pressure sensors, and temperature sensors, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 74,
+      "entity": "aero gas turbine",
+      "question": "What are the sensors that can be used to detect combustion instability and fuel system malfunction in an aero gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion instability and fuel system malfunction in an aero gas turbine. Specifically, it mentions exhaust gas temperature sensor, fuel flow sensor, fuel pressure sensor, and compressor discharge pressure sensor, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 75,
+      "entity": "aero gas turbine",
+      "question": "What are the sensors that can be used to detect combustion instability and fuel system malfunction in an aero gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion instability and fuel system malfunction in an aero gas turbine. Specifically, it mentions exhaust gas temperature sensor, fuel flow sensor, fuel pressure sensor, and compressor discharge pressure sensor, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 7,
+      "entity": "industrial gas turbine",
+      "question": "List all failure modes of industrial gas turbine that can be detected by abnormal readings in speed, air flow, exhaust temperature, fuel pressure/fuel flow, compressor efficiency, and vibration.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of an industrial gas turbine, all of which are included in the specified list from the rubric. Each failure mode is associated with relevant sensors that could detect abnormal readings, aligning with the rubric's requirements."
+    },
+    {
+      "id": 8,
+      "entity": "industrial gas turbine",
+      "question": "List all failure modes of industrial gas turbine that can be detected by monitoring vibration, compressor pressure, and output power.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple failure modes from the specified list: power turbine damaged, compressor damaged, air inlet blockage, unbalance, bearing wear, combustion chamber holed, and compressor fouled. These failure modes can be detected by monitoring vibration, compressor pressure, and output power, which aligns with the rubric requirements."
+    },
+    {
+      "id": 42,
+      "entity": "industrial gas turbine",
+      "question": "For an industrial gas turbine, which sensors are most effective for detecting failure modes related to vibration and high temperature?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer includes relevant sensors for detecting failure modes related to vibration and high temperature, such as vibration sensors and temperature sensors. However, it also includes many sensors not listed in the rubric, such as pressure sensors and other specific sensors like 'burner pressure sensor' and 'fuel differential pressure sensor'. The rubric requires the answer to only include sensors from the specified list: Vibration Sensor, Temperature Sensor, Pressure Sensor. Therefore, while some correct sensors are mentioned, the inclusion of additional, non-listed sensors prevents the answer from fully meeting the rubric criteria."
+    },
+    {
+      "id": 43,
+      "entity": "industrial gas turbine",
+      "question": "For an industrial gas turbine, which sensors are most effective for detecting failure modes related to vibration and high temperature?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes sensors from the list provided in the rubric: Vibration Sensor and Temperature Sensor. These sensors are mentioned in the context of detecting failure modes related to vibration and high temperature, satisfying the rubric requirements."
+    },
+    {
+      "id": 56,
+      "entity": "industrial gas turbine",
+      "question": "What are the most relevant sensors for detecting combustion issues, such as flame instability or fuel starvation, in an industrial gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion issues in an industrial gas turbine, such as the exhaust gas temperature sensor and flame detector, which are specifically mentioned for detecting a combustion chamber holed. These sensors align with the rubric's example sensors for detecting combustion issues like flame instability or fuel starvation."
+    },
+    {
+      "id": 57,
+      "entity": "industrial gas turbine",
+      "question": "What are the relevant sensors for detecting combustion issues, bearing failures, and compressor fouling in an industrial gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion issues (exhaust gas temperature sensor, flame detector), bearing failures (bearing vibration sensor, Bearing Metal Temperature Sensor, Lube Oil Particle Counter), and compressor fouling (air mass flow sensor, compressor discharge pressure sensor, compressor efficiency sensor). This satisfies the rubric requirements."
+    },
+    {
+      "id": 76,
+      "entity": "industrial gas turbine",
+      "question": "What are the most relevant sensors for detecting combustion issues, such as flame instability or fuel starvation, in an industrial gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion issues in an industrial gas turbine, such as the exhaust gas temperature sensor and fuel flow sensor. These sensors align with the rubric's requirement for detecting issues like flame instability or fuel starvation."
+    },
+    {
+      "id": 77,
+      "entity": "industrial gas turbine",
+      "question": "What are the relevant sensors for detecting combustion issues, turbine blade damage, or compressor fouling in an industrial gas turbine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting combustion issues (exhaust gas temperature sensor, flame detector), turbine blade damage (vibration sensor), and compressor fouling (air mass flow sensor, compressor discharge pressure sensor, compressor efficiency sensor). These examples align with the rubric's requirement for identifying sensors related to these specific issues in an industrial gas turbine."
+    },
+    {
+      "id": 9,
+      "entity": "pump",
+      "question": "List all failure modes of pump that can be detected by vibration.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists all the failure modes of a pump that can be detected by vibration, as specified in the rubric. It includes bearing damage, bearing wear, unbalance, misalignment, mounting fault, damaged impeller, eccentric impeller, and damaged seals, all of which are associated with vibration detection methods."
+    },
+    {
+      "id": 10,
+      "entity": "pump",
+      "question": "List all failure modes of pump that can be detected by vibration sensor.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists multiple failure modes of a pump that can be detected by a vibration sensor, including 'damaged impeller', 'eccentric impeller', 'misalignment', 'bearing damage', 'bearing wear', and 'mounting fault'. These failure modes are all included in the rubric's list, and the detection by vibration sensor is appropriately mentioned for each relevant mode."
+    },
+    {
+      "id": 26,
+      "entity": "pump",
+      "question": "What are the possible failure modes of the pump that can be identified using the vibration sensor, flow rate sensor, and pressure sensor?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes two correct failure modes from the rubric list: 'damaged impeller' (impeller damage) and 'bearing damage' (bearing failure). However, it also includes additional failure modes not specified in the rubric, such as 'eccentric impeller', 'misalignment', 'unbalance', 'bearing wear', and 'mounting fault'. While these are valid failure modes, they are not part of the rubric's specified list. The answer partially meets the rubric requirements by identifying some correct failure modes, but it includes extraneous information."
+    },
+    {
+      "id": 27,
+      "entity": "pump",
+      "question": "What are the possible failure modes of a pump that can be identified using a combination of vibration, pressure, and flow rate sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer includes some correct failure modes from the rubric list, such as 'damaged impeller' (impeller damage) and 'damaged seals' (seal leakage), and 'bearing damage' (bearing failure). However, it also includes several failure modes not listed in the rubric, such as 'eccentric impeller', 'misalignment', 'unbalance', 'bearing wear', and 'mounting fault'. The rubric requires the failure modes to be from a specific list, and the inclusion of unlisted modes affects the score."
+    },
+    {
+      "id": 58,
+      "entity": "pump",
+      "question": "What are the relevant sensors for detecting cavitation, bearing failure, and seal leakage in a pump?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting cavitation, bearing failure, and seal leakage in a pump. It mentions vibration sensors, pressure sensors, and temperature sensors, which are all relevant according to the rubric. Additionally, it includes other relevant sensors such as acoustic emission sensors and flow sensors for detecting these failure modes."
+    },
+    {
+      "id": 59,
+      "entity": "pump",
+      "question": "What are the relevant sensors for detecting cavitation, impeller damage, and bearing failure in a pump?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting cavitation, impeller damage, and bearing failure in a pump. It mentions vibration sensors, pressure sensors, and temperature sensors, which are all relevant according to the rubric. Additionally, it provides a comprehensive list of other sensors that can detect various failure modes, demonstrating a thorough understanding of the topic."
+    },
+    {
+      "id": 78,
+      "entity": "pump",
+      "question": "What are the sensors that can be used to detect cavitation, bearing failure, or seal leakage in a pump?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer contains multiple relevant sensors for detecting cavitation, bearing failure, and seal leakage in a pump. It mentions vibration sensors, temperature sensors, pressure sensors, flow sensors, and acoustic sensors, all of which are relevant according to the rubric."
+    },
+    {
+      "id": 79,
+      "entity": "pump",
+      "question": "What are the relevant sensors for detecting cavitation, impeller damage, and bearing failure in a pump?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting cavitation, impeller damage, and bearing failure in a pump. Specifically, it mentions vibration sensors, pressure sensors, and temperature sensors, which are all relevant according to the rubric. Additionally, it provides a comprehensive list of other sensors that can detect various failure modes, demonstrating a thorough understanding of the topic."
+    },
+    {
+      "id": 11,
+      "entity": "power transformer",
+      "question": "What sensors can be used to detect winding deformation, oil leakage, or overheating in a power transformer?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting winding deformation (Frequency Response Analyzer, Vibration Sensor), oil leakage (Oil Level Sensor), and overheating (Dissolved Gas Analyzer, Temperature Sensor) in a power transformer, which satisfies the rubric requirements."
+    },
+    {
+      "id": 20,
+      "entity": "power transformer",
+      "question": "List all failure modes of power transformer that can be detected by dissolved gas analysis, temperature, or ultrasound.",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer lists several failure modes of power transformers, some of which align with the rubric: moisture ingress, oil leakage, tap changer failure, and insulation degradation. These correspond to moisture ingress/content, oil leak, on-load tap-changer condition/fault, and insulation deterioration from the rubric. However, the answer includes some failure modes not explicitly listed in the rubric, such as partial discharge, overheating, bushing failure, winding deformation, and core lamination fault. While these are relevant to transformer failures, they are not directly mentioned in the rubric. The answer partially meets the rubric requirements by including some correct failure modes, but it also includes additional information not required by the rubric."
+    },
+    {
+      "id": 21,
+      "entity": "power transformer",
+      "question": "For a power transformer, list all the failure modes that can be detected or indicated by an abnormal reading from the sensor dissolved gas analysis or frequency response analysis (fra).",
+      "judge_pass": true,
+      "judge_score": 0.9,
+      "judge_rationale": "The answer includes several failure modes that align with the rubric: overheating, moisture ingress, tap changer failure (on-load tap-changer condition/fault), winding deformation (winding distortion), and insulation degradation (insulation deterioration). However, it includes some failure modes not explicitly listed in the rubric, such as partial discharge and core lamination fault, which are not directly mentioned. Despite this, the answer largely satisfies the rubric by covering multiple relevant failure modes detectable by dissolved gas analysis or frequency response analysis."
+    },
+    {
+      "id": 36,
+      "entity": "power transformer",
+      "question": "What failure modes of a power transformer can be identified using a combination of dissolved gas analysis, oil level monitoring, and temperature monitoring?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer correctly identifies several failure modes of a power transformer that can be detected using the specified methods. It includes 'Overheating', 'Oil Leakage', 'Bushing Failure', 'Winding Deformation', and 'Insulation Degradation', which align with the rubric's list. However, it also includes additional failure modes not listed in the rubric, such as 'Partial Discharge', 'Moisture Ingress', 'Tap Changer Failure', and 'Core Lamination Fault'. While these are valid failure modes, they are not part of the rubric's specified list, which slightly reduces the score."
+    },
+    {
+      "id": 37,
+      "entity": "power transformer",
+      "question": "What failure modes of a power transformer can be identified using a combination of dissolved gas analysis and partial discharge measurement?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly identifies 'insulation degradation' (insulation failure), 'overheating', and 'winding deformation' as failure modes of a power transformer, which are part of the required list. These failure modes are detected using dissolved gas analysis and partial discharge measurement, satisfying the rubric requirements."
+    },
+    {
+      "id": 49,
+      "entity": "power transformer",
+      "question": "For a power transformer, which failure modes can be detected using a combination of thermographic and vibration sensors, and what are their corresponding detection reliabilities?",
+      "judge_pass": false,
+      "judge_score": 0.3,
+      "judge_rationale": "The answer lists several failure modes, but only 'winding deformation' is correctly associated with vibration sensors. 'Overheating' is mentioned but not linked to thermographic sensors, which is a key aspect of the question. 'Oil leakage' and 'insulation failure' are mentioned but not linked to the correct sensors. The answer does not provide detection reliabilities for any failure modes, which is required by the rubric."
+    },
+    {
+      "id": 68,
+      "entity": "power transformer",
+      "question": "What sensors can be used to detect winding deformation and insulation degradation in a power transformer?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting winding deformation and insulation degradation in a power transformer. Specifically, it mentions Frequency Response Analyzer and Vibration Sensor for winding deformation, and Dissolved Gas Analyzer, Moisture Sensor, and Partial Discharge Sensor for insulation degradation. These align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 69,
+      "entity": "power transformer",
+      "question": "What sensors can be used to detect winding deformation and oil leakage in a power transformer?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly identifies relevant sensors for detecting winding deformation (Frequency Response Analyzer) and oil leakage (Oil Level Sensor) in a power transformer, as required by the rubric."
+    },
+    {
+      "id": 88,
+      "entity": "power transformer",
+      "question": "What sensors can be used to detect winding deformation and insulation degradation in a power transformer?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting winding deformation and insulation degradation in a power transformer. Specifically, it mentions Frequency Response Analyzer and Vibration Sensor for winding deformation, and Dissolved Gas Analyzer, Moisture Sensor, and Partial Discharge Sensor for insulation degradation. These align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 12,
+      "entity": "compressor",
+      "question": "List all failure modes of compressor that can be detected by vibration.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of a compressor that can be detected by vibration, including damaged impeller, eccentric impeller, misalignment, unbalance, bearing wear, compressor stall, and mounting fault. These failure modes are all present in the rubric's list, and the detection methods include vibration sensors, which aligns with the requirement to detect them by vibration."
+    },
+    {
+      "id": 13,
+      "entity": "compressor",
+      "question": "For a compressor, list all the failure modes that can be detected or are irrelevant when the sensors pressure or vacuum, speed, and vibration show abnormal readings.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of a compressor, including valve fault, damaged impeller, eccentric impeller, misalignment, damaged seals, unbalance, bearing wear, compressor stall, and mounting fault. These failure modes are all present in the rubric's list, satisfying the requirement. Although the answer includes additional details such as severity and detection methods, it does not detract from meeting the rubric's criteria."
+    },
+    {
+      "id": 28,
+      "entity": "compressor",
+      "question": "What are the failure modes of the compressor that can be identified using the vibration sensor, pressure sensor, and temperature sensor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes failure modes from the specified list: Impeller Damage (detected by vibration sensor), Seal Leakage (detected by pressure sensor, temperature sensor), and Bearing Failure (detected by temperature sensor, vibration sensor). These align with the rubric requirements."
+    },
+    {
+      "id": 29,
+      "entity": "compressor",
+      "question": "What are the failure modes of the compressor that can be identified using the vibration sensor, pressure sensor, and temperature sensor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes failure modes from the specified list: Impeller Damage (detected by vibration sensor), Seal Leakage (detected by pressure sensor, temperature sensor), and Bearing Failure (detected by temperature sensor, vibration sensor). These align with the rubric requirements."
+    },
+    {
+      "id": 44,
+      "entity": "compressor",
+      "question": "Which sensors are most effective for detecting failure modes related to vibration and temperature anomalies in a compressor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes vibration sensors and temperature sensors, which are part of the specified list in the rubric. These sensors are mentioned in relation to detecting failure modes such as damaged impeller, eccentric impeller, misalignment, unbalance, bearing wear, and damaged seals, which are related to vibration and temperature anomalies in a compressor."
+    },
+    {
+      "id": 45,
+      "entity": "compressor",
+      "question": "Which sensors are most effective for detecting failure modes related to vibration and temperature anomalies in a compressor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes vibration sensors and temperature sensors, which are part of the specified list in the rubric. These sensors are mentioned in relation to detecting failure modes such as damaged impeller, eccentric impeller, misalignment, damaged seals, unbalance, bearing wear, compressor stall, and mounting fault, which are related to vibration and temperature anomalies in a compressor."
+    },
+    {
+      "id": 60,
+      "entity": "compressor",
+      "question": "What are the relevant sensors for detecting failure modes related to mechanical issues or performance degradation in a compressor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple sensors relevant for detecting mechanical issues or performance degradation in a compressor, including vibration sensors, pressure sensors, and temperature sensors, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 61,
+      "entity": "compressor",
+      "question": "What are the sensors that can be used to detect failure modes related to mechanical issues or performance degradation in a compressor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer contains multiple sensors relevant for detecting mechanical issues or performance degradation in a compressor, such as vibration sensors, pressure sensors, and temperature sensors, which align with the rubric's requirements."
+    },
+    {
+      "id": 80,
+      "entity": "compressor",
+      "question": "What are the sensors that can be used to detect bearing failure, excessive vibration, or low lubrication in a compressor?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting bearing failure, excessive vibration, and low lubrication in a compressor. Specifically, it mentions vibration sensors, temperature sensors, oil debris sensors, and acoustic emission sensors, which align with the rubric's example sensors."
+    },
+    {
+      "id": 81,
+      "entity": "compressor",
+      "question": "What sensors can be used to detect or monitor the following failure modes in a compressor: bearing failure, seal leakage, and excessive vibration?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer provides relevant sensors for detecting bearing failure and seal leakage, but it does not explicitly address excessive vibration as a separate failure mode. While vibration sensors are mentioned in the context of other failure modes, the answer does not clearly link them to excessive vibration in a compressor. Additionally, the answer includes information on other failure modes not requested in the question, which detracts from its focus and clarity."
+    },
+    {
+      "id": 14,
+      "entity": "reciprocating internal combustion engine",
+      "question": "List all failure modes of reciprocating internal combustion engine that can be detected by monitoring cylinder pressure, fuel flow, vibration, oil debris, or exhaust temperature.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists multiple failure modes of a reciprocating internal combustion engine, including fuel injector fault, bearing wear, ignition fault, fuel filter blockage, unbalance, cooling system fault, and piston ring fault. These failure modes are all from the specified list in the rubric, and the answer also provides detection methods for each, which aligns with the rubric's requirements."
+    },
+    {
+      "id": 15,
+      "entity": "reciprocating internal combustion engine",
+      "question": "List all failure modes of reciprocating internal combustion engine that can be detected by monitoring oil debris and cylinder pressure.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists failure modes of a reciprocating internal combustion engine that can be detected by monitoring oil debris and cylinder pressure. Specifically, it mentions 'piston ring fault' detected by cylinder pressure sensor and 'bearing wear' detected by oil debris sensor, both of which are included in the rubric's list of failure modes."
+    },
+    {
+      "id": 30,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What are the failure modes of a reciprocating internal combustion engine that can be identified using a combination of vibration analysis, temperature monitoring, and oil analysis?",
+      "judge_pass": false,
+      "judge_score": 0.2,
+      "judge_rationale": "The answer mentions 'bearing wear' which aligns with 'Bearing failure' from the rubric's list of failure modes. However, it does not explicitly mention any other failure modes from the rubric's list such as Piston failure, Valve failure, Crankshaft failure, or Cylinder head failure. The answer includes other failure modes not listed in the rubric, which do not contribute to meeting the rubric's requirements."
+    },
+    {
+      "id": 31,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What are the failure modes of a reciprocating internal combustion engine that can be identified using a combination of vibration, temperature, and pressure sensors?",
+      "judge_pass": false,
+      "judge_score": 0.4,
+      "judge_rationale": "The answer mentions 'bearing wear' which aligns with 'Bearing failure' from the rubric's list of failure modes. However, it does not explicitly mention any other failure modes from the list provided in the rubric, such as Piston failure, Valve failure, Crankshaft failure, or Cylinder head failure. The answer includes other failure modes not specified in the rubric, which do not contribute to meeting the rubric's requirements."
+    },
+    {
+      "id": 46,
+      "entity": "reciprocating internal combustion engine",
+      "question": "Which failure modes of a reciprocating internal combustion engine can be detected using a combination of vibration and thermographic sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer mentions 'piston ring fault' and 'bearing wear', which are relevant failure modes from the rubric list. However, it does not explicitly mention 'bearing failure' or 'piston ring failure' as detected by both vibration and thermographic sensors. The answer also includes irrelevant failure modes and detection methods not specified in the rubric, which detracts from its alignment with the rubric requirements."
+    },
+    {
+      "id": 47,
+      "entity": "reciprocating internal combustion engine",
+      "question": "Which failure modes of a reciprocating internal combustion engine can be detected using a combination of vibration and thermographic sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer mentions 'piston ring fault' and 'bearing wear', which are relevant failure modes from the rubric list. However, it does not explicitly mention 'bearing failure', 'lubrication failure', 'cylinder head failure', or 'crankshaft failure'. Additionally, the detection methods listed do not specifically include both vibration and thermographic sensors for these failure modes, which is required by the question."
+    },
+    {
+      "id": 62,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What sensors can be used to detect abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine. Specifically, it mentions vibration sensors, temperature sensors, and oil debris sensors, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 63,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What sensors can be used to detect abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine. Specifically, it mentions vibration sensors, temperature sensors, and oil debris sensors, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 82,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What sensors can be used to detect abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting abnormal wear, overheating, or low lubrication in a reciprocating internal combustion engine. Specifically, it mentions vibration sensors, temperature sensors, and oil debris sensors, which align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 83,
+      "entity": "reciprocating internal combustion engine",
+      "question": "What sensors can be used to identify abnormal wear or damage in a reciprocating internal combustion engine?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes several sensors relevant for detecting abnormal wear or damage in a reciprocating internal combustion engine, such as vibration sensors, oil debris sensors, temperature sensors, and acoustic emission sensors. These align with the example sensors provided in the rubric."
+    },
+    {
+      "id": 16,
+      "entity": "electric generator",
+      "question": "List all failure modes of electric generator that can be detected by monitoring vibration and temperature.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of an electric generator that can be detected by monitoring vibration and temperature, including unbalance, eccentric rotor, misalignment, bearing damage, stator windings fault, insulation deterioration, rotor windings fault, and brush(es) fault. All these failure modes are from the specified list in the rubric, and the detection methods include vibration and temperature sensors, which align with the rubric requirements."
+    },
+    {
+      "id": 17,
+      "entity": "electric generator",
+      "question": "List all failure modes of electric generator that can be detected by vibration sensor.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists several failure modes of an electric generator that can be detected by a vibration sensor, including eccentric rotor, unbalance, bearing damage, and misalignment. These are all valid failure modes from the rubric's list, and the detection method using a vibration sensor is correctly identified for these modes."
+    },
+    {
+      "id": 32,
+      "entity": "electric generator",
+      "question": "What are the possible failure modes of an electric generator that can be identified using vibration analysis, temperature monitoring, and oil analysis?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes several failure modes from the rubric's list: Bearing Failure (referred to as 'bearing damage'), Rotor Imbalance (referred to as 'unbalance'), and Stator Winding Failure (referred to as 'stator windings fault'). These are correctly identified as possible failure modes of an electric generator using vibration analysis, temperature monitoring, and oil analysis."
+    },
+    {
+      "id": 33,
+      "entity": "electric generator",
+      "question": "What are the failure modes of an electric generator that can be identified using a combination of vibration, temperature, and voltage sensors?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes 'stator windings fault' and 'bearing damage', which correspond to 'stator winding failure' and 'bearing failure' from the rubric's list. However, it does not explicitly mention 'rotor imbalance', 'voltage regulator failure', or 'fuel system failure'. The answer also includes additional failure modes not listed in the rubric, which do not contribute to the score."
+    },
+    {
+      "id": 48,
+      "entity": "electric generator",
+      "question": "Which failure modes of an electric generator can be detected using a combination of vibration and temperature sensors?",
+      "judge_pass": false,
+      "judge_score": 0.5,
+      "judge_rationale": "The answer mentions several failure modes, but only 'misalignment', 'unbalance', and 'bearing damage' are correctly identified as detectable by vibration and temperature sensors. However, 'unbalance' is referred to as 'imbalance' in the rubric, which is acceptable. The answer includes other failure modes not listed in the rubric, such as 'insulation deterioration', 'eccentric rotor', 'loss of output power phase', 'stator windings fault', 'rotor windings fault', and 'brush(es) fault', which are not relevant according to the rubric. The answer partially satisfies the rubric by including some correct failure modes but also includes irrelevant information."
+    },
+    {
+      "id": 64,
+      "entity": "electric generator",
+      "question": "What sensors can be used to identify potential issues with an electric generator, including overheating, vibration, and output voltage irregularities?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting issues such as overheating (temperature sensor, winding temperature sensor), vibration (vibration sensor, axial and radial vibration probes), and output voltage irregularities (terminal voltage sensor). These examples align with the rubric's requirement to mention sensors for detecting potential issues with an electric generator."
+    },
+    {
+      "id": 65,
+      "entity": "electric generator",
+      "question": "What sensors can be used to identify potential issues with an electric generator, including overheating, vibration, and output voltage irregularities?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting issues such as overheating (temperature sensor, winding temperature sensor), vibration (vibration sensor, axial vibration probe, radial vibration probe, shaft proximity probe), and output voltage irregularities (terminal voltage sensor). These examples align with the rubric's requirement to mention sensors for detecting potential issues with an electric generator."
+    },
+    {
+      "id": 84,
+      "entity": "electric generator",
+      "question": "What sensors can be used to detect or monitor the following failure modes in an electric generator: overheating, vibration, and electrical insulation breakdown?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes relevant sensors for detecting the specified failure modes in an electric generator. It mentions temperature sensors for overheating, vibration sensors for vibration, and partial discharge sensors for electrical insulation breakdown, which align with the rubric's example sensors."
+    },
+    {
+      "id": 85,
+      "entity": "electric generator",
+      "question": "What sensors can be used to identify potential mechanical or electrical failures in an electric generator?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer contains multiple sensors relevant for detecting mechanical or electrical failures in an electric generator, including vibration sensors, temperature sensors, and current sensors, which are examples listed in the rubric."
+    },
+    {
+      "id": 18,
+      "entity": "fan",
+      "question": "List all failure modes of fan that can be detected by vibration.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of a fan that can be detected by vibration, including damaged impeller, eccentric impeller, misalignment, unbalance, rotor fouled, bearing wear, and mounting fault. All these failure modes are from the specified list in the rubric, and the detection method includes vibration sensors, which aligns with the requirement."
+    },
+    {
+      "id": 19,
+      "entity": "fan",
+      "question": "List all failure modes of fan that can be detected by vibration.",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer lists multiple failure modes of a fan that can be detected by vibration, including unbalance, misalignment, mounting fault, bearing damage (bearing wear), eccentric impeller, and damaged impeller. These failure modes are all included in the rubric's list, and the answer specifies that they can be detected by vibration sensors, which aligns with the rubric's requirement."
+    },
+    {
+      "id": 34,
+      "entity": "fan",
+      "question": "What are the possible failure modes of a fan that can be identified using data from vibration, noise, and temperature sensors?",
+      "judge_pass": true,
+      "judge_score": 0.8,
+      "judge_rationale": "The answer includes several failure modes that match the rubric's list: unbalanced blade (referred to as 'unbalance'), worn-out bearing (referred to as 'bearing wear'), and loose mounting (referred to as 'mounting fault'). However, it does not explicitly mention 'faulty motor' or 'clogged airways'. The presence of relevant failure modes and detection methods using vibration, noise, and temperature sensors aligns well with the rubric, but the absence of all specified failure modes results in a slightly reduced score."
+    },
+    {
+      "id": 35,
+      "entity": "fan",
+      "question": "What are the possible failure modes of a fan that can be identified using data from vibration, noise, and temperature sensors?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes several failure modes from the specified list: unbalanced blades (referred to as 'unbalance'), worn-out bearings (referred to as 'bearing wear'), loose mounting (referred to as 'mounting fault'), and misalignment. These are identified using data from vibration, noise (acoustic), and temperature sensors, which aligns with the rubric requirements."
+    },
+    {
+      "id": 66,
+      "entity": "fan",
+      "question": "What sensors can be used to detect bearing wear, imbalance, or misalignment in a fan?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple relevant sensors for detecting bearing wear, imbalance, or misalignment in a fan, such as vibration sensors, temperature sensors, and proximity probes. These are consistent with the example sensors provided in the rubric."
+    },
+    {
+      "id": 67,
+      "entity": "fan",
+      "question": "What sensors can be used to detect bearing wear, imbalance, or misalignment in a fan?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple relevant sensors for detecting bearing wear, imbalance, or misalignment in a fan. It mentions vibration sensors, temperature sensors, and proximity probes, which are all appropriate for these failure modes. The inclusion of additional sensors like acoustic emission sensors and oil debris sensors further supports the detection of bearing wear. Overall, the answer meets the rubric requirements by listing relevant sensors for the specified conditions."
+    },
+    {
+      "id": 86,
+      "entity": "fan",
+      "question": "What sensors can be used to detect bearing wear, imbalance, or misalignment in a fan?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple relevant sensors for detecting bearing wear, imbalance, and misalignment in a fan, such as vibration sensors, temperature sensors, and proximity probes. These are consistent with the example sensors provided in the rubric."
+    },
+    {
+      "id": 87,
+      "entity": "fan",
+      "question": "What sensors can be used to detect bearing wear, imbalance, or misalignment in a fan?",
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes multiple relevant sensors for detecting bearing wear, imbalance, and misalignment in a fan, such as vibration sensors, temperature sensors, and proximity probes. These are consistent with the example sensors provided in the rubric."
+    }
+  ]
+}

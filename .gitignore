@@ -13,3 +13,7 @@ data/
 # Per-run logs from benchmark/run_nlq.py, rubric_judge.py, smoke_load.py.
 # JSON results in results/ are versioned; the raw log streams are not.
 results/arxiv-runs/
+
+# local SGE runtime data + GAK logs
+.sge_data/
+results/*.log
