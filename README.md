@@ -23,6 +23,21 @@ asciinema rec --overwrite --cols 92 --rows 32 --idle-time-limit 2.0 \
 agg demo/assetops.cast demo/assetops.gif                                       # convert
 ```
 
+### Generation-Augmented Knowledge (GAK)
+
+![Generation-Augmented Knowledge demo](demo/assetops_gak.gif)
+
+When the graph *doesn't* have an asset type — here an **electric motor**, absent from the
+chiller+AHU graph — the engine's LLM agent writes the missing failure modes **into** the graph
+as provenance-tagged nodes (`source:"LLM-derived"`), which the re-query then answers
+deterministically. It's the inverse of RAG (write structured facts in, vs. retrieve text out) —
+Architecture D from the VLDB 2026 paper.
+
+```bash
+python -m demo.demo_gak                                                         # run live (needs SGE + an enrich LLM on the tenant)
+agg demo/assetops_gak.cast demo/assetops_gak.gif                                # convert
+```
+
 ---
 
 IBM's GPT-4 agents score 65% on their own AssetOpsBench using flat document stores. We loaded the same data into a knowledge graph and asked:
