@@ -6,7 +6,9 @@
 
 ## Summary
 
-There is **no information leakage** in our evaluation. The knowledge graph is constructed at runtime from IBM's public data sources, and the deterministic handlers use pattern matching — not learned features. The NLQ pipeline sends only the graph schema to the LLM, never the expected answers.
+*Corrected 2026-06-30 after a full live reproduction (see `REPRODUCTION-AND-CORRECTIONS.md` in the paper repo).*
+
+The knowledge graph is constructed from IBM's public data sources, and the chiller/AHU failure-mode content is loaded **verbatim from IBM's own `failure_modes.yaml`** — not invented. The NLQ pipeline (§2) sends only the graph schema to the LLM, never the expected answers; that path is leak-proof and is our apples-to-apples result. The deterministic handlers (§1) are more nuanced and we do **not** claim a blanket "no leakage": an instrumented run shows **86 of the 139 deterministic answers come from a live graph query, while 53 are served by handlers that supply domain knowledge without a graph traversal** (most visibly for equipment types absent from the graph). Several FMSR scenarios IBM flags `deterministic:false` are answered from an authored sensor→failure-mode mapping; IBM's own rubric for these accepts *any subset of its published failure modes*, so this is a valid-subset response rather than a hidden answer key — but it is domain knowledge, not pure traversal.
 
 ---
 
@@ -26,9 +28,9 @@ Each handler is a **hand-coded function** that:
 | Concern | Analysis |
 |---------|----------|
 | **Were handlers trained on the test set?** | No. Handlers match scenario *categories* (IoT, FMSR, WO, TSFM, Multi), not individual scenarios. The same 5 handlers serve all 139 scenarios. |
-| **Do handlers encode expected answers?** | No. Handlers generate Cypher queries parameterized by the question content. The answers come from the graph at runtime. |
+| **Do handlers encode expected answers?** | Mostly no: 86/139 answers come from a live graph query parameterized by the question. For scenarios whose equipment is absent from the graph (notably the HuggingFace FMSR set), handlers fall back to domain-knowledge constants rather than a traversal — read those as domain-knowledge responses, not graph retrievals. Failure-mode lists themselves are verbatim from IBM's `failure_modes.yaml`. |
 | **Could the graph encode answers?** | No. The graph is constructed from IBM's own data files (EAMLite, CouchDB JSON, FMSR YAML, event.csv). We transform the data structure, not the data content. |
-| **What about the 2 failing scenarios?** | Scenarios 32 and 76 fail because they require TSFM model execution (time-series forecasting), which cannot be expressed as a graph query. This is a structural limitation, not a tuning gap. |
+| **What about the 2 failing scenarios?** | Scenarios 411 and 424 fail; both are work-order bundling edge cases where our date-window clustering produces different groupings than the benchmark's expected bundle sizes — a response-format mismatch, not a knowledge gap. |
 
 ### Verification
 
@@ -63,7 +65,7 @@ Question → LLM receives: system prompt + graph schema + few-shot examples → 
 
 | Sent to LLM | NOT Sent to LLM |
 |-------------|-----------------|
-| Graph schema (14 labels, 21 edge types) | Expected answers |
+| Graph schema (9 labels, 5 edge types for the 139-scenario graph) | Expected answers |
 | 5 few-shot Cypher examples | Ground truth (`characteristic_form`) |
 | The user's question | Other scenarios' questions |
 | Query execution results (for answer synthesis) | Scoring criteria |
@@ -128,7 +130,7 @@ https://huggingface.co/datasets/ibm-research/AssetOpsBench
 | hydraulic_pump | 17 | Existing handlers + expanded graph with pump equipment |
 | compressor | 15 | Existing handlers + expanded graph with compressor equipment |
 
-The expanded graph (1,360 nodes, 14 labels, 21 edge types) was constructed by adding new equipment nodes and relationships from the HuggingFace dataset — not by encoding answers.
+The base IBM graph behind the 139-scenario evaluation has **9 node labels, 5 edge types, and 12,647 nodes**; the extended schema (14 labels, 21 edge types) spans the dependency topology, the custom graph-native scenarios, and the HuggingFace additions. For HuggingFace FMSR equipment types not present in the graph, handlers return domain-knowledge fallbacks (see §1) rather than graph traversals.
 
 ---
 
@@ -136,6 +138,6 @@ The expanded graph (1,360 nodes, 14 labels, 21 edge types) was constructed by ad
 
 1. **Reproducible**: Clone two repos, run one command, get the same results
 2. **No pre-training**: Graph is constructed from IBM's public data at runtime
-3. **No answer encoding**: Handlers generate queries, not answers
+3. **Faithful data, mixed handler retrieval**: failure modes are verbatim from IBM's `failure_modes.yaml`; 86/139 deterministic answers come from a live graph query, 53 from domain-knowledge handlers (honestly reported, not claimed as pure traversal)
 4. **Single-pass evaluation**: No re-runs, no cherry-picking, no hyperparameter tuning
 5. **Open source**: All code, data, and results are public at https://github.com/samyama-ai/assetops-kg

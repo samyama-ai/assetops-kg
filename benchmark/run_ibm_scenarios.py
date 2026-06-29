@@ -1901,6 +1901,46 @@ HANDLER_MAP = {
 }
 
 
+class _RecordingClient:
+    """Transparent proxy over SamyamaClient that records every
+    ``query_readonly`` call (cypher + record count) into ``.trajectory``.
+
+    Used so the deterministic handlers can be scored by the trajectory-based
+    IBM rubric (which needs to see the retrieval that produced an answer).
+    Delegates everything else to the wrapped client and does NOT alter handler
+    behavior, so pass/score results are unchanged.
+    """
+
+    def __init__(self, inner: Any) -> None:
+        self._inner = inner
+        self.trajectory: list[dict[str, Any]] = []
+
+    def query_readonly(self, cypher, graph, *args, **kwargs):
+        t0 = time.perf_counter()
+        success = True
+        result = None
+        try:
+            result = self._inner.query_readonly(cypher, graph, *args, **kwargs)
+            return result
+        except Exception:
+            success = False
+            raise
+        finally:
+            try:
+                rc = len(result.records) if result is not None else 0
+            except Exception:
+                rc = 0
+            self.trajectory.append({
+                "cypher": cypher,
+                "record_count": rc,
+                "execution_ms": (time.perf_counter() - t0) * 1000.0,
+                "success": success,
+            })
+
+    def __getattr__(self, name):
+        return getattr(self._inner, name)
+
+
 def run_scenario(
     client: SamyamaClient, scenario: dict[str, Any]
 ) -> dict[str, Any]:
@@ -1923,21 +1963,27 @@ def run_scenario(
             "error": f"No handler for type '{stype}'",
         }
 
+    rec = _RecordingClient(client)
     start = time.perf_counter()
     try:
-        response = handler(client, scenario)
+        response = handler(rec, scenario)
     except Exception as e:
         elapsed = (time.perf_counter() - start) * 1000
         return {
             "id": sid,
             "type": stype,
             "category": scenario.get("category", ""),
+            "question": text,
             "passed": False,
             "score": 0.0,
             "latency_ms": elapsed,
             "response": "",
             "rationale": "",
             "error": f"{type(e).__name__}: {e}",
+            "nlq_details": {
+                "cypher_generated": [t["cypher"] for t in rec.trajectory],
+                "cypher_results": rec.trajectory,
+            },
         }
 
     elapsed = (time.perf_counter() - start) * 1000
@@ -1947,12 +1993,17 @@ def run_scenario(
         "id": sid,
         "type": stype,
         "category": scenario.get("category", ""),
+        "question": text,
         "passed": passed,
         "score": score,
         "latency_ms": elapsed,
         "response": response,
         "rationale": rationale,
         "error": None,
+        "nlq_details": {
+            "cypher_generated": [t["cypher"] for t in rec.trajectory],
+            "cypher_results": rec.trajectory,
+        },
     }
 
 

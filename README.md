@@ -1,6 +1,6 @@
 # AssetOps Knowledge Graph
 
-**12,647 nodes. 12,629 edges. IBM AssetOpsBench at 99% accuracy -- deterministic graph queries, zero LLM tokens.**
+**12,647 nodes. 12,662 edges. IBM AssetOpsBench at 99% accuracy -- deterministic graph queries, zero LLM tokens.**
 
 > Part of the **Samyama** ecosystem — loaded into and queried via the graph engine at [samyama-ai/samyama-graph](https://github.com/samyama-ai/samyama-graph).
 > This repo holds the loader and source-data specifics for the KG.
@@ -55,6 +55,8 @@ ORDER BY downstream.criticality_score DESC
 | AHU-3 | 0.92 |
 | CRAC-2 | 0.88 |
 | AHU-7 | 0.85 |
+
+> The `DEPENDS_ON` topology and `criticality_score` shown above are an analytical layer we add on top of IBM's data (paper §3.2), so this query runs on the *extended* graph; the base graph loaded directly from IBM's sources has **9 node labels and 5 edge types**. Across the 139 IBM scenarios, an instrumented run shows 86 deterministic answers come from a live graph query and 53 from domain-knowledge handlers — see [`docs/information-leakage-analysis.md`](docs/information-leakage-analysis.md).
 
 **137/139 scenarios passing. 63ms average. Zero tokens.** The bottleneck was the data model, not the LLM. Powered by [Samyama Graph](https://github.com/samyama-ai/samyama-graph).
 
