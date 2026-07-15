@@ -48,6 +48,9 @@ SECTIONS = [
      "desc": "Architecture x scenario-set: what was run, and what was never run."},
     {"id": "data-layer", "label": "Data-layer Δ", "group": "The finding",
      "desc": "The paper's headline claim, isolated: documents vs graph, same model."},
+    {"id": "scenarios", "label": "Every scenario", "group": "The finding",
+     "desc": "All 139 head-to-head, searchable: the question, both answers, the query the "
+             "graph side wrote, and what the grader said."},
     {"id": "answer-paths", "label": "Answer paths", "group": "The finding",
      "desc": "How the 467 were actually answered, and where the graph did not answer alone."},
     {"id": "accuracy", "label": "Accuracy", "group": "What qualifies it",
@@ -77,7 +80,10 @@ BENCHMARKS_META = [
         "subtitle": "SRE incident response. The next enterprise benchmark for this method.",
         "audit_status": "not-started",
         "data_url": None,
-        "repo": "github.com/IBM/itbench-sample-scenarios",
+        # Verified 2026-07-15: the canonical repo is itbench-hub/ITBench (it moved out of
+        # the IBM org; github.com/IBM/itbench* only redirects). Do not restore an IBM-org
+        # URL from memory -- it was guessed here once already.
+        "repo": "github.com/itbench-hub/ITBench",
         "note": "No audit has been run. The graph layer exists but nothing has been "
                 "measured to the standard this app reports -- so there is nothing to show "
                 "yet, and a number here would be exactly the mistake this audit is about.",
