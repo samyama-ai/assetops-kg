@@ -1,0 +1,45 @@
+{
+  "total": {
+    "graph-backed": 379,
+    "mixed (graph + hardcoded)": 78,
+    "no tools recorded": 10
+  },
+  "by_config": {
+    "scenarios": {
+      "graph-backed": 152,
+      "mixed (graph + hardcoded)": 0,
+      "hardcoded dict only": 0,
+      "no tools recorded": 0
+    },
+    "rule_logic": {
+      "graph-backed": 120,
+      "mixed (graph + hardcoded)": 0,
+      "hardcoded dict only": 0,
+      "no tools recorded": 0
+    },
+    "fmsr": {
+      "graph-backed": 0,
+      "mixed (graph + hardcoded)": 78,
+      "hardcoded dict only": 0,
+      "no tools recorded": 10
+    },
+    "phm": {
+      "graph-backed": 75,
+      "mixed (graph + hardcoded)": 0,
+      "hardcoded dict only": 0,
+      "no tools recorded": 0
+    },
+    "hydrolic_pump": {
+      "graph-backed": 17,
+      "mixed (graph + hardcoded)": 0,
+      "hardcoded dict only": 0,
+      "no tools recorded": 0
+    },
+    "compressor": {
+      "graph-backed": 15,
+      "mixed (graph + hardcoded)": 0,
+      "hardcoded dict only": 0,
+      "no tools recorded": 0
+    }
+  }
+}

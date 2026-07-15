@@ -1,0 +1,43 @@
+{
+  "answerability_lift_model_robust": true,
+  "answerability_lift_pct_all": [
+    100.0
+  ],
+  "baseline_pct": 65.0,
+  "gak_by_model": {
+    "claude-sonnet-4-5": {
+      "answerability_lift": 10,
+      "answerability_lift_pct": 100.0,
+      "avg_judge_score": 0.882,
+      "equipment_types": 10,
+      "judge_pass": 72,
+      "pass_pct": 81.8,
+      "scenarios": 88,
+      "source_file": "gak_full.json"
+    },
+    "gpt-4.1": {
+      "answerability_lift": 10,
+      "answerability_lift_pct": 100.0,
+      "avg_judge_score": 0.823,
+      "equipment_types": 10,
+      "judge_pass": 65,
+      "pass_pct": 73.9,
+      "scenarios": 88,
+      "source_file": "repro_gak_gpt41_2026-06-30.json"
+    },
+    "gpt-4o": {
+      "answerability_lift": 10,
+      "answerability_lift_pct": 100.0,
+      "avg_judge_score": 0.657,
+      "equipment_types": 10,
+      "judge_pass": 46,
+      "pass_pct": 52.3,
+      "scenarios": 88,
+      "source_file": "repro_gak_2026-06-30.json"
+    }
+  },
+  "gak_model_spread_pp": 29.5,
+  "models_below_baseline": [
+    "gpt-4o"
+  ]
+}

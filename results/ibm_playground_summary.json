@@ -1,0 +1,29 @@
+{
+  "agent-as-tools": {
+    "n": 152,
+    "scored_by": "LLM judge -> status",
+    "accomplished": 115,
+    "partial": 8,
+    "failed": 29,
+    "pct": 75.7,
+    "median_runtime_s": 206.9,
+    "mean_runtime_s": 258.1,
+    "tokens_sent": 6862625,
+    "tokens_recv": 719482,
+    "api_calls": 1224,
+    "mean_api_calls": 8.1
+  },
+  "plan-and-execute": {
+    "n": 124,
+    "scored_by": "IBM 3-axis rubric (LLM judge)",
+    "task_completion": 29.0,
+    "data_retrieval_accuracy": 30.6,
+    "generalized_result_verification": 25.0,
+    "agent_sequence_correct": 36.3,
+    "clarity_and_justification": 29.0,
+    "hallucinations": 41.1,
+    "median_runtime_s": 147.3,
+    "mean_runtime_s": 187.1
+  },
+  "_provenance": "Read from IBM Research AssetOps-Bench HuggingFace Space, public/logs/ (agent-as-tools + plan-and-execute trajectories). Vendored 2026-07-13."
+}

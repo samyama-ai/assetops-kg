@@ -1,0 +1,102 @@
+{
+  "summary": {
+    "equipment_types": 1,
+    "entities_enriched_ok": 0,
+    "entity_answerability_lift": 0,
+    "entity_answerability_lift_pct": 0.0,
+    "scenarios": 9,
+    "scenario_judge_pass": 0,
+    "scenario_judge_pass_pct": 0.0,
+    "avg_judge_score": 0.0,
+    "total_failure_modes_created": 0,
+    "avg_enrich_latency_ms": 0.0,
+    "enrich_model": "claude-sonnet-4-5 (engine AgentRuntime)",
+    "judge_model": "gpt-4o",
+    "note": "Enrich once per equipment type (cache miss); subsequent same-entity questions are answered from the materialized, provenance-tagged subgraph (semantic caching). All facts tagged source:'LLM-derived'."
+  },
+  "entity_reports": [
+    {
+      "entity": "electric motor",
+      "error": "400 Client Error: Bad Request for url: http://localhost:8899/api/query",
+      "answer": "",
+      "baseline_answerable": false,
+      "enriched_answerable": false,
+      "failure_modes_created": 0,
+      "enrich_latency_ms": 0
+    }
+  ],
+  "scenario_results": [
+    {
+      "id": 1,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by vibration, cooling gas, or axial flux.",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 2,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by monitoring the sensors power, current, and vibration.",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 22,
+      "entity": "electric motor",
+      "question": "What are the failure modes of an electric motor that can be identified using a combination of vibration analysis, temperature monitoring, and current signature analysis?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 23,
+      "entity": "electric motor",
+      "question": "What are the failure modes of an electric motor that can be identified using a combination of vibration analysis, temperature monitoring, and current signature analysis?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 38,
+      "entity": "electric motor",
+      "question": "Which sensors are most effective for detecting failure modes related to vibration and overheating in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 50,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, and stator winding faults in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 51,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, and stator winding faults in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 70,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, or imbalance in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    },
+    {
+      "id": 71,
+      "entity": "electric motor",
+      "question": "What are the most relevant sensors for detecting bearing wear, misalignment, or imbalance in an electric motor?",
+      "judge_pass": false,
+      "judge_score": 0.0,
+      "judge_rationale": "no materialized answer"
+    }
+  ]
+}

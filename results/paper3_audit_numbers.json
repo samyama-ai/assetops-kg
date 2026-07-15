@@ -1,0 +1,56 @@
+{
+  "arch_a_valid": true,
+  "arch_a_rate_limited": 0,
+  "arch_a_full_pct": 58.3,
+  "arch_a_context_overflows": 4,
+  "n_scenarios": 139,
+  "arch_a_full": 58.3,
+  "arch_b_full": 81.3,
+  "delta_full": 23.0,
+  "n_clean": 95,
+  "n_excluded": 44,
+  "exclusion_reasons": {
+    "asset/data absent from the document store": 14,
+    "no alert/anomaly server in current upstream": 30
+  },
+  "arch_a_clean": 66.3,
+  "arch_b_clean": 84.2,
+  "delta_clean": 17.9,
+  "clean_by_type": {
+    "fmsr": {
+      "a_pct": 69.4,
+      "b_pct": 91.7,
+      "delta": 22.2,
+      "n": 36
+    },
+    "iot": {
+      "a_pct": 60.0,
+      "b_pct": 80.0,
+      "delta": 20.0,
+      "n": 15
+    },
+    "multi": {
+      "a_pct": 50.0,
+      "b_pct": 60.0,
+      "delta": 10.0,
+      "n": 10
+    },
+    "tsfm": {
+      "a_pct": 80.0,
+      "b_pct": 90.0,
+      "delta": 10.0,
+      "n": 20
+    },
+    "wo": {
+      "a_pct": 57.1,
+      "b_pct": 78.6,
+      "delta": 21.4,
+      "n": 14
+    }
+  },
+  "gak_no_graph_c1": {
+    "gpt-4o": 89.8,
+    "gpt-4.1": 89.8
+  },
+  "custom40_no_data_pct": 85.0
+}

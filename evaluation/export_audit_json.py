@@ -62,6 +62,9 @@ SECTIONS = [
              "that were missing."},
     {"id": "setup-bugs", "label": "Getting the baseline right", "group": "What qualifies it",
      "desc": "Seven setup bugs, each producing a believable wrong baseline."},
+    {"id": "sources", "label": "Papers & sources", "group": "What qualifies it",
+     "desc": "Everything this audit is built on or argues with -- every link opened and "
+             "confirmed on the date shown."},
 ]
 
 BENCHMARKS_META = [
@@ -79,20 +82,95 @@ BENCHMARKS_META = [
     },
     {
         "id": "itbench",
-        "name": "ITBench",
-        "owner": "IBM",
+        "name": "ITBench-AA",
+        "owner": "IBM + Artificial Analysis",
         "side": "ibm",
-        "subtitle": "SRE incident response. The next enterprise benchmark for this method.",
-        "audit_status": "not-started",
-        "data_url": None,
+        "subtitle": "SRE root-cause localization. An offline snapshot of a broken Kubernetes "
+                    "cluster, rebuilt as a typed graph, with the model held fixed.",
+        # Three tiers are measured from committed artifacts; two advertised tiers have no
+        # result file and ship as claims. "partial" is the honest word for that, and the app
+        # renders it differently from a complete audit.
+        "audit_status": "partial",
+        "data_url": "/data/itbench.json",
         # Verified 2026-07-15: the canonical repo is itbench-hub/ITBench (it moved out of
         # the IBM org; github.com/IBM/itbench* only redirects). Do not restore an IBM-org
         # URL from memory -- it was guessed here once already.
         "repo": "github.com/itbench-hub/ITBench",
-        "note": "No audit has been run. The graph layer exists but nothing has been "
-                "measured to the standard this app reports -- so there is nothing to show "
-                "yet, and a number here would be exactly the mistake this audit is about.",
+        "note": "Three tiers are measured end-to-end from committed per-scenario results. "
+                "Two more that this workspace has advertised -- a 0.30 deterministic "
+                "detector and a 0.02 walk floor -- have no committed artifact, so they are "
+                "shown as claims rather than figures. Scored by our own reimplementation of "
+                "the published metric, not the official grader.",
     },
+]
+
+# Where a benchmark's payload is generated, when it is not this script. The registry has to
+# know its own limits: build_registry() reads figures out of a payload it did not build.
+FOREIGN_PAYLOADS = {"itbench": "itbench-kg/eval/export_itbench_json.py"}
+
+# --- publications & sources ---------------------------------------------------
+# Every URL here was FETCHED AND CONFIRMED on the date in `checked` -- not recalled. This
+# list exists because a plausible-looking URL was once written into this file from memory
+# and shipped; it redirected, and it was wrong. If you add an entry, open it first.
+PUBLICATIONS = [
+    {
+        "id": "paper3",
+        "side": "us",
+        "title": "Knowledge Graphs as the Missing Data Layer for LLM-Based Industrial "
+                 "Asset Operations",
+        "authors": "Mandarapu, Kunkunuru",
+        "venue": "AG2026 (VLDB Workshop on Agents+Graphs)",
+        "url": "https://arxiv.org/abs/2605.26874",
+        "arxiv": "2605.26874",
+        "checked": "2026-07-15",
+        "role": "under-audit",
+        "note": "The work this audit reproduces -- our own. The live arXiv version (v3) "
+                "still carries the uncorrected 65% -> 82-83% framing; the self-correction "
+                "is written and not yet posted. This app is the correction's evidence.",
+    },
+    {
+        "id": "assetopsbench",
+        "side": "ibm",
+        "title": "AssetOpsBench: Benchmarking AI Agents for Task Automation in Industrial "
+                 "Asset Operations and Maintenance",
+        "authors": "Patel, Lin, Rayfield, Zhou, Shyalika, Yarrabothula, Vaculin, Martinez, "
+                   "O'Donncha, Kalagnanam (IBM Research)",
+        "venue": "arXiv / KDD",
+        "url": "https://arxiv.org/abs/2506.03828",
+        "arxiv": "2506.03828",
+        "checked": "2026-07-15",
+        "role": "source",
+        "note": "The benchmark itself, and the origin of the cited 65%. Their agent, their "
+                "MCP servers and their grader are imported verbatim here -- that is what "
+                "makes the comparison fair.",
+    },
+    {
+        "id": "itbench",
+        "side": "ibm",
+        "title": "ITBench: Evaluating AI Agents across Diverse Real-World IT Automation Tasks",
+        "authors": "Jha et al. (IBM Research)",
+        "venue": "ICML 2025",
+        "url": "https://arxiv.org/abs/2502.05352",
+        "arxiv": "2502.05352",
+        "checked": "2026-07-15",
+        "role": "source",
+        "note": "The second benchmark. Reports FL (NTAM) 0.39 for gpt-4o -- a number that "
+                "looks comparable to ours and is not. See 'What we will not compare'.",
+    },
+]
+
+REPOS = [
+    {"id": "assetopsbench-repo", "side": "ibm", "label": "IBM AssetOpsBench",
+     "url": "https://github.com/IBM/AssetOpsBench", "checked": "2026-07-15",
+     "note": "The agent, the five MCP servers and the grader, imported verbatim."},
+    {"id": "itbench-repo", "side": "ibm", "label": "ITBench",
+     "url": "https://github.com/itbench-hub/ITBench", "checked": "2026-07-15",
+     "note": "Canonical repo. It moved out of the IBM org -- github.com/IBM/itbench* only "
+             "redirects."},
+    {"id": "itbench-aa", "side": "ibm", "label": "ITBench-AA leaderboard",
+     "url": "https://artificialanalysis.ai/evaluations/itbench-aa", "checked": "2026-07-15",
+     "note": "The public frontier reference. Re-check it before quoting: a 'no model clears "
+             "50%' reading went stale within five months."},
 ]
 
 
@@ -441,6 +519,14 @@ def build() -> dict:
         "tools": dict(tools.most_common()),
         "tool_rows": tool_rows,
         "non_graph_tools": sorted(NON_GRAPH),
+        "publications": PUBLICATIONS,
+        "repos": REPOS,
+        "sources_note": ("Every link on this page was opened and confirmed on the date it "
+                         "carries. That is not pedantry: a repo URL in this exporter was "
+                         "once written from memory, looked right, and was wrong -- and the "
+                         "public leaderboard we cite for scale contradicted its own "
+                         "five-month-old summary. Sources rot; the date says when we last "
+                         "looked."),
         "ibm": ibm,
         "arch_a_valid": a["summary"].get("VALID"),
         "arch_a_context_overflows": audit["arch_a_context_overflows"],
@@ -450,29 +536,57 @@ def build() -> dict:
 def build_registry(data: dict) -> dict:
     """The benchmark switcher's data. One card per benchmark.
 
-    An audited benchmark's card figures are read out of its own generated payload --
-    never restated here. An unaudited one gets `stats: []` and a reason, because the
+    A card's figures are read out of that benchmark's own generated payload -- never
+    restated here. A benchmark with no payload gets `stats: []` and a reason, because the
     honest rendering of "we have not measured this" is an empty card, not a number.
+
+    itbench's payload is generated by a DIFFERENT repo (see FOREIGN_PAYLOADS). If it has
+    not been generated yet, this degrades that card to "not-started" rather than inventing
+    its numbers -- the registry must not assert what it cannot read.
     """
-    audited = {"assetopsbench": data}
-    out = []
-    for m in BENCHMARKS_META:
-        d = audited.get(m["id"])
-        stats = []
-        if d:
-            h = d["headline"]
-            stats = [
+    payloads = {"assetopsbench": data}
+    for bid, gen in FOREIGN_PAYLOADS.items():
+        f = OUT.parent / f"{bid}.json"
+        if f.exists():
+            payloads[bid] = json.loads(f.read_text())
+        else:
+            print(f"  note: {bid}.json absent -- run `{gen}`; its card ships with no numbers")
+
+    def stats_for(bid, d):
+        h = d["headline"]
+        if bid == "assetopsbench":
+            return [
                 {"label": "data-layer Δ", "value": h["delta_clean"], "unit": "pp"},
                 {"label": "scenarios compared", "value": h["n_clean"], "unit": ""},
                 {"label": "combinations run", "value": d["matrix_coverage"]["run"],
                  "unit": f'of {d["matrix_coverage"]["total"]}'},
             ]
-        out.append({**m, "stats": stats,
-                    "sections": d["benchmark"]["sections"] if d else []})
+        # itbench reports a 0-1 task score, not a percentage -- a different unit on
+        # purpose, so the two cards cannot be read as one scale.
+        measured = [t for t in d["tiers"] if t["measured"]]
+        return [
+            {"label": "context lift", "value": h["delta_clean"], "unit": "score"},
+            {"label": "scenarios", "value": h["n_clean"], "unit": ""},
+            {"label": "tiers measured", "value": len(measured),
+             "unit": f'of {len(d["tiers"])}'},
+        ]
+
+    out = []
+    for m in BENCHMARKS_META:
+        d = payloads.get(m["id"])
+        entry = {**m}
+        if d is None and m["id"] in FOREIGN_PAYLOADS:
+            entry["audit_status"] = "not-started"
+            entry["data_url"] = None
+        out.append({
+            **entry,
+            "stats": stats_for(m["id"], d) if d else [],
+            "sections": d["benchmark"]["sections"] if d else [],
+        })
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_note": GENERATED_NOTE,
-        "generated_from": "assetops-kg/results/*.json",
+        "generated_from": "assetops-kg/results/*.json + itbench-kg/results/*.jsonl",
         "default": "assetopsbench",
         "benchmarks": out,
     }

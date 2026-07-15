@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "scenarios": 3,
+    "evaluated": 3,
+    "answerability_lift": 1,
+    "answerability_lift_pct": 33.3,
+    "judge_pass": 3,
+    "judge_pass_pct": 100.0,
+    "avg_judge_score": 1.0,
+    "avg_enrich_latency_ms": 45405.8,
+    "enrich_model": "claude-sonnet-4-5 (engine AgentRuntime)",
+    "judge_model": "gpt-4o"
+  },
+  "results": [
+    {
+      "id": 1,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by vibration, cooling gas, or axial flux.",
+      "baseline_answerable": false,
+      "enriched_answerable": true,
+      "answerability_lift": true,
+      "failure_modes_after": 9,
+      "cypher_statements": 43,
+      "create_errors": [],
+      "provenance_tagged_nodes_total": 17,
+      "enrich_latency_ms": 33952.4,
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer correctly lists all the failure modes of an electric motor as specified in the rubric.",
+      "answer": "Failure modes: loss of input power phase, stator windings fault, bearing damage, insulation deterioration, eccentric rotor fault, misalignment, unbalance, brush(es) fault, rotor windings fault"
+    },
+    {
+      "id": 2,
+      "entity": "electric motor",
+      "question": "List all failure modes of electric motor that can be detected by monitoring the sensors power, current, and vibration.",
+      "baseline_answerable": true,
+      "enriched_answerable": true,
+      "answerability_lift": false,
+      "failure_modes_after": 39,
+      "cypher_statements": 43,
+      "create_errors": [],
+      "provenance_tagged_nodes_total": 33,
+      "enrich_latency_ms": 79266.4,
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer contains all the required failure modes from the list provided in the rubric. Although there are repetitions and an additional failure mode 'unbalance' not listed in the rubric, the presence of all required failure modes ensures the answer meets the rubric criteria.",
+      "answer": "Failure modes: loss of input power phase, loss of input power phase, stator windings fault, stator windings fault, bearing damage, bearing damage, insulation deterioration, insulation deterioration, eccentric rotor fault, eccentric rotor fault, misalignment, misalignment, unbalance, brush(es) fault, rotor windings fault, rotor windings fault, brushes fault, rotor windings fault, loss of input power phase, eccentric rotor fault, bearing damage, misalignment, stator windings fault, insulation deterioration, loss of input power phase, stator windings fault, bearing damage, insulation deterioration, eccentric rotor fault, misalignment, rotor windings fault, brushes fault, rotor windings fault, loss of input power phase, eccentric rotor fault, bearing damage, misalignment, stator windings fault, insulation deterioration"
+    },
+    {
+      "id": 22,
+      "entity": "electric motor",
+      "question": "What are the failure modes of an electric motor that can be identified using a combination of vibration analysis, temperature monitoring, and current signature analysis?",
+      "baseline_answerable": true,
+      "enriched_answerable": true,
+      "answerability_lift": false,
+      "failure_modes_after": 63,
+      "cypher_statements": 28,
+      "create_errors": [],
+      "provenance_tagged_nodes_total": 44,
+      "enrich_latency_ms": 22998.5,
+      "judge_pass": true,
+      "judge_score": 1.0,
+      "judge_rationale": "The answer includes all the required failure modes from the rubric list: bearing failure, stator winding failure, rotor bar failure, misalignment, imbalance, and lubrication issues. Although the answer contains repetition and additional failure modes not listed in the rubric, it still meets the requirement by including the necessary failure modes.",
+      "answer": "Failure modes: loss of input power phase, loss of input power phase, stator windings fault, stator windings fault, bearing damage, bearing damage, insulation deterioration, insulation deterioration, eccentric rotor fault, eccentric rotor fault, misalignment, misalignment, misalignment, unbalance, brush(es) fault, rotor windings fault, rotor windings fault, brushes fault, rotor windings fault, loss of input power phase, eccentric rotor fault, bearing damage, misalignment, misalignment, stator windings fault, insulation deterioration, bearing failure, stator winding failure, rotor bar failure, misalignment, imbalance, lubrication issues, loss of input power phase, stator windings fault, bearing damage, insulation deterioration, eccentric rotor fault, misalignment, misalignment, rotor windings fault, brushes fault, rotor windings fault, loss of input power phase, eccentric rotor fault, bearing damage, misalignment, misalignment, stator windings fault, insulation deterioration, bearing failure, stator winding failure, rotor bar failure, misalignment, imbalance, lubrication issues, misalignment, misalignment, bearing failure, stator winding failure, rotor bar failure, misalignment, imbalance, lubrication issues"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "scenario_universe": {
+    "scenarios": 152,
+    "rule_logic": 120,
+    "fmsr": 88,
+    "compressor": 15,
+    "hydrolic_pump": 17,
+    "phm": 75
+  },
+  "handlers": {
+    "existing/IoT": 20,
+    "existing/FMSA": 20,
+    "existing/TSFM": 23,
+    "existing/Workorder": 47,
+    "existing/multiagent": 74,
+    "new_handler": 283
+  },
+  "tools": {
+    "cypher_query": 184,
+    "query_monitoring_rules": 120,
+    "query_sensor_readings": 120,
+    "query_anomaly_events": 120,
+    "apply_monitoring_rules": 120,
+    "query_failure_modes_by_sensor": 58,
+    "query_sensors_for_equipment": 78,
+    "domain_knowledge_fallback": 78,
+    "query_failure_modes_all": 20,
+    "query_failure_modes": 65,
+    "query_asset_profile": 75,
+    "query_failure_history": 75,
+    "query_maintenance_records": 49,
+    "query_similar_equipment": 17,
+    "query_maintenance_policies": 10
+  },
+  "cells": [
+    {
+      "arch": "A. Baseline (LLM over documents)",
+      "scenario_set": "custom-40",
+      "n": 40,
+      "model": "gpt-4o",
+      "source": "baseline_gpt4o_results.json",
+      "pass_pct": 85.0,
+      "note": ""
+    },
+    {
+      "arch": "B. NLQ (LLM -> Cypher)",
+      "scenario_set": "139",
+      "n": 139,
+      "model": "gpt-4",
+      "source": "repro_nlq_gpt4_2026-06-29.json",
+      "pass_pct": 82.0,
+      "note": ""
+    },
+    {
+      "arch": "B. NLQ (LLM -> Cypher)",
+      "scenario_set": "139",
+      "n": 139,
+      "model": "gpt-4o",
+      "source": "repro_nlq_gpt4o_2026-06-29.json",
+      "pass_pct": 81.3,
+      "note": ""
+    },
+    {
+      "arch": "B. NLQ (LLM -> Cypher)",
+      "scenario_set": "139",
+      "n": 139,
+      "model": "gpt-4.1",
+      "source": "repro_nlq_gpt41_2026-06-29.json",
+      "pass_pct": 84.9,
+      "note": ""
+    },
+    {
+      "arch": "C. Deterministic handlers",
+      "scenario_set": "139",
+      "n": 139,
+      "model": "none (no LLM)",
+      "source": "repro_det_2026-06-29.json",
+      "pass_pct": 98.6,
+      "note": ""
+    },
+    {
+      "arch": "C. Deterministic handlers",
+      "scenario_set": "467",
+      "n": 467,
+      "model": "none (no LLM)",
+      "source": "repro_hf467_2026-06-29.json",
+      "pass_pct": 100.0,
+      "note": ""
+    },
+    {
+      "arch": "C. Deterministic handlers",
+      "scenario_set": "custom-40",
+      "n": 40,
+      "model": "none (no LLM)",
+      "source": "samyama_results_v5.json",
+      "pass_pct": 100.0,
+      "note": ""
+    },
+    {
+      "arch": "D. GAK (materialize then answer)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "claude-sonnet-4-5",
+      "source": "gak_full.json",
+      "pass_pct": 81.8,
+      "note": ""
+    },
+    {
+      "arch": "D. GAK (materialize then answer)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4.1",
+      "source": "repro_gak_gpt41_2026-06-30.json",
+      "pass_pct": 73.9,
+      "note": ""
+    },
+    {
+      "arch": "D. GAK (materialize then answer)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4o",
+      "source": "repro_gak_2026-06-30.json",
+      "pass_pct": 52.3,
+      "note": ""
+    },
+    {
+      "arch": "E. NO GRAPH (control, 2026-07-13)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4o / question-aware",
+      "source": "nc_nograph.json",
+      "pass_pct": 89.8,
+      "note": "C1"
+    },
+    {
+      "arch": "E. NO GRAPH (control, 2026-07-13)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4o / question-blind",
+      "source": "nc_nograph.json",
+      "pass_pct": 68.2,
+      "note": "C2"
+    },
+    {
+      "arch": "E. NO GRAPH (control, 2026-07-13)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4.1 / question-aware",
+      "source": "nc_nograph.json",
+      "pass_pct": 89.8,
+      "note": "C1"
+    },
+    {
+      "arch": "E. NO GRAPH (control, 2026-07-13)",
+      "scenario_set": "88 (fmsr)",
+      "n": 88,
+      "model": "gpt-4.1 / question-blind",
+      "source": "nc_nograph.json",
+      "pass_pct": 69.3,
+      "note": "C2"
+    }
+  ]
+}
