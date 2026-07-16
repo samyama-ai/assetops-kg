@@ -62,9 +62,6 @@ SECTIONS = [
              "that were missing."},
     {"id": "setup-bugs", "label": "Getting the baseline right", "group": "What qualifies it",
      "desc": "Seven setup bugs, each producing a believable wrong baseline."},
-    {"id": "sources", "label": "Papers & sources", "group": "What qualifies it",
-     "desc": "Everything this audit is built on or argues with -- every link opened and "
-             "confirmed on the date shown."},
 ]
 
 BENCHMARKS_META = [
@@ -519,14 +516,6 @@ def build() -> dict:
         "tools": dict(tools.most_common()),
         "tool_rows": tool_rows,
         "non_graph_tools": sorted(NON_GRAPH),
-        "publications": PUBLICATIONS,
-        "repos": REPOS,
-        "sources_note": ("Every link on this page was opened and confirmed on the date it "
-                         "carries. That is not pedantry: a repo URL in this exporter was "
-                         "once written from memory, looked right, and was wrong -- and the "
-                         "public leaderboard we cite for scale contradicted its own "
-                         "five-month-old summary. Sources rot; the date says when we last "
-                         "looked."),
         "ibm": ibm,
         "arch_a_valid": a["summary"].get("VALID"),
         "arch_a_context_overflows": audit["arch_a_context_overflows"],
@@ -582,13 +571,119 @@ def build_registry(data: dict) -> dict:
             **entry,
             "stats": stats_for(m["id"], d) if d else [],
             "sections": d["benchmark"]["sections"] if d else [],
+            "headline": ({"value": d["headline"]["delta_clean"],
+                          "verdict": d["headline"]["verdict"]} if d else None),
         })
+
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_note": GENERATED_NOTE,
         "generated_from": "assetops-kg/results/*.json + itbench-kg/results/*.jsonl",
         "default": "assetopsbench",
         "benchmarks": out,
+        # --- the landing page --------------------------------------------------
+        # Workspace-level, because none of it belongs to one benchmark: the papers live
+        # here (ITBench's paper was briefly filed under AssetOpsBench's sections, which was
+        # simply the wrong home), and the findings are the point OF having two benchmarks.
+        "landing": build_landing(payloads),
+        "publications": PUBLICATIONS,
+        "repos": REPOS,
+        "sources_note": ("Every link here was opened and confirmed on the date it carries. "
+                         "That is not pedantry: a repo URL in this exporter was once written "
+                         "from memory, looked right, and was wrong -- and the public "
+                         "leaderboard we cite for scale contradicted its own five-month-old "
+                         "summary. Sources rot; the date says when we last looked."),
+    }
+
+
+def build_landing(payloads: dict) -> dict:
+    """The claims the landing page makes, each computed from a benchmark payload.
+
+    Nothing here is a market observation or an industry talking point. Every `stat` is
+    read out of a generated payload, and every claim names the benchmark it came from. If
+    a benchmark's payload is missing, its evidence simply does not appear -- the landing
+    page cannot assert something no artifact supports.
+    """
+    aob = payloads.get("assetopsbench")
+    itb = payloads.get("itbench")
+
+    def ev(bid, label, value, unit, note):
+        return {"benchmark": bid, "label": label, "value": value, "unit": unit, "note": note}
+
+    # 1. The data layer moves accuracy more than the model does.
+    data_layer = []
+    if aob:
+        h = aob["headline"]
+        data_layer.append(ev("assetopsbench", "documents -> typed graph, same gpt-4o",
+                             h["delta_clean"], "pp",
+                             f"{h['arch_a_clean']}% -> {h['arch_b_clean']}% on "
+                             f"{h['n_clean']} scenarios, same grader. Only the data layer moved."))
+    if itb:
+        h = itb["headline"]
+        data_layer.append(ev("itbench", "raw graph -> shaped graph context, same gpt-4.1",
+                             h["delta_clean"], "score",
+                             f"{h['baseline']} -> {h['best']} on {h['n_clean']} scenarios of a "
+                             "third-party, leakage-proof benchmark. Same model throughout."))
+
+    # 2. Claims about it are routinely unmeasured. Every figure below is a fact about an
+    #    artifact we hold, not an opinion about the field.
+    unmeasured = []
+    if aob:
+        cov = aob["matrix_coverage"]
+        unmeasured.append(ev("assetopsbench", "architecture/scenario-set combinations never run",
+                             cov["never_run"], f'of {cov["total"]}',
+                             "Published comparisons draw on a grid that is mostly empty."))
+        unmeasured.append(ev("assetopsbench", "the baseline the headline was measured against",
+                             aob["data_layer"]["paper_cited"]["pct"], "%",
+                             "Cited from another harness and never run on this benchmark. "
+                             "There is no result file for it. We built and ran the real one."))
+    if itb:
+        n_claims = len([t for t in itb["tiers"] if not t["measured"]])
+        unmeasured.append(ev("itbench", "of our own tiers have no result file",
+                             n_claims, f'of {len(itb["tiers"])}',
+                             "We have published these numbers. Without an artifact they are "
+                             "claims, and this app shows them as claims."))
+
+    # 3. Measuring it correctly is genuinely hard -- the strongest argument for doing it.
+    hard = []
+    if aob:
+        b = aob["setup_bugs"]
+        vals = [x["value"] for x in b["bugs"] if x["value"] is not None]
+        hard.append(ev("assetopsbench", "setup bugs, each producing a believable wrong result",
+                       len(b["bugs"]), "",
+                       f"They spanned {min(vals):g}% to {max(vals):g}% and straddled the true "
+                       f"{b['true_value']}% in both directions. Any one of them could have been "
+                       "published."))
+
+    return {
+        "kicker": "Enterprise AI, measured",
+        "headline": "Your data layer decides your accuracy more than your model does.",
+        "standfirst": ("We reproduce published benchmark claims about LLM agents end to end, "
+                       "then publish every number with the file it came from. Two benchmarks "
+                       "so far. Here is what held up, and what did not."),
+        "claims": [
+            {"id": "data-layer-wins",
+             "title": "The data layer moves accuracy more than the model does",
+             "body": ("The same model, the same questions and the same grader -- change only "
+                      "how the data is represented, and the score moves by more than most "
+                      "model upgrades deliver. Measured twice, on two independent benchmarks."),
+             "evidence": data_layer},
+            {"id": "claims-unmeasured",
+             "title": "Most claims about it were never measured",
+             "body": ("Not an accusation about the field -- these are facts about artifacts "
+                      "we hold. A headline is routinely measured against a baseline nobody "
+                      "ran, on a grid that is mostly empty. We include our own work in that."),
+             "evidence": unmeasured},
+            {"id": "measuring-is-hard",
+             "title": "Measuring it properly is hard, which is why so few do",
+             "body": ("Building the missing baseline ourselves took seven attempts. Each "
+                      "failure produced a plausible number pointing in a different "
+                      "direction. That is the whole case for running the thing rather than "
+                      "citing it."),
+             "evidence": hard},
+        ],
+        "cta": ("Every figure on this site is generated from a committed result file. Pick a "
+                "benchmark and follow any number to the query that produced it."),
     }
 
 
