@@ -15,7 +15,7 @@ console = Console()
 
 @click.command()
 @click.option("--data-dir", required=True, help="Path to AssetOpsBench data directory")
-@click.option("--graph", default="industrial", help="Graph name")
+@click.option("--graph", default="assetops", help="Graph/tenant name (matches mcp_server.server.GRAPH)")
 @click.option("--embed-model", default="all-MiniLM-L6-v2", help="Sentence-transformer model")
 def main(data_dir: str, graph: str, embed_model: str):
     """Load AssetOpsBench data into Samyama Industrial Knowledge Graph."""
