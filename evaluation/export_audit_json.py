@@ -121,9 +121,9 @@ PUBLICATIONS = [
         "arxiv": "2605.26874",
         "checked": "2026-07-15",
         "role": "under-audit",
-        "note": "The work this audit reproduces -- our own. The live arXiv version (v3) "
+        "note": "Our own paper -- the work reproduced here. The live arXiv version (v3) "
                 "still carries the uncorrected 65% -> 82-83% framing; the self-correction "
-                "is written and not yet posted. This app is the correction's evidence.",
+                "is written and not yet posted, and these numbers are its evidence.",
     },
     {
         "id": "assetopsbench",
