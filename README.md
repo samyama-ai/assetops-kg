@@ -80,29 +80,40 @@ Same model (GPT-4), same data, +17pp improvement -- proving the gain comes from 
 
 **Data source** -- [IBM AssetOpsBench](https://github.com/IBM/AssetOpsBench) (139 scenarios, 9 asset classes)
 
+## Documentation
+
+New here? Start with the guides:
+
+| Guide | What it covers |
+|-------|----------------|
+| **[GETTING_STARTED.md](GETTING_STARTED.md)** | prerequisites (Python ≥ 3.10) · install · run the engine (Docker) · load the graph · first query |
+| **[docs/QUERYING.md](docs/QUERYING.md)** | ask questions via the **HTTP API** or the **Samyama CLI** |
+
 ## Quick Start
 
-### Load from snapshot (recommended)
+**Full walkthrough → [GETTING_STARTED.md](GETTING_STARTED.md).** Needs **Python ≥ 3.10** and **Docker**.
+
+### Build from source (the working path)
+
+The graph is built from IBM's AssetOpsBench dataset — clone it alongside this repo:
 
 ```bash
-# Download (475 KB)
-curl -LO https://github.com/samyama-ai/samyama-graph/releases/download/kg-snapshots-v5/assetops.sgsnap
+pip install -r requirements.txt
+docker run --rm -p 8080:8080 -p 6379:6379 public.ecr.aws/f9f6l5u4/samyama-graph:1.1.0
 
-# Start Samyama and import
-./target/release/samyama
-curl -X POST http://localhost:8080/api/tenants \
-  -H 'Content-Type: application/json' \
-  -d '{"id":"assetops","name":"AssetOps KG"}'
-curl -X POST http://localhost:8080/api/tenants/assetops/snapshot/import \
-  -F "file=@assetops.sgsnap"
+git clone https://github.com/IBM/AssetOpsBench.git ../AssetOpsBench
+curl -X POST http://localhost:8080/api/tenants -H 'Content-Type: application/json' -d '{"id":"assetops","name":"AssetOps KG"}'
+python -m etl.loader --data-dir ../AssetOpsBench --url http://localhost:8080 --graph assetops
 ```
 
-### Build from source and benchmark
+### Snapshot — currently unavailable
+
+The previously-documented `releases/download/kg-snapshots-v5/assetops.sgsnap` **returns 404** (no snapshot
+is published yet). Use build-from-source above until one is published; see [GETTING_STARTED.md](GETTING_STARTED.md).
+
+### Benchmarks
 
 ```bash
-git clone https://github.com/samyama-ai/assetops-kg.git && cd assetops-kg
-git clone https://github.com/IBM/AssetOpsBench.git ../AssetOpsBench
-pip install -e ".[dev]"
 python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench   # 99%
 python -m benchmark.run_samyama                                      # 100%
 ```

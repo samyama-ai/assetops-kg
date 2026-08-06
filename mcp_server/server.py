@@ -14,7 +14,7 @@ mcp = FastMCP("Industrial KG")
 
 # Global client — initialized on startup
 client: SamyamaClient | None = None
-GRAPH = "industrial"
+GRAPH = "assetops"
 
 
 @mcp.on_startup
