@@ -1,0 +1,65 @@
+{
+  "goal": "G-03",
+  "control": "no-data gpt-4o parametric baseline (run_baseline.py)",
+  "source": "results/baseline_gpt4o_results.json",
+  "n_total": 40,
+  "pass_total": 34,
+  "no_data_ceiling_pct": 85.0,
+  "threshold_pct": 60,
+  "graph_required_classes": [
+    "criticality_analysis",
+    "failure_similarity"
+  ],
+  "by_capability": {
+    "criticality_analysis": {
+      "capability": "PageRank-criticality",
+      "pass": 3,
+      "n": 5,
+      "no_data_control_pct": 60.0,
+      "graph_required": true
+    },
+    "cross_asset_correlation": {
+      "capability": "cross-asset join",
+      "pass": 6,
+      "n": 6,
+      "no_data_control_pct": 100.0,
+      "graph_required": false
+    },
+    "failure_similarity": {
+      "capability": "vector-similarity",
+      "pass": 3,
+      "n": 6,
+      "no_data_control_pct": 50.0,
+      "graph_required": true
+    },
+    "maintenance_optimization": {
+      "capability": "optimization",
+      "pass": 5,
+      "n": 5,
+      "no_data_control_pct": 100.0,
+      "graph_required": false
+    },
+    "multi_hop_dependency": {
+      "capability": "multi-hop traversal",
+      "pass": 7,
+      "n": 8,
+      "no_data_control_pct": 87.5,
+      "graph_required": false
+    },
+    "root_cause_analysis": {
+      "capability": "root-cause reasoning",
+      "pass": 5,
+      "n": 5,
+      "no_data_control_pct": 100.0,
+      "graph_required": false
+    },
+    "temporal_pattern": {
+      "capability": "temporal pattern",
+      "pass": 5,
+      "n": 5,
+      "no_data_control_pct": 100.0,
+      "graph_required": false
+    }
+  },
+  "claim": "a no-data LLM scores 85.0% on the 40 'graph-native' scenarios; the structural graph advantage holds only where the no-data control is <= 60%: criticality_analysis (60.0%), failure_similarity (50.0%). The other 5 classes are answered >= 87.5% with no data."
+}
