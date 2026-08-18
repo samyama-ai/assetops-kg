@@ -845,6 +845,7 @@ async def run_nlq_benchmark(
     category: str | None,
     output_path: str | None,
     concurrency: int,
+    ids_file: str | None = None,
 ) -> list[dict[str, Any]]:
     """Run IBM 139 scenarios via NLQ pipeline."""
     # Load data
@@ -860,6 +861,10 @@ async def run_nlq_benchmark(
 
     # Load scenarios
     scenarios = load_ibm_scenarios(data_dir, category)
+    if ids_file:
+        keep = set(json.loads(Path(ids_file).read_text())["ids"])
+        scenarios = [s for s in scenarios if s["id"] in keep]
+        print(f"  held-out filter: {len(scenarios)} of the frozen split from {ids_file}")
     print(f"\nNLQ benchmark: {len(scenarios)} scenarios, provider={provider}, "
           f"model={model or 'default'}")
 
@@ -939,6 +944,10 @@ def main() -> None:
         "--concurrency", type=int, default=3,
         help="Max concurrent LLM calls (default: 3)",
     )
+    parser.add_argument(
+        "--ids-file", type=str, default=None,
+        help="JSON file with an 'ids' list; run only those scenario ids (G-02 held-out split).",
+    )
     args = parser.parse_args()
 
     provider = args.provider or detect_provider()
@@ -949,6 +958,7 @@ def main() -> None:
         category=args.category,
         output_path=args.output,
         concurrency=args.concurrency,
+        ids_file=args.ids_file,
     ))
 
 

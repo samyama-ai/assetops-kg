@@ -103,6 +103,9 @@ async def main() -> None:
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--max-turns", type=int, default=20)
+    ap.add_argument("--ids-file", default=None,
+                    help="JSON file with an 'ids' list; run only those scenario ids "
+                         "(G-02 held-out split).")
     args = ap.parse_args()
 
     load_env()
@@ -137,6 +140,11 @@ async def main() -> None:
     from agent.openai_agent.runner import OpenAIAgentRunner
 
     scenarios = load_scenarios()
+    if args.ids_file:
+        import json as _json
+        keep = set(_json.loads(pathlib.Path(args.ids_file).read_text())["ids"])
+        scenarios = [s for s in scenarios if s["id"] in keep]
+        print(f"  held-out filter: {len(scenarios)} of the frozen split from {args.ids_file}")
     if args.limit:
         scenarios = scenarios[: args.limit]
 

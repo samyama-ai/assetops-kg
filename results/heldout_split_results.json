@@ -1,0 +1,51 @@
+{
+  "goal": "G-02",
+  "split": "scenarios/heldout_split.json (seed 20260819, stratified, frozen blind)",
+  "n_heldout": 42,
+  "arch_a_documents": {
+    "source": "results/arch_a_gpt4o.json (committed, untuned)",
+    "pass": 28,
+    "n": 42,
+    "pct": 66.7
+  },
+  "arch_b_graph": {
+    "source": "results/heldout_nlq_gpt4o.json (fresh held-out run, full graph)",
+    "pass": 34,
+    "n": 42,
+    "pct": 81.0
+  },
+  "heldout_delta_pp": 14.3,
+  "in_sample_reference": {
+    "all_139": "+23.0 (58.3\u219281.3)",
+    "matched_95": "+17.9 (66.3\u219284.2)"
+  },
+  "by_type": {
+    "fmsr": {
+      "n": 12,
+      "arch_a": 10,
+      "arch_b": 12
+    },
+    "iot": {
+      "n": 6,
+      "arch_a": 4,
+      "arch_b": 6
+    },
+    "multi": {
+      "n": 6,
+      "arch_a": 3,
+      "arch_b": 3
+    },
+    "tsfm": {
+      "n": 7,
+      "arch_a": 6,
+      "arch_b": 6
+    },
+    "wo": {
+      "n": 11,
+      "arch_a": 5,
+      "arch_b": 7
+    }
+  },
+  "verdict": "the data-layer lift survives the blind held-out split at +14.3pp (66.7%\u219281.0%), above the \u226510pp target and below the in-sample +23.0 (honest in-sample optimism). Arch B held-out 81.0% \u2248 its in-sample 81.3% \u2192 no overfit.",
+  "caveat": "held-out in evaluation order, not tuning order: the NLQ prompt saw all 139 during tuning. Arch A was never tuned, so its subset is clean. A fully clean generalization test retunes NLQ on train_ids only (next iteration)."
+}
