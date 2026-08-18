@@ -1,6 +1,6 @@
 # AssetOps Knowledge Graph
 
-**12,647 nodes. 12,662 edges. IBM AssetOpsBench at 99% accuracy -- deterministic graph queries, zero LLM tokens.**
+**12,647 nodes. 12,662 edges.** Under a fixed harness (IBM's agent, its MCP servers, CouchDB, gpt-4o, a single grader), swapping *only* the data layer — flat documents → typed graph — lifts task pass rate **66.3% → 84.2% (+17.9pp)** on the 95 data-path-matched scenarios (**+23.0** across all 139). Reported in-sample; full accounting in [`docs/AUDIT-2026-07-13.md`](docs/AUDIT-2026-07-13.md).
 
 > Part of the **Samyama** ecosystem — loaded into and queried via the graph engine at [samyama-ai/samyama-graph](https://github.com/samyama-ai/samyama-graph).
 > This repo holds the loader and source-data specifics for the KG.
@@ -40,7 +40,7 @@ agg demo/assetops_gak.cast demo/assetops_gak.gif                                
 
 ---
 
-IBM's GPT-4 agents score 65% on their own AssetOpsBench using flat document stores. We loaded the same data into a knowledge graph and asked:
+On flat document stores IBM report ~65% on AssetOpsBench — but that is their model, harness, and grader (a *cited* figure, not a controlled baseline). Our own document baseline, run under one fixed harness, is 66.3%. We loaded the same data into a knowledge graph and asked:
 
 > *"What equipment is affected if Chiller 6 fails?"*
 
@@ -58,19 +58,28 @@ ORDER BY downstream.criticality_score DESC
 
 > The `DEPENDS_ON` topology and `criticality_score` shown above are an analytical layer we add on top of IBM's data (paper §3.2), so this query runs on the *extended* graph; the base graph loaded directly from IBM's sources has **9 node labels and 5 edge types**. Across the 139 IBM scenarios, an instrumented run shows 86 deterministic answers come from a live graph query and 53 from domain-knowledge handlers — see [`docs/information-leakage-analysis.md`](docs/information-leakage-analysis.md).
 
-**137/139 scenarios passing. 63ms average. Zero tokens.** The bottleneck was the data model, not the LLM. Powered by [Samyama Graph](https://github.com/samyama-ai/samyama-graph).
+A separate **deterministic** graph tier answers **137/139** in ~63 ms with zero LLM tokens — but it is tuned in-sample and leans on hardcoded fallbacks (an empty-graph control reproduces most of it), so we report it *with* that control, never as a standalone headline. The defensible, model-held-fixed result is the **+17.9pp** data-layer lift above. Powered by [Samyama Graph](https://github.com/samyama-ai/samyama-graph).
 
 ---
 
 ## Results
 
-| Approach | Pass Rate | Avg Latency | Tokens |
-|----------|-----------|-------------|--------|
-| GPT-4 + flat docs (IBM) | 91/139 (65%) | not reported | not reported |
-| GPT-4 + graph NLQ | 114/139 (82%) | ~5,800 ms | ~4,600/scenario |
-| **Deterministic (graph)** | **137/139 (99%)** | **63 ms** | **0** |
+Under one fixed harness — IBM's agent + MCP servers, CouchDB, **gpt-4o**, a single grader — varying **only** the data layer. All figures are in-sample; a held-out split is [tracked as G-02](https://git.samyama.ai/Samyama.ai/enterprise-benchmarks/issues/2).
 
-Same model (GPT-4), same data, +17pp improvement -- proving the gain comes from the data model.
+| Data layer (same harness / model / grader) | Pass rate — 95 matched | Pass rate — all 139 |
+|---|---|---|
+| Flat documents — Architecture A | 66.3% | 58.3% |
+| Typed graph, LLM→Cypher — Architecture B | **84.2%** | **81.3%** |
+| **Data-layer lift** | **+17.9pp** | **+23.0pp** |
+
+The 95 "matched" scenarios are those with a data path on both sides; the 44 excluded need an alert/anomaly server or absent-asset data neither side can reach (exclusion is symmetric).
+
+**Read the caveats, not just the lift:**
+- IBM's ~65% is a *cited* figure from a different model/harness/grader — **not** a controlled row here, and not directly comparable.
+- The deterministic 137/139 (~99%, ~63 ms, 0 tokens) tier is tuned in-sample and mostly hardcoded fallbacks; an empty-graph control reproduces it. Reported only beside that control.
+- A **no-data** LLM already scores **85%** on the "graph-native" scenarios — only vector-similarity (50%) and PageRank-criticality (60%) genuinely require the graph.
+
+Full accounting and the retraction of the earlier "65% → 82% → 99% / structurally impossible" framing: [`docs/AUDIT-2026-07-13.md`](docs/AUDIT-2026-07-13.md).
 
 ## Schema
 
@@ -114,7 +123,7 @@ is published yet). Use build-from-source above until one is published; see [GETT
 ### Benchmarks
 
 ```bash
-python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench   # 99%
+python -m benchmark.run_ibm_scenarios --data-dir ../AssetOpsBench   # deterministic tier (137/139, in-sample; see audit)
 python -m benchmark.run_samyama                                      # 100%
 ```
 
