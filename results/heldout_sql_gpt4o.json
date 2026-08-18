@@ -1,0 +1,380 @@
+[
+  {
+    "id": 5,
+    "type": "IoT",
+    "passed": true,
+    "score": 1.0,
+    "sql": "SELECT e.asset_type, e.equipment_id, e.name, s.name AS sensor_name, s.sensor_type, f.description AS failuremode_description, f.name AS failuremode_name, f.severity\nFROM equipment e\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode f ON smf.failure_mode = f.name\nWHERE e.name = 'Chiller 6'",
+    "response": "28 row(s):\nasset_type=Chiller, equipment_id=CWC04006, name=Chiller 6, sensor_name=Chiller 6 Chiller % Loaded, sensor_type=Chiller % Loaded, failuremode_description=Compressor Overheating: Failed due to Normal wear, overheating, failuremode_name=Compressor Overheating: Failed due to Normal wear, overheating, severity=critical\nasset_type=Chiller, equipment_id=CWC04006, name=Chiller 6, sensor_name=Ch",
+    "latency_ms": 3509
+  },
+  {
+    "id": 7,
+    "type": "IoT",
+    "passed": true,
+    "score": 1.0,
+    "sql": "SELECT * FROM equipment WHERE name = 'Chiller 3'",
+    "response": "1 row(s):\nasset_type=Chiller, equipment_id=CWC04703, name=Chiller 3",
+    "latency_ms": 743
+  },
+  {
+    "id": 10,
+    "type": "IoT",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT s.equipment_id, s.name, s.sensor_type\nFROM sensor s\nJOIN equipment e ON s.equipment_id = e.equipment_id\nJOIN site si ON si.name = 'MAIN'\nWHERE e.name IN ('Chiller 6', 'Chiller 9')\nAND s.name = 'Tonnage'\nAND s.equipment_id IN (\n    SELECT e.equipment_id\n    FROM event e\n    WHERE e.event_time BETWEEN '2020-06-01' AND '2020-06-07'\n)",
+    "response": "No rows returned.",
+    "latency_ms": 1430
+  },
+  {
+    "id": 11,
+    "type": "IoT",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT s.equipment_id, s.name, s.sensor_type\nFROM sensor s\nJOIN equipment e ON s.equipment_id = e.equipment_id\nJOIN site si ON si.name = 'MAIN'\nWHERE e.name = 'Chiller 6'\nAND s.equipment_id IN (\n    SELECT e.equipment_id\n    FROM event e\n    WHERE e.event_time BETWEEN '2020-04-24' AND '2020-04-30'\n)",
+    "response": "No rows returned.",
+    "latency_ms": 1595
+  },
+  {
+    "id": 42,
+    "type": "IoT",
+    "passed": false,
+    "score": 0.16666666666666666,
+    "sql": "SELECT value \nFROM anomalyevent \nWHERE asset_name = 'cqpa ahu 2b' \nAND kpi = 'supply temperature' \nAND timestamp = '2020-09-19 23:45:00'",
+    "response": "No rows returned.",
+    "latency_ms": 1034
+  },
+  {
+    "id": 44,
+    "type": "IoT",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT DISTINCT sensor.name \nFROM sensor \nJOIN equipment ON sensor.equipment_id = equipment.equipment_id \nWHERE equipment.name = 'CQPA AHU 2B'",
+    "response": "No rows returned.",
+    "latency_ms": 1059
+  },
+  {
+    "id": 108,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT DISTINCT fm.name\nFROM equipment e\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode fm ON smf.failure_mode = fm.name\nWHERE e.name = 'Chiller 6'\nAND (s.sensor_type = 'temperature' OR s.sensor_type = 'power input')",
+    "response": "No rows returned.",
+    "latency_ms": 1164
+  },
+  {
+    "id": 111,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT s.name \nFROM sensor s\nJOIN equipment e ON s.equipment_id = e.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nWHERE e.name = 'Chiller 6' AND smf.failure_mode = 'Compressor Overheating'",
+    "response": "No rows returned.",
+    "latency_ms": 1038
+  },
+  {
+    "id": 113,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT sensor_name \nFROM sensor_monitors_failuremode \nWHERE failure_mode = 'Evaporator Water side fouling' \nAND sensor_id IN (\n    SELECT name \n    FROM sensor \n    WHERE equipment_id = (\n        SELECT equipment_id \n        FROM equipment \n        WHERE name = 'Chiller 6'\n    )\n)",
+    "response": "No rows returned.",
+    "latency_ms": 1031
+  },
+  {
+    "id": 115,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT wo.wo_id, wo.wo_description, wo.actual_finish, wo.work_priority\nFROM workorder wo\nJOIN equipment e ON wo.equipment_id = e.equipment_id\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode fm ON smf.failure_mode = fm.name\nWHERE e.name = 'Purge unit of chiller 6'\nAND fm.description LIKE '%excess purge%'\nAND wo.preventive = 1\nORDER BY wo.actual_finish DESC",
+    "response": "No rows returned.",
+    "latency_ms": 3135
+  },
+  {
+    "id": 116,
+    "type": null,
+    "passed": false,
+    "score": 0.2727272727272727,
+    "sql": "SELECT s.name AS feature_sensor, f.name AS target_sensor\nFROM equipment e\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode f ON smf.failure_mode = f.name\nWHERE e.name = 'Chiller 6' AND f.description LIKE '%overheating%'",
+    "response": "6 row(s):\nfeature_sensor=Chiller 6 Chiller % Loaded, target_sensor=Compressor Overheating: Failed due to Normal wear, overheating\nfeature_sensor=Chiller 6 Chiller Efficiency, target_sensor=Compressor Overheating: Failed due to Normal wear, overheating\nfeature_sensor=Chiller 6 Power Input, target_sensor=Compressor Overheating: Failed due to Normal wear, overheating\nfeature_sensor=Chiller 6 Return T",
+    "latency_ms": 1225
+  },
+  {
+    "id": 117,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT ae.timestamp, ae.value\nFROM anomalyevent ae\nJOIN equipment e ON ae.asset_name = LOWER(e.name)\nJOIN failuremode fm ON e.asset_type = fm.asset_type\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nWHERE e.name = 'Chiller 6'\nAND fm.name = 'Compressor Motor Failure'\nAND s.sensor_type = 'Power Input'\nORDER BY ae.timestamp",
+    "response": "No rows returned.",
+    "latency_ms": 1402
+  },
+  {
+    "id": 120,
+    "type": null,
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT s.name, e.event_time, e.event_type\nFROM equipment eq\nJOIN sensor s ON eq.equipment_id = s.equipment_id\nJOIN event e ON eq.equipment_id = e.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode fm ON smf.failure_mode = fm.name\nWHERE eq.name = 'POKMAIN chiller 6' AND fm.description LIKE '%chiller trip%'\nORDER BY e.event_time",
+    "response": "No rows returned.",
+    "latency_ms": 2293
+  },
+  {
+    "id": 401,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT \n    strftime('%m', actual_finish) AS month, \n    COUNT(*) AS work_order_count\nFROM \n    workorder\nWHERE \n    equipment_name = 'CWC04013' \n    AND strftime('%Y', actual_finish) = '2017'\nGROUP BY \n    month\nORDER BY \n    month",
+    "response": "No rows returned.",
+    "latency_ms": 3896
+  },
+  {
+    "id": 407,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.3,
+    "sql": "SELECT DATE(ae.start_time) AS event_date, COUNT(ae.alert_key) AS alert_count, COUNT(an.anomaly_key) AS anomaly_count\nFROM alertevent ae\nLEFT JOIN anomalyevent an ON ae.equipment_id = (SELECT equipment_id FROM equipment WHERE name = 'CWC04009') AND DATE(an.timestamp) = DATE(ae.start_time)\nWHERE ae.equipment_id = (SELECT equipment_id FROM equipment WHERE name = 'CWC04009') AND strftime('%Y', ae.start_time) = '2021'\nGROUP BY event_date",
+    "response": "No rows returned.",
+    "latency_ms": 1508
+  },
+  {
+    "id": 408,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.3,
+    "sql": "SELECT date(ae.start_time) AS event_date, \n       COUNT(ae.alert_key) AS alert_count, \n       COUNT(an.anomaly_key) AS anomaly_count\nFROM alertevent ae\nLEFT JOIN anomalyevent an ON ae.equipment_id = (SELECT equipment_id FROM equipment WHERE name = 'CWC04009')\nWHERE ae.equipment_id = (SELECT equipment_id FROM equipment WHERE name = 'CWC04009')\n  AND strftime('%Y-%m', ae.start_time) = '2020-05'\n  AND strftime('%Y-%m', an.timestamp) = '2020-05'\nGROUP BY event_date",
+    "response": "No rows returned.",
+    "latency_ms": 1544
+  },
+  {
+    "id": 412,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT COUNT(*) * 1.0 / (SELECT COUNT(*) FROM workorder) AS probability\nFROM workorder\nWHERE equipment_id = (SELECT equipment_id FROM equipment WHERE name = 'CWC04013')",
+    "response": "1 row(s):\nprobability=0.0",
+    "latency_ms": 1037
+  },
+  {
+    "id": 413,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.1607142857142857,
+    "sql": "SELECT COUNT(*) * 1.0 / (SELECT COUNT(*) FROM workorder WHERE equipment_id = 'CWC04009') \nFROM workorder \nWHERE equipment_id = 'CWC04009' AND actual_finish > '2018-01-02'",
+    "response": "1 row(s):\nCOUNT(*) * 1.0 / (SELECT COUNT(*) FROM workorder WHERE equipment_id = 'CWC04009')=0.6537313432835821",
+    "latency_ms": 2040
+  },
+  {
+    "id": 415,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT \n    wo.wo_id,\n    wo.wo_description,\n    COUNT(wo.wo_id) * 100.0 / (SELECT COUNT(*) FROM workorder) AS percentage\nFROM \n    anomalyevent ae\nJOIN \n    equipment e ON ae.asset_name = e.name\nJOIN \n    workorder wo ON e.equipment_id = wo.equipment_id\nWHERE \n    ae.asset_name = 'CWC04009'\nGROUP BY \n    wo.wo_id, wo.wo_description",
+    "response": "No rows returned.",
+    "latency_ms": 1551
+  },
+  {
+    "id": 419,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT wo.*\nFROM workorder wo\nJOIN alertevent ae ON wo.equipment_id = ae.equipment_id\nJOIN anomalyevent an ON wo.equipment_name = an.asset_name\nWHERE ae.rule_id = 'RUL0014'\nAND ae.equipment_name = 'Chiller - Cooling Substance Delta T Low'\nAND an.kpi = 'load'\nAND an.value > an.upper_bound",
+    "response": "No rows returned.",
+    "latency_ms": 1754
+  },
+  {
+    "id": 420,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT alert_key AS event_key, end_time, equipment_id, equipment_name, rule_id, start_time, 'alert' AS event_type\nFROM alertevent \nWHERE equipment_id = 'CWC04009' \nAND start_time >= '2020-06-01' \nAND end_time < '2020-07-01'\nUNION\nSELECT anomaly_key AS event_key, timestamp AS end_time, NULL AS equipment_id, asset_name AS equipment_name, NULL AS rule_id, timestamp AS start_time, 'anomaly' AS event_type\nFROM anomalyevent \nWHERE asset_name = 'chiller 9' \nAND timestamp >= '2020-06-01' \nAND timestamp < '2020-07-01'",
+    "response": "No rows returned.",
+    "latency_ms": 2828
+  },
+  {
+    "id": 424,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT \n    MIN(wo.wo_id) AS bundle_id,\n    GROUP_CONCAT(wo.wo_id) AS work_order_ids,\n    MIN(wo.actual_finish) AS bundle_start_date,\n    MAX(wo.actual_finish) AS bundle_end_date,\n    COUNT(wo.wo_id) AS number_of_work_orders,\n    SUM(wo.actual_labor_hours) AS total_labor_hours,\n    GROUP_CONCAT(wo.wo_description) AS work_order_descriptions\nFROM \n    workorder wo\nWHERE \n    wo.equipment_id = 'CWC04009'\n    AND wo.preventive = 0\n    AND strftime('%Y', wo.actual_finish) IN ('2017', '2018', '2019')\nGROUP BY \n    strftime('%Y-%W', wo.actual_finish)\nHAVING \n    COUNT(wo.wo_id) >= 2",
+    "response": "No rows returned.",
+    "latency_ms": 1740
+  },
+  {
+    "id": 427,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * FROM alertevent WHERE equipment_name LIKE '%chiller%' ORDER BY start_time LIMIT (SELECT COUNT(*) * 0.2 FROM alertevent WHERE equipment_name LIKE '%chiller%')",
+    "response": "SQL error after retry: SELECT * FROM alertevent WHERE equipment_name LIKE '%chiller%' ORDER BY start_time LIMIT (SELECT COUNT(*) * 0.2 FROM alertevent WHERE equipment_name LIKE '%chiller%')",
+    "latency_ms": 1803
+  },
+  {
+    "id": 428,
+    "type": "Workorder",
+    "passed": false,
+    "score": 0.06818181818181818,
+    "sql": "SELECT rule_id, COUNT(*) AS alert_count\nFROM alertevent\nGROUP BY rule_id\nORDER BY alert_count DESC",
+    "response": "5 row(s):\nrule_id=RUL0018, alert_count=617\nrule_id=RUL0022, alert_count=362\nrule_id=RUL0017, alert_count=255\nrule_id=RUL0021, alert_count=127\nrule_id=RUL0012, alert_count=105",
+    "latency_ms": 867
+  },
+  {
+    "id": 203,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT COUNT(*) FROM event WHERE event_type = 'time series forecasting model supported'",
+    "response": "1 row(s):\nCOUNT(*)=0",
+    "latency_ms": 4625
+  },
+  {
+    "id": 205,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT COUNT(*) FROM equipment WHERE name = 'TSFM' AND asset_type = 'LSTM'",
+    "response": "1 row(s):\nCOUNT(*)=0",
+    "latency_ms": 896
+  },
+  {
+    "id": 209,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT COUNT(*) > 0 FROM equipment WHERE name = 'TSFM' AND asset_type = 'model' AND equipment_id IN (SELECT equipment_id FROM sensor WHERE sensor_type = 'context length 96')",
+    "response": "1 row(s):\nCOUNT(*) > 0=0",
+    "latency_ms": 1025
+  },
+  {
+    "id": 213,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT DISTINCT asset_type FROM equipment WHERE equipment_id IN (SELECT equipment_id FROM sensor WHERE name = 'context length' AND sensor_type = '96')",
+    "response": "No rows returned.",
+    "latency_ms": 982
+  },
+  {
+    "id": 216,
+    "type": "TSFM",
+    "passed": true,
+    "score": 0.75,
+    "sql": "SELECT sensor.name, sensor.sensor_type, equipment.name\nFROM sensor\nJOIN equipment ON sensor.equipment_id = equipment.equipment_id\nWHERE equipment.name = 'Chiller 9' AND sensor.name IN (\n    'Chiller 9 Liquid Refrigerant Evaporator Temperature',\n    'Chiller 9 Return Temperature',\n    'Chiller 9 Tonnage',\n    'Chiller 9 Setpoint Temperature',\n    'Chiller 9 Supply Temperature',\n    'Chiller 9 Chiller % Loaded',\n    'Chiller 9 Condenser Water Supply To Chiller Temperature',\n    'Chiller 9 Power Input',\n    'Chiller 9 Chiller Efficiency',\n    'Chiller 9 Condenser Water Flow'\n)",
+    "response": "8 row(s):\nname=Chiller 9 Chiller % Loaded, sensor_type=Chiller % Loaded, name=Chiller 9\nname=Chiller 9 Chiller Efficiency, sensor_type=Chiller Efficiency, name=Chiller 9\nname=Chiller 9 Condenser Water Flow, sensor_type=Condenser Water Flow, name=Chiller 9\nname=Chiller 9 Liquid Refrigerant Evaporator Temperature, sensor_type=Liquid Refrigerant Evaporator Temperature, name=Chiller 9\nname=Chiller 9 P",
+    "latency_ms": 1898
+  },
+  {
+    "id": 220,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * FROM sensor WHERE name = 'Chiller 9 Condenser Water Flow'",
+    "response": "1 row(s):\nequipment_id=CWC04009, name=Chiller 9 Condenser Water Flow, sensor_type=Condenser Water Flow",
+    "latency_ms": 1025
+  },
+  {
+    "id": 222,
+    "type": "TSFM",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * FROM anomalyevent WHERE asset_name = 'chiller 9 condenser water flow'",
+    "response": "No rows returned.",
+    "latency_ms": 806
+  },
+  {
+    "id": 502,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT AVG(value) AS forecast_value\nFROM anomalyevent\nWHERE asset_name = 'chiller 9 condenser water flow'\nAND timestamp BETWEEN '2020-04-20' AND '2020-04-26'",
+    "response": "1 row(s):\nforecast_value=None",
+    "latency_ms": 1024
+  },
+  {
+    "id": 504,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * FROM workorder WHERE equipment_name = 'Chiller 6' AND actual_finish >= '2020-04-27' AND actual_finish < '2020-05-04'",
+    "response": "No rows returned.",
+    "latency_ms": 1128
+  },
+  {
+    "id": 505,
+    "type": "",
+    "passed": false,
+    "score": 0.08571428571428572,
+    "sql": "SELECT AVG(value) AS forecast_tonnage\nFROM anomalyevent\nWHERE asset_name = 'chiller 6'\nAND kpi = 'Tonnage'\nAND timestamp BETWEEN '2020-04-27' AND '2020-05-03'",
+    "response": "1 row(s):\nforecast_tonnage=None",
+    "latency_ms": 1023
+  },
+  {
+    "id": 509,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * \nFROM anomalyevent \nWHERE asset_name = 'chiller 6' \nAND kpi = 'Condenser Water Flow' \nAND timestamp BETWEEN '2020-04-27' AND '2020-05-03'",
+    "response": "No rows returned.",
+    "latency_ms": 1023
+  },
+  {
+    "id": 513,
+    "type": "",
+    "passed": false,
+    "score": 0.09782608695652173,
+    "sql": "SELECT AVG(value) AS forecast_setpoint_temperature\nFROM anomalyevent\nWHERE asset_name = 'chiller 6'\nAND kpi = 'Setpoint Temperature'\nAND timestamp BETWEEN '2020-04-27' AND '2020-05-03'",
+    "response": "1 row(s):\nforecast_setpoint_temperature=None",
+    "latency_ms": 1149
+  },
+  {
+    "id": 517,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT * \nFROM anomalyevent \nWHERE asset_name = 'chiller 9' \nAND kpi = 'Tonnage' \nAND timestamp BETWEEN '2020-04-27' AND '2020-05-03'",
+    "response": "No rows returned.",
+    "latency_ms": 884
+  },
+  {
+    "id": 602,
+    "type": "",
+    "passed": true,
+    "score": 1.0,
+    "sql": "SELECT DISTINCT f.name\nFROM equipment e\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode f ON smf.failure_mode = f.name\nWHERE e.name = 'Chiller 6'",
+    "response": "7 row(s):\nname=Compressor Overheating: Failed due to Normal wear, overheating\nname=Condenser Improper water side flow rate\nname=Condenser Water side fouling\nname=Evaporator Water side fouling\nname=Heat Exchangers: Fans: Degraded motor or worn bearing due to Normal use\nname=Purge Unit Excessive purge\nname=Refrigerant Operated Control Valve Failed spring",
+    "latency_ms": 1302
+  },
+  {
+    "id": 614,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT wo_description \nFROM workorder \nWHERE equipment_name = 'chiller 6' \nAND preventive = 1 \nAND primary_code_description LIKE '%purge%' \nAND secondary_code_description LIKE '%excess%' \nAND actual_finish IS NULL",
+    "response": "No rows returned.",
+    "latency_ms": 1110
+  },
+  {
+    "id": 616,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT DISTINCT f.name\nFROM equipment e\nJOIN sensor s ON e.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode f ON smf.failure_mode = f.name\nWHERE e.name = 'Chiller 6'\nAND (s.sensor_type = 'temperature' OR s.sensor_type = 'power input')",
+    "response": "No rows returned.",
+    "latency_ms": 1289
+  },
+  {
+    "id": 619,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT fm.name, COUNT(*) AS occurrence\nFROM sensor s\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode fm ON smf.failure_mode = fm.name\nJOIN equipment e ON s.equipment_id = e.equipment_id\nWHERE s.name = 'Liquid Refrigerant Evaporator Temperature' \nAND e.name = 'Chiller 6'\nGROUP BY fm.name\nORDER BY occurrence DESC\nLIMIT 1",
+    "response": "No rows returned.",
+    "latency_ms": 1638
+  },
+  {
+    "id": 620,
+    "type": "",
+    "passed": false,
+    "score": 0.0,
+    "sql": "SELECT s.name, e.event_time, e.event_type\nFROM equipment eq\nJOIN sensor s ON eq.equipment_id = s.equipment_id\nJOIN sensor_monitors_failuremode smf ON s.name = smf.sensor_name\nJOIN failuremode fm ON smf.failure_mode = fm.name\nJOIN event e ON eq.equipment_id = e.equipment_id\nWHERE eq.name = 'MAIN chiller 6' AND fm.description LIKE '%chiller trip%' AND e.event_category = 'anomaly'\nORDER BY s.name, e.event_time",
+    "response": "No rows returned.",
+    "latency_ms": 1746
+  }
+]
