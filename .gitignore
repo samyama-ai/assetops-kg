@@ -19,3 +19,7 @@ results/arxiv-runs/
 # local SGE runtime data + GAK logs
 .sge_data/
 results/*.log
+
+# G-07 build artifact (rebuilt from the graph by build_sqlite_mirror.py)
+*.sqlite
+*.schema.txt

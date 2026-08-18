@@ -1,0 +1,45 @@
+{
+  "goal": "G-07",
+  "n_heldout": 42,
+  "raw_pass_pct": {
+    "documents_archA": 66.7,
+    "graph_archB": 81.0,
+    "sql_archSQL": 9.5
+  },
+  "confounded": true,
+  "by_task_class": {
+    "retrieval": {
+      "n": 27,
+      "documents": 70.4,
+      "graph": 81.5,
+      "sql": 11.1
+    },
+    "generative": {
+      "n": 15,
+      "documents": 60.0,
+      "graph": 80.0,
+      "sql": 6.7,
+      "note": "predict/forecast/recipe \u2014 the graph tier passes via scenario handlers, not graph queries (same fallback pattern as G-04); raw SQL has no equivalent"
+    }
+  },
+  "sql_failure_decomposition": {
+    "total_fail": 38,
+    "no_rows_or_error": 27,
+    "rows_returned_but_not_credited": 11,
+    "rows_uncredited_ids": [
+      116,
+      203,
+      205,
+      209,
+      220,
+      412,
+      413,
+      428,
+      502,
+      505,
+      513
+    ],
+    "example_format_artifact": "id 116: SQL returned the correct sensors+failure-modes as rows; the keyword grader (tuned to the graph tier's prose) did not credit it"
+  },
+  "verdict": "The naive text-to-SQL ablation is CONFOUNDED and does not cleanly show the graph beats a relational backend. The raw gap is driven by (a) a keyword grader that credits the graph tier's tuned answer FORMAT over SQL's correct-but-tabular output, (b) generative scenarios the graph passes via scenario-specific handlers, not queries, and (c) an untuned SQL prompt. This reinforces the paper's honesty thesis: apparent data-model advantages on this benchmark are substantially harness artifacts. The clean follow-up is a format-controlled, retrieval-only comparison with a tuned SQL prompt."
+}
