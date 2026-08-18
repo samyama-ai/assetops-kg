@@ -1,0 +1,1211 @@
+[
+  {
+    "id": 5,
+    "type": "iot",
+    "category": "Data Query",
+    "question": "Retrieve metadata for Chiller 6 located at the MAIN site.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 5473.37244800292,
+    "response": "Chiller 6, identified by the code CWC04006, is located at the MAIN site. It is categorized as a Chiller.",
+    "rationale": "Keyword overlap: 3/9; 1/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(l:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 6'})\nRETURN e.equipment_id, e.name, e.asset_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 1,
+          "execution_ms": 0.1414520083926618
+        }
+      ],
+      "tokens_gen": 2296,
+      "tokens_total": 2428,
+      "retries": 0
+    }
+  },
+  {
+    "id": 7,
+    "type": "iot",
+    "category": "Data Query",
+    "question": "Download the metadata for Chiller 3 at the MAIN facility.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 3863.828691013623,
+    "response": "The metadata for Chiller 3 at the MAIN facility includes the following details: The equipment identifier is CWC04703, and it is classified as a Chiller.",
+    "rationale": "Keyword overlap: 3/9; 1/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 3'})\nRETURN e.equipment_id, e.name, e.asset_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 1,
+          "execution_ms": 0.13754802057519555
+        }
+      ],
+      "tokens_gen": 2294,
+      "tokens_total": 2431,
+      "retries": 0
+    }
+  },
+  {
+    "id": 10,
+    "type": "iot",
+    "category": "Data Query",
+    "question": "Get sensor data for both Chiller 6 and Chiller 9's Tonnage from first week of June 2020 at MAIN in a single file.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 14668.735179002397,
+    "response": "During the first week of June 2020, sensor data for Chiller 6 and Chiller 9 at the MAIN location was collected, focusing on their Tonnage metrics. Here is a summary of the findings:\n\n**Chiller 6:**\n- On June 3, 2020, at 19:00, there was a \"Sensor Failure\" reported.\n- On June 6, 2020, at 11:42, and continuing on June 7 and June 8, there were repeated incidents of \"Excessive Power use in chiller that is off.\"\n\n**Chiller 9:**\n- From June 1 to June 6, 2020, there were consistent reports of \"Evaporator Approach High\" each day.\n- On June 8, 2020, multiple issues were recorded:\n  - At 00:29, the \"Cooling Load\" was lower than the lower bound (24582916).\n  - At 08:15, \"Evaporator Approach High\" was noted again.\n  - At 09:59, both \"Cooling Load\" exceeded the upper bound (24765052) and \"Flow Efficiency\" was below the lower bound (0.257404089).\n  - At 13:45, \"Evaporator Approach High\" was reported once more.\n  - At 14:59, \"Cooling Load\" was higher than the upper bound (28811854).\n  - At 15:29, several issues were noted: \"Cooling Load\" was lower than the lower bound (27259806), \"Delta Setpoint\" was higher than the upper bound (0.3634105548262596), \"Delta Temperature\" was lower than the lower bound (8.816737174987793), and \"Flow Efficiency\" was higher than the upper bound (0.272397518).\n  - At 15:44, \"Cooling Load\" was higher than the upper bound (22321002), \"Delta Setpoint\" was lower than the lower bound (0.17329126596450806), and \"Delta Temperature\" was higher than the upper bound (8.801408767700195).\n  - At 15:59, \"Cooling Load\" was higher than the upper bound (27024804).\n  - At 19:29, \"Cooling Load\" was lower than the lower bound (25845228).\n- On June 9, 2020, additional issues were recorded:\n  - At 00:00, \"Evaporator Approach High\" was noted.\n  - At 00:29, \"Cooling Load\" was lower than the lower bound (22182772).\n  - At 02:29, \"Cooling Load\" was lower than the lower bound (19945410), and \"Flow Efficiency\" was higher than the upper bound (0.3152320086956024).\n  - At 14:15, \"Evaporator Approach High\" was reported again.\n\nOverall, Chiller 6 experienced sensor failures and power usage issues, while Chiller 9 faced frequent evaporator approach problems and various KPI deviations, particularly concerning cooling load and flow efficiency.",
+    "rationale": "Keyword overlap: 6/17; 2/2 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment)-[:HAS_SENSOR]->(s:Sensor)\nWHERE (e.name = 'Chiller 6' OR e.name = 'Chiller 9') AND s.name CONTAINS 'Tonnage'\nWITH e, s\nMATCH (ev:Event)-[:FOR_EQUIPMENT]->(e)\nWHERE ev.event_time STARTS WITH '2020-06-0' AND ev.event_category = 'sensor'\nRETURN e.name AS equipment_name, s.name AS sensor_name, ev.event_time, ev.description",
+        "MATCH (e:Equipment)-[:HAS_SENSOR]->(s:Sensor)\nWHERE (e.name = 'Chiller 6' OR e.name = 'Chiller 9') AND s.name CONTAINS 'Tonnage'\nWITH e, s\nMATCH (ev:Event)-[:FOR_EQUIPMENT]->(e)\nWHERE ev.event_time STARTS WITH '2020-06-0'\nRETURN e.name AS equipment_name, s.name AS sensor_name, ev.event_time, ev.description"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 30,
+          "execution_ms": 2.4311739834956825
+        }
+      ],
+      "tokens_gen": 2369,
+      "tokens_total": 7086,
+      "retries": 1
+    }
+  },
+  {
+    "id": 11,
+    "type": "iot",
+    "category": "Data Query",
+    "question": "Download all sensor data for Chiller 6 from the last week of April '20 at the MAIN site.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 5801.0005640098825,
+    "response": "For Chiller 6 at the MAIN site, the sensor data from the last week of April 2020 includes the following parameters:\n\n1. **Chiller % Loaded**: This measures the percentage of the chiller's capacity that is being utilized.\n2. **Chiller Efficiency**: This indicates how efficiently the chiller is operating.\n3. **Condenser Water Flow**: This tracks the flow rate of water through the condenser.\n4. **Condenser Water Return To Tower Temperature**: This records the temperature of the water returning to the cooling tower from the condenser.\n5. **Liquid Refrigerant Evaporator Temperature**: This measures the temperature of the refrigerant in the evaporator.\n6. **Power Input**: This indicates the amount of power being consumed by the chiller.\n7. **Return Temperature**: This records the temperature of the water returning to the chiller.\n8. **Schedule**: This provides information on the operational schedule of the chiller.\n9. **Supply Temperature**: This measures the temperature of the water being supplied by the chiller.\n10. **Tonnage**: This indicates the cooling capacity of the chiller in tons.\n\nThese data points provide a comprehensive overview of the operational status and performance of Chiller 6 during the specified time period.",
+    "rationale": "Keyword overlap: 6/12; 1/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nWHERE s.sensor_type IS NOT NULL\nRETURN e.name AS equipment_name, s.name AS sensor_name, s.sensor_type",
+        "MATCH (l:Location)<-[:CONTAINS_LOCATION]-(s:Site {name: 'MAIN'}),\n      (l)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nRETURN e.name AS equipment_name, s.name AS sensor_name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 10,
+          "execution_ms": 3.405241994187236
+        }
+      ],
+      "tokens_gen": 2345,
+      "tokens_total": 5481,
+      "retries": 1
+    }
+  },
+  {
+    "id": 42,
+    "type": "iot",
+    "category": "Knowledge Query",
+    "question": "what was the supply temperature from CQPA AHU 2B on sept 19, 2020 at quarter to midnight, at site MAIN? return in a file",
+    "passed": true,
+    "score": 0.6666666666666666,
+    "latency_ms": 6015.4211489716545,
+    "response": "On September 19, 2020, at quarter to midnight, there is no recorded data available for the supply temperature from CQPA AHU 2B at the MAIN site.",
+    "rationale": "Keyword overlap: 4/9",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(l:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'CQPA AHU 2B'})-[:HAS_SENSOR]->(sensor:Sensor)\nWHERE sensor.name CONTAINS 'Supply Temperature'\nRETURN e.name, sensor.name, sensor.sensor_type",
+        "MATCH (e:Equipment)-[:HAS_SENSOR]->(sensor:Sensor)\nWHERE e.name = 'CQPA AHU 2B' AND sensor.name CONTAINS 'Supply Temperature'\nRETURN e.name, sensor.name, sensor.sensor_type",
+        "MATCH (e:Equipment)-[:HAS_SENSOR]->(sensor:Sensor)\nWHERE e.name CONTAINS 'AHU 2B' AND sensor.name CONTAINS 'Supply Temperature'\nRETURN e.name, sensor.name, sensor.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 0.11880695819854736
+        }
+      ],
+      "tokens_gen": 2361,
+      "tokens_total": 7905,
+      "retries": 2
+    }
+  },
+  {
+    "id": 44,
+    "type": "iot",
+    "category": "Knowledge Query",
+    "question": "Can I list all the metrics monitored by CQPA AHU 2B? use site MAIN",
+    "passed": true,
+    "score": 0.6000000000000001,
+    "latency_ms": 7186.150111025199,
+    "response": "It appears that there are no metrics currently monitored by CQPA AHU 2B at the MAIN site, as the query returned no results. This could mean that either the equipment is not being monitored at this time, or there may be an issue with the data retrieval process. If you need further assistance, you might want to verify the equipment's setup or consult with the maintenance team to ensure that monitoring is properly configured.",
+    "rationale": "Keyword overlap: 4/10",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'CQPA AHU 2B'})-[:HAS_SENSOR]->(sensor:Sensor)\nRETURN sensor.name, sensor.sensor_type",
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment)\nWHERE e.name CONTAINS 'AHU 2B'\nMATCH (e)-[:HAS_SENSOR]->(sensor:Sensor)\nRETURN sensor.name, sensor.sensor_type",
+        "MATCH (s:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment)\nWHERE e.name CONTAINS 'AHU 2B'\nMATCH (e)-[:HAS_SENSOR]->(sensor:Sensor)\nRETURN sensor.name, sensor.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 3.578206989914179
+        }
+      ],
+      "tokens_gen": 2308,
+      "tokens_total": 7756,
+      "retries": 2
+    }
+  },
+  {
+    "id": 108,
+    "type": "fmsr",
+    "category": "",
+    "question": "List all failure modes of Chiller 6 that can be detected by temperature sensors and power input sensors.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 6355.149787035771,
+    "response": "Chiller 6 has several failure modes that can be detected by temperature sensors and power input sensors. These failure modes include:\n\n1. **Condenser Water Side Fouling**: This can be detected by monitoring the \"Chiller 6 Condenser Water Return To Tower Temperature.\"\n\n2. **Condenser Improper Water Side Flow Rate**: This issue can also be identified through the \"Chiller 6 Condenser Water Return To Tower Temperature.\"\n\n3. **Evaporator Water Side Fouling**: This failure mode can be detected by several temperature sensors, including the \"Chiller 6 Liquid Refrigerant Evaporator Temperature,\" \"Chiller 6 Return Temperature,\" and \"Chiller 6 Supply Temperature.\"\n\n4. **Refrigerant Operated Control Valve Failed Spring**: This can be detected by the \"Chiller 6 Liquid Refrigerant Evaporator Temperature.\"\n\n5. **Compressor Overheating**: This failure mode, which can occur due to normal wear and overheating, can be detected by the \"Chiller 6 Power Input,\" \"Chiller 6 Return Temperature,\" and \"Chiller 6 Supply Temperature.\"\n\n6. **Heat Exchangers: Fans: Degraded Motor or Worn Bearing**: This issue, resulting from normal use, can be detected by the \"Chiller 6 Power Input.\"\n\nIn summary, Chiller 6's failure modes can be effectively monitored using a combination of temperature sensors and power input sensors, ensuring comprehensive detection of potential issues.",
+    "rationale": "Keyword overlap: 28/31; 6/7 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.sensor_type IN ['temperature', 'power']\nRETURN DISTINCT fm.name, fm.description, s.name, s.sensor_type",
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.name CONTAINS 'Temperature' OR s.name CONTAINS 'Power'\nRETURN DISTINCT fm.name, fm.description, s.name"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 10,
+          "execution_ms": 0.25580800138413906
+        }
+      ],
+      "tokens_gen": 2448,
+      "tokens_total": 5820,
+      "retries": 1
+    }
+  },
+  {
+    "id": 111,
+    "type": "fmsr",
+    "category": "",
+    "question": "List all sensors of Chiller 6 that are potentially relevant to Compressor Overheating.",
+    "passed": true,
+    "score": 0.6428571428571428,
+    "latency_ms": 3509.0063770185225,
+    "response": "Chiller 6 has several sensors that are potentially relevant to monitoring Compressor Overheating. These sensors include:\n\n1. **Condenser Water Flow**: This sensor monitors the flow of water through the condenser, which is crucial for heat exchange and can impact compressor temperature.\n\n2. **Condenser Water Return To Tower Temperature**: This sensor measures the temperature of the water returning to the cooling tower, providing insights into the efficiency of heat removal from the system.\n\n3. **Liquid Refrigerant Evaporator Temperature**: This sensor tracks the temperature of the refrigerant in the evaporator, which is important for understanding the cooling process and potential overheating issues.\n\n4. **Return Temperature**: This sensor measures the temperature of the return water, which can indicate how much heat is being absorbed and potentially affect compressor performance.\n\n5. **Supply Temperature**: This sensor monitors the temperature of the water being supplied, which is critical for ensuring the system is operating within safe temperature ranges.\n\nThese sensors collectively provide valuable data that can help in diagnosing and preventing compressor overheating in Chiller 6.",
+    "rationale": "Keyword overlap: 9/31; 3/7 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nWHERE s.name CONTAINS 'Temperature' OR s.name CONTAINS 'Flow' OR s.name CONTAINS 'Pressure'\nRETURN s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 5,
+          "execution_ms": 0.1713769743219018
+        }
+      ],
+      "tokens_gen": 2443,
+      "tokens_total": 2834,
+      "retries": 0
+    }
+  },
+  {
+    "id": 113,
+    "type": "fmsr",
+    "category": "",
+    "question": " If Evaporator Water side fouling occurs for Chiller 6, which sensor is most relevant for monitoring this specific failure?",
+    "passed": true,
+    "score": 0.9705882352941178,
+    "latency_ms": 3833.05824798299,
+    "response": "If Evaporator Water side fouling occurs for Chiller 6, the most relevant sensor for monitoring this specific failure is the \"Chiller 6 Liquid Refrigerant Evaporator Temperature\" sensor. This sensor is crucial because it directly measures the temperature of the refrigerant in the evaporator, which can be affected by fouling. Monitoring this temperature can help detect changes in heat exchange efficiency, which is a common consequence of fouling. Other sensors listed, such as \"Chiller 6 Chiller % Loaded,\" \"Chiller 6 Chiller Efficiency,\" \"Chiller 6 Return Temperature,\" \"Chiller 6 Supply Temperature,\" and \"Chiller 6 Tonnage,\" provide additional operational data but are less directly related to detecting evaporator fouling.",
+    "rationale": "Keyword overlap: 11/17",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE fm.name CONTAINS 'Evaporator Water side fouling'\nRETURN s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 6,
+          "execution_ms": 0.15464803436771035
+        }
+      ],
+      "tokens_gen": 2467,
+      "tokens_total": 2810,
+      "retries": 0
+    }
+  },
+  {
+    "id": 115,
+    "type": "fmsr",
+    "category": "",
+    "question": "Purge unit of chiller 6 have possibility to excess purge, what is the plan by the maintenance experts to early detect the failure?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 2229.1107720229775,
+    "response": "To early detect the possibility of excess purge in the purge unit of Chiller 6, maintenance experts would likely focus on monitoring specific sensor data and implementing predictive maintenance strategies. This could involve:\n\n1. **Sensor Monitoring**: Utilize sensors that monitor parameters related to the purge unit, such as pressure and flow sensors, to detect anomalies that might indicate excess purging.\n\n2. **Predictive Maintenance**: Implement predictive maintenance algorithms that analyze historical sensor data to predict potential failures. This could involve anomaly detection models that identify deviations from normal operating conditions.\n\n3. **Regular Inspections**: Schedule regular inspections and maintenance checks specifically for the purge unit to ensure it is functioning correctly and to catch any early signs of failure.\n\n4. **Data Analysis**: Analyze historical work orders and alert events related to the purge unit to identify patterns or recurring issues that could indicate a need for proactive maintenance.\n\n5. **Training and Protocols**: Ensure maintenance staff are trained to recognize early signs of purge unit issues and have protocols in place for immediate action when anomalies are detected.",
+    "rationale": "Keyword overlap: 9/12",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2607,
+      "tokens_total": 2607,
+      "retries": 0
+    }
+  },
+  {
+    "id": 116,
+    "type": "fmsr",
+    "category": "",
+    "question": "Generate a machine learning recipe for detecting overheating failure for Chiller 6. Result should include feature sensors and target sensor.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 3122.753849020228,
+    "response": "To detect overheating failure for Chiller 6 using machine learning, you can create a recipe that includes the following components:\n\n1. **Feature Sensors**: Use all available sensors on Chiller 6 that could provide relevant data for detecting overheating. This typically includes:\n   - Supply Temperature\n   - Return Temperature\n   - Power Consumption\n   - Flow Rate\n\n2. **Target Sensor**: Since the goal is to detect overheating, the target sensor would be the one most directly related to temperature changes, such as:\n   - Supply Temperature\n\n3. **Machine Learning Model**: Consider using a time-series forecasting model like a Long Short-Term Memory (LSTM) network or a more traditional regression model if the data is not too complex.\n\n4. **Data Preprocessing**:\n   - Normalize or standardize the sensor data to ensure all features contribute equally to the model training.\n   - Handle missing data by interpolation or using a model-based imputation method.\n\n5. **Training and Validation**:\n   - Split the data into training and validation sets, ensuring that the validation set includes recent data to test the model's predictive capability.\n   - Use cross-validation to tune hyperparameters and avoid overfitting.\n\n6. **Evaluation Metrics**:\n   - Use metrics such as Mean Absolute Error (MAE) or Root Mean Square Error (RMSE) to evaluate the model's performance.\n\n7. **Deployment**:\n   - Once the model is trained and validated, deploy it to monitor real-time sensor data and predict potential overheating events.\n\nThis recipe provides a structured approach to developing a predictive model for detecting overheating in Chiller 6 using its sensor data.",
+    "rationale": "Keyword overlap: 10/11",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2725,
+      "tokens_total": 2725,
+      "retries": 0
+    }
+  },
+  {
+    "id": 117,
+    "type": "fmsr",
+    "category": "",
+    "question": "When compressor motor of Chiller 6 fails, what is the temporal behavior of the power input?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 2014.3888060119934,
+    "response": "To analyze the temporal behavior of the power input when the compressor motor of Chiller 6 fails, you would typically perform a time-series analysis on the power sensor data associated with Chiller 6. This involves:\n\n1. **Data Collection**: Gather historical power sensor data for Chiller 6, especially around known failure events.\n2. **Time-Series Analysis**: Use techniques such as anomaly detection or pattern recognition to identify deviations from normal power consumption patterns.\n3. **Modeling**: Apply models like ARIMA, LSTM, or other machine learning models to predict or detect anomalies in power usage that could indicate a failure.\n4. **Visualization**: Plot the power input data over time to visually inspect for spikes, drops, or other irregular patterns preceding a failure.\n\nFor Chiller 6, you would focus on the power sensor data, which can be queried from the graph database to perform such analyses.",
+    "rationale": "Keyword overlap: 5/6",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2572,
+      "tokens_total": 2572,
+      "retries": 0
+    }
+  },
+  {
+    "id": 120,
+    "type": "fmsr",
+    "category": "",
+    "question": "I want to build an anomaly model for identifying a chiller trip failure for POKMAIN chiller 6. Provide me a list of sensors that I should use, along with the temporal behavior,",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 8045.570991002023,
+    "response": "To build an anomaly model for identifying a chiller trip failure for POKMAIN Chiller 6, you should consider using the following sensors, which provide a comprehensive view of the chiller's operational parameters and temporal behavior:\n\n1. **Chiller % Loaded**: This sensor measures the percentage of load on Chiller 6, indicating how much of its capacity is being utilized at any given time.\n\n2. **Chiller Efficiency**: This sensor tracks the efficiency of Chiller 6, providing insights into how well the chiller is performing relative to its energy consumption.\n\n3. **Condenser Water Flow**: This sensor monitors the flow rate of water through the condenser, which is crucial for heat exchange and overall chiller performance.\n\n4. **Condenser Water Return To Tower Temperature**: This sensor measures the temperature of the water returning to the cooling tower from the condenser, which can affect the chiller's ability to dissipate heat.\n\n5. **Liquid Refrigerant Evaporator Temperature**: This sensor provides the temperature of the refrigerant in the evaporator, which is important for understanding the refrigeration cycle and potential issues with cooling capacity.\n\n6. **Power Input**: This sensor records the amount of power being consumed by Chiller 6, which is essential for assessing energy efficiency and detecting anomalies in power usage.\n\n7. **Return Temperature**: This sensor measures the temperature of the water returning to the chiller, which can indicate the effectiveness of the cooling process.\n\n8. **Schedule**: This sensor provides information on the operational schedule of Chiller 6, which is important for correlating performance data with expected operational times.\n\n9. **Supply Temperature**: This sensor tracks the temperature of the water being supplied by the chiller, which is critical for ensuring that the chiller is meeting its cooling requirements.\n\n10. **Tonnage**: This sensor measures the cooling capacity being delivered by Chiller 6, which is a direct indicator of its performance and ability to meet demand.\n\nBy analyzing the data from these sensors, you can develop a robust anomaly detection model that identifies deviations from normal operational patterns, potentially indicating a chiller trip failure.",
+    "rationale": "Keyword overlap: 11/13",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nRETURN s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 10,
+          "execution_ms": 0.14221499441191554
+        }
+      ],
+      "tokens_gen": 2641,
+      "tokens_total": 3336,
+      "retries": 0
+    }
+  },
+  {
+    "id": 401,
+    "type": "wo",
+    "category": "",
+    "question": "I would like to check the work order distribution for the equipment labeled as CWC04013 for the year 2017.",
+    "passed": false,
+    "score": 0.42857142857142855,
+    "latency_ms": 2592.3658320098184,
+    "response": "In 2017, the equipment labeled as CWC04013 had a total of 36 work orders distributed across different months. Specifically, there were 2 work orders in January and 31 work orders in May.",
+    "rationale": "Keyword overlap: 6/21",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04013'})\nWHERE wo.actual_finish CONTAINS '/17 '\nRETURN wo.work_priority, count(wo) AS work_order_count\nORDER BY wo.work_priority"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 2,
+          "execution_ms": 3.0480760033242404
+        }
+      ],
+      "tokens_gen": 2324,
+      "tokens_total": 2483,
+      "retries": 0
+    }
+  },
+  {
+    "id": 407,
+    "type": "wo",
+    "category": "",
+    "question": "Get the daily count of the events of alert, anomaly for 2021 for equipment CWC04009.",
+    "passed": false,
+    "score": 0.3,
+    "latency_ms": 7107.057156972587,
+    "response": "In 2021, the equipment identified as CWC04009 experienced a variety of alert and anomaly events. Here is a detailed breakdown of these events:\n\n- **Anomalies**: \n  - February 5: 4 anomalies\n  - February 19: 1 anomaly\n  - February 21: 15 anomalies\n  - March 2: 6 anomalies\n  - March 4: 9 anomalies\n  - March 5: 5 anomalies\n  - March 23: 11 anomalies\n  - March 24: 25 anomalies\n  - March 27: 4 anomalies\n  - March 28: 14 anomalies\n  - March 31: 3 anomalies\n  - April 1: 3 anomalies\n  - April 2: 1 anomaly\n  - April 3: 24 anomalies\n  - April 4: 7 anomalies\n  - April 5: 9 anomalies\n  - April 6: 5 anomalies\n  - April 7: 3 anomalies\n  - April 9: 1 anomaly\n  - April 21: 3 anomalies\n  - April 22: 1 anomaly\n  - April 24: 4 anomalies\n  - April 25: 10 anomalies\n  - April 26: 7 anomalies\n  - April 27: 2 anomalies\n  - April 29: 1 anomaly\n\n- **Alerts**:\n  - March 30: 1 alert\n  - April 1: 1 alert\n  - April 2: 2 alerts\n  - April 3: 1 alert\n  - April 21: 1 alert\n  - April 22: 1 alert\n  - April 23: 1 alert\n  - April 24: 1 alert\n  - April 25: 1 alert\n  - April 26: 1 alert\n  - April 27: 1 alert\n  - April 28: 1 alert\n  - April 29: 1 alert\n  - April 30: 2 alerts\n  - May 1: 1 alert\n  - May 2: 1 alert\n  - May 3: 2 alerts\n  - May 4: 1 alert\n  - May 5: 1 alert\n  - May 6: 1 alert\n  - May 7: 1 alert\n  - May 8: 1 alert\n  - May 9: 1 alert\n  - May 10: 2 alerts\n\nThis data indicates that the equipment CWC04009 had a significant number of anomaly events, particularly in March and April, with the highest number of anomalies occurring on March 24 (25 anomalies). Alerts were more frequent in April and May, with a consistent occurrence of 1 to 2 alerts on several days.",
+    "rationale": "Expected count 82 not found",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (ev:Event)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ev.event_group IN ['ALERT', 'ANOMALY'] AND ev.event_time STARTS WITH '2021'\nRETURN date(ev.event_time) AS event_date, ev.event_group, count(ev) AS event_count\nORDER BY event_date",
+        "MATCH (ev:Event)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ev.event_group IN ['ALERT', 'ANOMALY'] AND ev.event_time STARTS WITH '2021'\nRETURN substring(ev.event_time, 0, 10) AS event_date, ev.event_group, count(ev) AS event_count\nORDER BY event_date"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 92,
+          "execution_ms": 13.7090630014427
+        }
+      ],
+      "tokens_gen": 2342,
+      "tokens_total": 6438,
+      "retries": 1
+    }
+  },
+  {
+    "id": 408,
+    "type": "wo",
+    "category": "",
+    "question": "Get the daily count of the events of alert, anomaly for the May 2020 for equipment CWC04009.",
+    "passed": false,
+    "score": 0.3,
+    "latency_ms": 9110.576726961881,
+    "response": "It seems there was an issue with retrieving the data due to a query error related to an unknown function, specifically `lpad`. As a result, we do not have the specific daily counts of alert and anomaly events for the equipment CWC04009 for May 2020. To resolve this, the query needs to be corrected to ensure it runs successfully and retrieves the desired information. Once the query is fixed, it should provide the daily counts of these events for the specified equipment and time period.",
+    "rationale": "Expected count 26 not found",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (ev:Event)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ev.event_group IN ['ALERT', 'ANOMALY'] AND ev.event_time STARTS WITH '2020-05'\nRETURN date(ev.event_time) AS event_date, ev.event_group, count(ev) AS event_count\nORDER BY event_date",
+        "MATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ae.start_time CONTAINS '/20 ' AND ae.start_time STARTS WITH '5/'\nWITH date(substring(ae.start_time, 6, 4) + '-' + substring(ae.start_time, 0, 2) + '-' + substring(ae.start_time, 3, 2)) AS event_date, 'ALERT' AS event_group\nRETURN event_date, event_group, count(*) AS event_count\nUNION\nMATCH (an:AnomalyEvent)\nWHERE an.asset_name = 'Chiller 9' AND an.timestamp CONTAINS '/20 ' AND an.timestamp STARTS WITH '5/'\nWITH date(substring(an.timestamp, 6, 4) + '-' + substring(an.timestamp, 0, 2) + '-' + substring(an.timestamp, 3, 2)) AS event_date, 'ANOMALY' AS event_group\nRETURN event_date, event_group, count(*) AS event_count\nORDER BY event_date",
+        "MATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ae.start_time CONTAINS '/20 ' AND ae.start_time STARTS WITH '5/'\nWITH substring(ae.start_time, 6, 4) + '-' + lpad(substring(ae.start_time, 0, 2), 2, '0') + '-' + lpad(substring(ae.start_time, 3, 2), 2, '0') AS event_date, 'ALERT' AS event_group\nRETURN event_date, event_group, count(*) AS event_count\nUNION\nMATCH (an:AnomalyEvent)\nWHERE an.asset_name = 'Chiller 9' AND an.timestamp CONTAINS '/20 ' AND an.timestamp STARTS WITH '5/'\nWITH substring(an.timestamp, 6, 4) + '-' + lpad(substring(an.timestamp, 0, 2), 2, '0') + '-' + lpad(substring(an.timestamp, 3, 2), 2, '0') AS event_date, 'ANOMALY' AS event_group\nRETURN event_date, event_group, count(*) AS event_count\nORDER BY event_date"
+      ],
+      "cypher_results": [
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.9801849955692887
+        }
+      ],
+      "tokens_gen": 2346,
+      "tokens_total": 8655,
+      "retries": 2
+    }
+  },
+  {
+    "id": 412,
+    "type": "wo",
+    "category": "",
+    "question": "I would like to predict the next work order probability for the equipment labeled as CWC04013.",
+    "passed": true,
+    "score": 0.875,
+    "latency_ms": 1756.7017339752056,
+    "response": "To predict the next work order probability for equipment labeled as CWC04013, you would typically use a time-series forecasting model. The task would be classified as `tsfm_forecasting` with a focus on predicting future events based on historical work order data.\n\n- **Model Name**: ttm_work_order_prediction\n- **Context Length**: The number of past time steps used to make a prediction, e.g., 12 months.\n- **Forecast Length**: The number of future time steps to predict, e.g., 1 month.\n- **Input Data**: Historical work order data for CWC04013, including features such as work order frequency, types, and any relevant sensor data that might correlate with maintenance needs.\n\nThis approach would involve training a model on past work order data to learn patterns and predict the likelihood of future work orders.",
+    "rationale": "Keyword overlap: 7/12",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2436,
+      "tokens_total": 2436,
+      "retries": 0
+    }
+  },
+  {
+    "id": 413,
+    "type": "wo",
+    "category": "",
+    "question": "Assuming that the current date is 2018-01-02, can you predict next work order probability for me for equipment CWC04009 using predict_next_work_order_probability function?",
+    "passed": true,
+    "score": 0.5892857142857143,
+    "latency_ms": 1528.014010982588,
+    "response": "To predict the next work order probability for equipment CWC04009, you would typically use a time-series forecasting model. However, since this is a specific function call request, you would use a function like `predict_next_work_order_probability` if it were available in your system. \n\nFor a time-series forecasting task, you might use a model such as `ttm_energy_96_28` with a context length and forecast length appropriate for your data. The input would likely include historical work order data, maintenance schedules, and possibly sensor readings related to equipment CWC04009. \n\nUnfortunately, without direct access to such a function or model in this environment, I can only guide you on the general approach.",
+    "rationale": "Keyword overlap: 11/28",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2424,
+      "tokens_total": 2424,
+      "retries": 0
+    }
+  },
+  {
+    "id": 415,
+    "type": "wo",
+    "category": "",
+    "question": "When an anomaly happens for equipment CWC04009, can you recommend a list of candidate work orders and give me a summary of work order as percentage?",
+    "passed": true,
+    "score": 0.6000000000000001,
+    "latency_ms": 18956.756499945186,
+    "response": "Unfortunately, I am unable to provide a list of candidate work orders or a summary of work orders as a percentage for equipment CWC04009 due to errors encountered in the query process. Each query attempt resulted in a parse error, specifically related to the calculation of percentages using the `ROUND` and `SUM` functions. This indicates that there was an issue with the syntax or structure of the queries, preventing the retrieval of the necessary data.\n\nTo resolve this, it would be beneficial to review and correct the query syntax, particularly focusing on the calculation of percentages. Once the queries are corrected and successfully executed, I can provide the requested information regarding candidate work orders and their respective percentages.",
+    "rationale": "Keyword overlap: 4/10",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH a\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nRETURN wo.wo_id, wo.wo_description, COUNT(wo) AS work_order_count,\n       ROUND((COUNT(wo) * 100.0) / SUM(COUNT(wo)) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH a\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nRETURN wo.wo_id, wo.wo_description, COUNT(wo) AS work_order_count,\n       ROUND((COUNT(wo) * 100.0) / SUM(COUNT(wo)) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH a\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count\nWITH work_order_count, SUM(work_order_count) AS total_count\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / total_count, 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH a\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nWITH COLLECT(a) AS anomalies\nMATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWITH wo, COUNT(wo) AS work_order_count, anomalies\nRETURN wo.wo_id, wo.wo_description, work_order_count,\n       ROUND((work_order_count * 100.0) / SUM(work_order_count) OVER (), 2) AS percentage\nORDER BY percentage DESC"
+      ],
+      "cypher_results": [
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.0799089903011918
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.036194047424942255
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.030427007004618645
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.02824998227879405
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.027548987418413162
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.029217975679785013
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.028569018468260765
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.029314018320292234
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.028721988201141357
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.028962036594748497
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.02820597728714347
+        },
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.028342008590698242
+        }
+      ],
+      "tokens_gen": 2384,
+      "tokens_total": 11923,
+      "retries": 2
+    }
+  },
+  {
+    "id": 419,
+    "type": "wo",
+    "category": "",
+    "question": "Using your knowledge of the industrial asset, can you suggest me a work order for alert RUL0014 with the context of 'Chiller - Cooling Substance Delta T Low' for closed-loop water-cool chiller its load is higher than the upper bound?",
+    "passed": true,
+    "score": 0.6666666666666666,
+    "latency_ms": 3898.0601810035296,
+    "response": "For the alert RUL0014 related to 'Chiller - Cooling Substance Delta T Low', which indicates that the cooling substance's temperature difference is lower than expected, especially when the chiller load is higher than the upper bound, a suitable work order could involve the following actions:\n\n1. **Inspect and Clean Heat Exchangers**: Ensure that the heat exchangers are clean and free of any fouling or scaling that could reduce heat transfer efficiency.\n\n2. **Check and Adjust Flow Rates**: Verify that the flow rates of the cooling substance are within the specified range. Adjust if necessary to ensure optimal heat exchange.\n\n3. **Evaluate Refrigerant Levels**: Check the refrigerant levels to ensure they are adequate. Low refrigerant levels can lead to insufficient cooling and reduced Delta T.\n\n4. **Inspect and Maintain Valves and Pumps**: Ensure that all valves and pumps are functioning correctly and are not causing any restrictions in the system.\n\n5. **Review Load Conditions**: Analyze the load conditions to ensure that the chiller is not being overburdened. Adjust operational parameters if necessary to match the load requirements.\n\n6. **Perform System Diagnostics**: Use diagnostic tools to assess the overall performance of the chiller system and identify any underlying issues that may not be immediately apparent.\n\nThese actions aim to address the root causes of the low Delta T condition and ensure the chiller operates efficiently under varying load conditions.",
+    "rationale": "Keyword overlap: 8/18",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2581,
+      "tokens_total": 2581,
+      "retries": 0
+    }
+  },
+  {
+    "id": 420,
+    "type": "wo",
+    "category": "",
+    "question": "Assume today is early of July 2020, I would like to review the performance of chiller 9 with equipment ID CWC04009 for June 2020 and track any anomalies or operation violations as alerts.",
+    "passed": false,
+    "score": 0.44999999999999996,
+    "latency_ms": 7500.791047990788,
+    "response": "For June 2020, there are no recorded performance data, anomalies, or operation violations for Chiller 9 with equipment ID CWC04009. This means that either the chiller operated without any issues during this period, or there was no data collected or logged for this equipment in the knowledge graph. If you are expecting data, it might be worth checking the data collection systems or logs to ensure they are functioning correctly.",
+    "rationale": "Keyword overlap: 9/30; 0/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp STARTS WITH '6/20 '\nRETURN a.anomaly_key, a.timestamp, a.kpi, a.anomaly_score\nUNION\nMATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ae.start_time STARTS WITH '6/20 '\nRETURN ae.alert_key, ae.start_time, ae.rule_id",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 '\nRETURN a.anomaly_key, a.timestamp, a.kpi, a.anomaly_score\nUNION\nMATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ae.start_time CONTAINS '/20 '\nRETURN ae.alert_key, ae.start_time, ae.rule_id",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp STARTS WITH '6/20 '\nRETURN a.anomaly_key, a.timestamp, a.kpi, a.anomaly_score\nUNION\nMATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE ae.start_time STARTS WITH '6/20 '\nRETURN ae.alert_key, ae.start_time, ae.rule_id"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 0.5593019886873662
+        }
+      ],
+      "tokens_gen": 2390,
+      "tokens_total": 8235,
+      "retries": 2
+    }
+  },
+  {
+    "id": 424,
+    "type": "wo",
+    "category": "",
+    "question": "Can you provide guidance on bundling corrective work orders together to optimize the maintenance schedule for Chiller 9 with equipment ID CWC04009 covering years of 2017, 2018 and 2019, bundle has to be happen within two weeks and have at least two work orders, also tell the details of each bundle?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 16159.374149981886,
+    "response": "It seems there was an error in the query execution, which means we don't have the specific data on corrective work orders for Chiller 9 (equipment ID CWC04009) for the years 2017, 2018, and 2019. As a result, I cannot provide detailed guidance on bundling these work orders together.\n\nHowever, I can offer general advice on how to approach bundling corrective work orders for maintenance optimization:\n\n1. **Identify Work Orders**: First, gather all corrective work orders related to Chiller 9 for the specified years. Ensure that each work order includes details such as the issue description, priority, estimated time to complete, and any dependencies.\n\n2. **Analyze Timing**: Look for work orders that have close finish dates. Since the goal is to bundle them within a two-week period, identify work orders that can be scheduled to start or finish within this timeframe.\n\n3. **Prioritize by Urgency and Impact**: Determine which work orders are most critical based on the severity of the issue and the impact on operations. Prioritize these for bundling to ensure that critical issues are addressed promptly.\n\n4. **Resource Allocation**: Check the availability of necessary resources, including personnel, tools, and parts. Ensure that the bundled work orders can be completed with the available resources within the two-week window.\n\n5. **Create Bundles**: Group at least two work orders that can be efficiently completed together. Consider factors such as location, required skills, and equipment downtime to minimize disruption.\n\n6. **Schedule and Communicate**: Once bundles are created, schedule them in the maintenance calendar and communicate the plan to all relevant stakeholders, ensuring that everyone is aware of the upcoming maintenance activities.\n\nBy following these steps, you can optimize the maintenance schedule for Chiller 9, even without the specific data from the query. If you can resolve the query error, you may be able to obtain the detailed work order information needed to create more precise bundles.",
+    "rationale": "Keyword overlap: 14/21",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE wo.preventive = 'FALSE' AND \n      (wo.actual_finish CONTAINS '/17 ' OR wo.actual_finish CONTAINS '/18 ' OR wo.actual_finish CONTAINS '/19 ')\nWITH wo, date(datetime(wo.actual_finish)) AS finish_date\nORDER BY finish_date\nWITH collect(wo) AS work_orders\nUNWIND range(0, size(work_orders) - 1) AS i\nWITH work_orders[i] AS wo1, work_orders[i + 1] AS wo2\nWHERE wo2 IS NOT NULL AND duration.inDays(date(datetime(wo1.actual_finish)), date(datetime(wo2.actual_finish))).days <= 14\nWITH wo1, wo2\nORDER BY wo1.actual_finish\nRETURN wo1.wo_id AS WorkOrder1_ID, wo1.wo_description AS WorkOrder1_Description, wo1.actual_finish AS WorkOrder1_Finish,\n       wo2.wo_id AS WorkOrder2_ID, wo2.wo_description AS WorkOrder2_Description, wo2.actual_finish AS WorkOrder2_Finish",
+        "MATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE wo.preventive = 'FALSE' AND \n      (wo.actual_finish CONTAINS '/17 ' OR wo.actual_finish CONTAINS '/18 ' OR wo.actual_finish CONTAINS '/19 ')\nWITH wo, date(datetime(replace(wo.actual_finish, ' ', 'T'))) AS finish_date\nORDER BY finish_date\nWITH collect(wo) AS work_orders\nUNWIND range(0, size(work_orders) - 2) AS i\nWITH work_orders[i] AS wo1, work_orders[i + 1] AS wo2\nWHERE duration.between(date(datetime(replace(wo1.actual_finish, ' ', 'T'))), date(datetime(replace(wo2.actual_finish, ' ', 'T')))).days <= 14\nRETURN wo1.wo_id AS WorkOrder1_ID, wo1.wo_description AS WorkOrder1_Description, wo1.actual_finish AS WorkOrder1_Finish,\n       wo2.wo_id AS WorkOrder2_ID, wo2.wo_description AS WorkOrder2_Description, wo2.actual_finish AS WorkOrder2_Finish\nORDER BY wo1.actual_finish",
+        "MATCH (wo:WorkOrder)-[:FOR_EQUIPMENT]->(e:Equipment {equipment_id: 'CWC04009'})\nWHERE wo.preventive = 'FALSE' AND \n      (wo.actual_finish CONTAINS '/17 ' OR wo.actual_finish CONTAINS '/18 ' OR wo.actual_finish CONTAINS '/19 ')\nWITH wo, date(datetime(replace(wo.actual_finish, ' ', 'T'))) AS finish_date\nORDER BY finish_date\nWITH collect({wo: wo, finish_date: finish_date}) AS work_orders\nUNWIND range(0, size(work_orders) - 2) AS i\nWITH work_orders[i] AS wo1, work_orders[i + 1] AS wo2\nWHERE duration.inDays(wo1.finish_date, wo2.finish_date) <= 14\nRETURN wo1.wo.wo_id AS WorkOrder1_ID, wo1.wo.wo_description AS WorkOrder1_Description, wo1.wo.actual_finish AS WorkOrder1_Finish,\n       wo2.wo.wo_id AS WorkOrder2_ID, wo2.wo.wo_description AS WorkOrder2_Description, wo2.wo.actual_finish AS WorkOrder2_Finish\nORDER BY wo1.wo.actual_finish"
+      ],
+      "cypher_results": [
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.09340199176222086
+        }
+      ],
+      "tokens_gen": 2638,
+      "tokens_total": 10862,
+      "retries": 2
+    }
+  },
+  {
+    "id": 427,
+    "type": "wo",
+    "category": "",
+    "question": "Since we know 80% of alerts are likely spurious, can you identify the meaningful 20% for further analysis for any chillers?",
+    "passed": true,
+    "score": 0.5833333333333334,
+    "latency_ms": 8095.099888974801,
+    "response": "The query intended to identify the meaningful 20% of alerts for chillers failed due to a syntax error in the Cypher query. Specifically, the error occurred at line 6, column 25, where the query attempted to sort alerts by 'start_time' using the `apoc.coll.sortNodes` function. The error message suggests that there was an unexpected token or clause at this point in the query, which prevented it from executing successfully.\n\nAs a result, we do not have specific data on the meaningful 20% of alerts for chillers at this time. To proceed, the query needs to be corrected and re-executed to retrieve the desired information. Once the query is fixed, it should be able to sort and filter the alerts effectively, allowing us to identify the 20% of alerts that are not spurious and require further analysis.",
+    "rationale": "Keyword overlap: 7/18",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (ev:Event)-[:FOR_EQUIPMENT]->(e:Equipment)\nWHERE ev.event_group = 'ALERT'\nWITH ev, e\nORDER BY ev.event_time\nWITH e, collect(ev) AS alerts\nUNWIND alerts AS alert\nWITH e, alert, range(0, size(alerts) - 1) AS idx\nWHERE idx < size(alerts) * 0.2\nRETURN e.name AS equipment_name, alert.event_id, alert.description, alert.event_time",
+        "MATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment)\nWITH ae, e\nORDER BY ae.start_time\nWITH e, collect(ae) AS alerts\nUNWIND alerts AS alert\nWITH e, alert, range(0, size(alerts) - 1) AS idx\nWHERE idx < size(alerts) * 0.2\nRETURN e.name AS equipment_name, alert.alert_key, alert.start_time, alert.end_time",
+        "MATCH (ae:AlertEvent)-[:FOR_EQUIPMENT]->(e:Equipment)\nWITH ae, e\nORDER BY ae.start_time\nWITH e, collect(ae) AS alerts\nUNWIND alerts AS alert\nWITH e, alert, apoc.coll.sortNodes(alerts, 'start_time') AS sorted_alerts\nWHERE indexOf(sorted_alerts, alert) < size(sorted_alerts) * 0.2\nRETURN e.name AS equipment_name, alert.alert_key, alert.start_time, alert.end_time"
+      ],
+      "cypher_results": [
+        {
+          "success": false,
+          "record_count": 0,
+          "execution_ms": 0.07193599594756961
+        }
+      ],
+      "tokens_gen": 2375,
+      "tokens_total": 8393,
+      "retries": 2
+    }
+  },
+  {
+    "id": 428,
+    "type": "wo",
+    "category": "",
+    "question": "Could you generate rules that help distinguish meaningful alerts from spurious ones?",
+    "passed": true,
+    "score": 0.6136363636363636,
+    "latency_ms": 2616.3641259772703,
+    "response": "To distinguish meaningful alerts from spurious ones, consider the following approaches:\n\n1. **Threshold-Based Rules**: Define specific thresholds for sensor readings that, when exceeded, trigger alerts. These thresholds should be based on historical data and expert knowledge.\n\n2. **Pattern Recognition**: Use historical data to identify patterns or sequences of events that typically precede meaningful alerts. Implement rules that recognize these patterns.\n\n3. **Correlation Analysis**: Analyze correlations between different sensor readings and failure modes. Alerts that coincide with correlated sensor anomalies may be more meaningful.\n\n4. **Machine Learning Models**: Train models to classify alerts based on features such as sensor readings, time of occurrence, and historical outcomes. Use these models to predict the likelihood of an alert being meaningful.\n\n5. **Contextual Information**: Incorporate contextual information such as maintenance schedules, operational conditions, and environmental factors to assess the relevance of alerts.\n\n6. **Feedback Loops**: Implement a feedback mechanism where operators can label alerts as meaningful or spurious, and use this feedback to refine alert generation rules.\n\n7. **Anomaly Detection**: Use anomaly detection techniques to identify unusual patterns in sensor data that may indicate meaningful alerts.\n\nBy combining these approaches, you can create a robust system for distinguishing meaningful alerts from spurious ones.",
+    "rationale": "Keyword overlap: 9/22",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2515,
+      "tokens_total": 2515,
+      "retries": 0
+    }
+  },
+  {
+    "id": 203,
+    "type": "tsfm",
+    "category": "Knowledge Query",
+    "question": "Are any time series forecasting models supported?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 1644.5945849991404,
+    "response": "Yes, time series forecasting models are supported. The available tasks include time series multivariate forecasting, finetuning of multivariate forecasting models, and evaluation of forecasting models. The available models are:\n\n1. `ttm_96_28`: A pretrained forecasting model with a context length of 96 and a forecast length of 28.\n2. `ttm_512_96`: A pretrained forecasting model with a context length of 512 and a forecast length of 96.\n3. `ttm_energy_96_28`: A pretrained forecasting model tuned on energy data with a context length of 96 and a forecast length of 28.\n4. `ttm_energy_512_96`: A pretrained forecasting model tuned on energy data with a context length of 512 and a forecast length of 96.",
+    "rationale": "Keyword overlap: 5/6",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2539,
+      "tokens_total": 2539,
+      "retries": 0
+    }
+  },
+  {
+    "id": 205,
+    "type": "tsfm",
+    "category": "Knowledge Query",
+    "question": "Is LSTM model supported in TSFM?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 1672.3203739966266,
+    "response": "The TSFM system does not explicitly mention support for LSTM models. It focuses on pretrained forecasting models with specific context and forecast lengths, such as \"ttm_96_28\" and \"ttm_energy_96_28\". These models are designed for general and energy domains, respectively. If LSTM models are required, you may need to explore other frameworks or inquire about future support in TSFM.",
+    "rationale": "Keyword overlap: 2/3",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2457,
+      "tokens_total": 2457,
+      "retries": 0
+    }
+  },
+  {
+    "id": 209,
+    "type": "tsfm",
+    "category": "Knowledge Query",
+    "question": "Is any model with context length 96 supported in TSFM?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 1207.180219993461,
+    "response": "Yes, there are models with context length 96 supported in TSFM. Specifically, the models \"ttm_96_28\" and \"ttm_energy_96_28\" both have a context length of 96. The \"ttm_96_28\" is a general pretrained forecasting model, while the \"ttm_energy_96_28\" is a pretrained forecasting model tuned on energy data.",
+    "rationale": "Keyword overlap: 4/4",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2462,
+      "tokens_total": 2462,
+      "retries": 0
+    }
+  },
+  {
+    "id": 213,
+    "type": "tsfm",
+    "category": "Knowledge Query",
+    "question": "Find all models with context length 96.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 1312.4892620253377,
+    "response": "The models with a context length of 96 are:\n1. Model ID: \"ttm_96_28\", Description: \"Pretrained forecasting model with context length 96\", Forecast Length: 28, Domain: \"general\".\n2. Model ID: \"ttm_energy_96_28\", Description: \"Pretrained forecasting model tuned on energy data with context length 96\", Forecast Length: 28, Domain: \"energy\".",
+    "rationale": "Keyword overlap: 10/14; 4/6 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2465,
+      "tokens_total": 2465,
+      "retries": 0
+    }
+  },
+  {
+    "id": 216,
+    "type": "tsfm",
+    "category": "Inference Query",
+    "question": "Forecast 'Chiller 9 Condenser Water Flow' using data in 'chiller9_annotated_small_test.csv'. Use parameter 'Timestamp' as a timestamp. Use the following parameters as inputs 'Chiller 9 Liquid Refrigerant Evaporator Temperature,Chiller 9 Return Temperature,Chiller 9 Tonnage,Chiller 9 Setpoint Temperature,Chiller 9 Supply Temperature,Chiller 9 Chiller % Loaded,Chiller 9 Condenser Water Supply To Chiller Temperature,Chiller 9 Power Input,Chiller 9 Chiller Efficiency'",
+    "passed": true,
+    "score": 0.875,
+    "latency_ms": 2749.753971991595,
+    "response": "To forecast 'Chiller 9 Condenser Water Flow' using the specified data and parameters, you can use a time-series forecasting model. Based on the available TSFM models, the most suitable model for this task would be the \"ttm_energy_96_28\" model, which is a pretrained forecasting model tuned on energy data with a context length of 96 and a forecast length of 28.\n\nHere's how you can proceed with the forecasting task:\n\n1. **Task**: tsfm_forecasting\n2. **Model**: ttm_energy_96_28\n3. **Context Length**: 96\n4. **Forecast Length**: 28\n5. **Input Parameters**: \n   - Chiller 9 Liquid Refrigerant Evaporator Temperature\n   - Chiller 9 Return Temperature\n   - Chiller 9 Tonnage\n   - Chiller 9 Setpoint Temperature\n   - Chiller 9 Supply Temperature\n   - Chiller 9 Chiller % Loaded\n   - Chiller 9 Condenser Water Supply To Chiller Temperature\n   - Chiller 9 Power Input\n   - Chiller 9 Chiller Efficiency\n\nYou would use the 'Timestamp' parameter as the time index for the forecasting model. Ensure that the data is preprocessed correctly, with any missing values handled and the timestamp formatted appropriately for the model input.",
+    "rationale": "Keyword overlap: 7/12; 1/2 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2769,
+      "tokens_total": 2769,
+      "retries": 0
+    }
+  },
+  {
+    "id": 220,
+    "type": "tsfm",
+    "category": "Tuning Query",
+    "question": "Finetune a forecasting model for 'Chiller 9 Condenser Water Flow' using data in 'chiller9_finetuning_small.csv' with 'Timestamp' as a timestamp.",
+    "passed": false,
+    "score": 0.30000000000000004,
+    "latency_ms": 1301.5513319987804,
+    "response": "To finetune a forecasting model for 'Chiller 9 Condenser Water Flow', you can use the task \"tsfm_forecasting_tune\". The most suitable model for this task would be \"ttm_energy_96_28\", which is a pretrained forecasting model tuned on energy data with a context length of 96 and a forecast length of 28. You would use the data from 'chiller9_finetuning_small.csv' with 'Timestamp' as the timestamp column to perform the finetuning.",
+    "rationale": "Keyword overlap: 2/10",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2509,
+      "tokens_total": 2509,
+      "retries": 0
+    }
+  },
+  {
+    "id": 222,
+    "type": "tsfm",
+    "category": "Anomaly Detection Query",
+    "question": "I need to perform Time Series anomaly detection of 'Chiller 9 Condenser Water Flow' using data in chiller9_tsad.csv",
+    "passed": true,
+    "score": 0.5625,
+    "latency_ms": 1453.2425010111183,
+    "response": "To perform Time Series anomaly detection on 'Chiller 9 Condenser Water Flow', you can use the task \"tsfm_integrated_tsad\" which is designed for Time Series Anomaly Detection. You would typically use the relevant sensor data from 'Chiller 9 Condenser Water Flow' as input for this task. Ensure that your data is preprocessed and formatted correctly according to the requirements of the anomaly detection model you plan to use.",
+    "rationale": "Keyword overlap: 3/8",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 2483,
+      "tokens_total": 2483,
+      "retries": 0
+    }
+  },
+  {
+    "id": 502,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "What is the forecast for 'Chiller 9 Condenser Water Flow' in the week of 2020-04-27 based on data from the MAIN site?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 1668.9043000224046,
+    "response": "For forecasting 'Chiller 9 Condenser Water Flow' in the week of 2020-04-27, the tsfm_forecasting task with model ttm_energy_96_28 (context_length: 96, forecast_length: 28) would be used. The model would utilize the sensor data for 'Chiller 9 Condenser Water Flow' from the MAIN site, focusing on the week prior to 2020-04-27 as input context. This model is optimized for energy-related KPIs and will provide predictions for the next 28 time steps, covering approximately one week. Required data includes the sensor readings, timestamp, and target column for 'Chiller 9 Condenser Water Flow'.",
+    "rationale": "Keyword overlap: 16/61; 2/3 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 3076,
+      "tokens_total": 3076,
+      "retries": 0
+    }
+  },
+  {
+    "id": 504,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "Can you forecast Chiller 6's performance for next week based on the data from 2020-04-27 at the MAIN site?",
+    "passed": true,
+    "score": 0.75,
+    "latency_ms": 1757.7174809994176,
+    "response": "For forecasting Chiller 6's performance, the tsfm_forecasting task with model ttm_energy_96_28 (context_length: 96, forecast_length: 28) would be appropriate. This model is tuned for energy data and can use sensor data such as temperature, flow, and tonnage from Chiller 6 at the MAIN site. The context_length of 96 allows for capturing patterns over the previous 4 days (assuming hourly data), and the forecast_length of 28 provides predictions for the next week. Required data includes sensor readings from Chiller 6, timestamp, and relevant performance metrics.",
+    "rationale": "Keyword overlap: 10/43; 1/2 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 3051,
+      "tokens_total": 3051,
+      "retries": 0
+    }
+  },
+  {
+    "id": 505,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "What's the forecast for Chiller 6's Tonnage for next week based on the data from the week of 2020-04-27 at MAIN?",
+    "passed": false,
+    "score": 0.3857142857142857,
+    "latency_ms": 1638.2614899775945,
+    "response": "To forecast Chiller 6's Tonnage for the next week based on data from the week of 2020-04-27, the tsfm_forecasting task with the ttm_energy_96_28 model would be used. This model has a context_length of 96 and a forecast_length of 28, making it suitable for predicting energy-related metrics like Tonnage. The input would include Chiller 6 Tonnage sensor data from the week of 2020-04-27. The model would generate predictions for the following week. Required data includes timestamped Tonnage readings from Chiller 6.",
+    "rationale": "Keyword overlap: 9/35",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 3059,
+      "tokens_total": 3059,
+      "retries": 0
+    }
+  },
+  {
+    "id": 509,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "Can you detect any anomalies in Chiller 6's Condenser Water Flow in the week of 2020-04-27 at MAIN?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 4660.710897995159,
+    "response": "During the week of April 27, 2020, at the MAIN location, there were no detected anomalies in the Condenser Water Flow of Chiller 6. The query results did not return any data indicating issues or irregularities for that period.",
+    "rationale": "Keyword overlap: 14/63; 1/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 6' AND a.timestamp CONTAINS '/20 ' AND a.kpi = 'Flow Efficiency'\nRETURN a.anomaly_key, a.timestamp, a.anomaly_score",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 6' AND a.timestamp CONTAINS '4/27/20' AND a.kpi = 'Flow Efficiency'\nRETURN a.anomaly_key, a.timestamp, a.anomaly_score",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 6' AND a.timestamp STARTS WITH '4/27/20' AND a.kpi = 'Flow Efficiency'\nRETURN a.anomaly_key, a.timestamp, a.anomaly_score"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 0.7212490309029818
+        }
+      ],
+      "tokens_gen": 2977,
+      "tokens_total": 9662,
+      "retries": 2
+    }
+  },
+  {
+    "id": 513,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "What is the forecast for Chiller 6's Setpoint Temperature for next week based on the week of 2020-04-27 data?",
+    "passed": false,
+    "score": 0.3586956521739131,
+    "latency_ms": 2253.7908360245638,
+    "response": "For forecasting Chiller 6's Setpoint Temperature, the tsfm_forecasting task with the model ttm_energy_96_28 (context_length: 96, forecast_length: 28) would be appropriate. This model is tuned for energy data and can provide predictions for the next 28 time steps (approximately 1 week) based on the context from the week of 2020-04-27. The input would require the Setpoint Temperature sensor data for Chiller 6 from the week leading up to 2020-04-27. The model will output the forecasted Setpoint Temperature for the following week.",
+    "rationale": "Keyword overlap: 11/46",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": true,
+      "cypher_generated": [],
+      "cypher_results": [],
+      "tokens_gen": 3055,
+      "tokens_total": 3055,
+      "retries": 0
+    }
+  },
+  {
+    "id": 517,
+    "type": "multi",
+    "category": "Knowledge Query",
+    "question": "Are there any anomalies detected in Chiller 9's Tonnage in the week of 2020-04-27 at the MAIN site?",
+    "passed": false,
+    "score": 0.40540540540540543,
+    "latency_ms": 5546.768063039053,
+    "response": "During the week of April 27, 2020, at the MAIN site, there were no anomalies detected in the Tonnage of Chiller 9. The query results indicate that no anomalies were recorded for this specific equipment during that time period.",
+    "rationale": "Keyword overlap: 10/37; 0/1 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 ' AND a.timestamp STARTS WITH '4/27/20'\nRETURN a.kpi, a.timestamp, a.anomaly_score",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 ' AND a.timestamp >= '4/27/20' AND a.timestamp < '5/4/20'\nRETURN a.kpi, a.timestamp, a.anomaly_score",
+        "MATCH (a:AnomalyEvent)\nWHERE a.asset_name = 'Chiller 9' AND a.timestamp CONTAINS '/20 ' AND a.timestamp >= '4/27/20 00:00' AND a.timestamp < '5/4/20 00:00'\nRETURN a.kpi, a.timestamp, a.anomaly_score"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 0.7562829996459186
+        }
+      ],
+      "tokens_gen": 2981,
+      "tokens_total": 9721,
+      "retries": 2
+    }
+  },
+  {
+    "id": 602,
+    "type": "fmsr",
+    "category": "",
+    "question": "List all failure modes of asset Chiller 6 at MAIN site.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 5715.286199992988,
+    "response": "The asset Chiller 6 at the MAIN site has several identified failure modes, each with varying levels of criticality. Here is a detailed list of these failure modes:\n\n1. **Compressor Overheating**: This failure mode is critical and occurs due to normal wear and overheating. It is mentioned multiple times, indicating its significance as a recurring issue.\n\n2. **Heat Exchangers: Fans**: The fans experience a high criticality failure mode due to a degraded motor or worn bearing, which results from normal use.\n\n3. **Evaporator Water Side Fouling**: This failure mode is also of high criticality and is frequently noted, suggesting it is a common problem.\n\n4. **Condenser Water Side Fouling**: Similar to the evaporator, this issue is of high criticality and appears multiple times, highlighting its prevalence.\n\n5. **Condenser Improper Water Side Flow Rate**: This failure mode has a medium level of criticality and is noted several times, indicating it is a notable concern.\n\n6. **Purge Unit Excessive Purge**: This issue is of medium criticality and is mentioned multiple times, suggesting it is a recurring problem.\n\n7. **Refrigerant Operated Control Valve Failed Spring**: This failure mode is of high criticality and is noted several times, indicating it is a significant issue.\n\nOverall, the most critical and frequently occurring failure modes for Chiller 6 are compressor overheating and water side fouling in both the evaporator and condenser. These issues should be prioritized for maintenance and monitoring to ensure the efficient operation of the chiller.",
+    "rationale": "Matched 7/7 expected items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (site:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 6'})\nMATCH (e)-[:HAS_SENSOR]->(:Sensor)-[:MONITORS]->(fm:FailureMode)\nRETURN DISTINCT fm.name, fm.description, fm.severity"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 28,
+          "execution_ms": 3.5795969888567924
+        }
+      ],
+      "tokens_gen": 2456,
+      "tokens_total": 3528,
+      "retries": 0
+    }
+  },
+  {
+    "id": 614,
+    "type": "fmsr",
+    "category": "",
+    "question": "Purge unit of chiller 6 at MAIN site have possibility to excess purge, what is the plan by the maintenance experts to early detect the failure?",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 7510.619821026921,
+    "response": "The query results indicate that there is no specific maintenance plan currently documented in the knowledge graph for early detection of excess purge in the purge unit of chiller 6 at the MAIN site. This suggests that either the plan has not been entered into the system, or there is no established procedure for this particular issue at this time. It may be beneficial to consult with maintenance experts directly or review other documentation to ensure that appropriate measures are in place to address this potential issue.",
+    "rationale": "Keyword overlap: 8/12",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nWHERE s.name CONTAINS 'Purge'\nRETURN s.name, s.sensor_type",
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nWHERE s.name CONTAINS 'Purge'\nRETURN s.name, s.sensor_type",
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nWHERE s.name CONTAINS 'Purge'\nRETURN s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 0,
+          "execution_ms": 0.09658397175371647
+        }
+      ],
+      "tokens_gen": 2511,
+      "tokens_total": 8474,
+      "retries": 2
+    }
+  },
+  {
+    "id": 616,
+    "type": "fmsr",
+    "category": "",
+    "question": "List all failure modes of Chiller 6 at MAIN site that can be detected by temperature sensors and power input sensors.",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 6893.632807012182,
+    "response": "Chiller 6 at the MAIN site has several failure modes that can be detected by temperature sensors and power input sensors. These failure modes include:\n\n1. **Condenser Water Side Fouling**: This can be detected by monitoring the \"Chiller 6 Condenser Water Return To Tower Temperature.\"\n\n2. **Condenser Improper Water Side Flow Rate**: This issue is also detectable through the \"Chiller 6 Condenser Water Return To Tower Temperature.\"\n\n3. **Evaporator Water Side Fouling**: This failure mode can be identified by observing the \"Chiller 6 Liquid Refrigerant Evaporator Temperature,\" \"Chiller 6 Return Temperature,\" and \"Chiller 6 Supply Temperature.\"\n\n4. **Refrigerant Operated Control Valve Failed Spring**: This can be detected by the \"Chiller 6 Liquid Refrigerant Evaporator Temperature.\"\n\n5. **Compressor Overheating: Failed Due to Normal Wear, Overheating**: This failure mode can be detected by the \"Chiller 6 Power Input,\" \"Chiller 6 Return Temperature,\" and \"Chiller 6 Supply Temperature.\"\n\n6. **Heat Exchangers: Fans: Degraded Motor or Worn Bearing Due to Normal Use**: This issue can be identified by monitoring the \"Chiller 6 Power Input.\"\n\nIn summary, Chiller 6 has six distinct failure modes that can be detected using various temperature sensors and power input sensors, with some failure modes being detectable by multiple sensor types.",
+    "rationale": "Keyword overlap: 28/31; 6/7 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (site:Site {name: 'MAIN'})-[:CONTAINS_LOCATION]->(:Location)-[:CONTAINS_EQUIPMENT]->(e:Equipment {name: 'Chiller 6'})\nMATCH (e)-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.sensor_type IN ['temperature', 'power']\nRETURN DISTINCT fm.name, fm.description, s.name, s.sensor_type",
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.sensor_type IN ['temperature', 'power']\nRETURN DISTINCT fm.name, fm.description, s.name, s.sensor_type",
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.name CONTAINS 'Temperature' OR s.name CONTAINS 'Power'\nRETURN DISTINCT fm.name, fm.description, s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 10,
+          "execution_ms": 0.2084209700115025
+        }
+      ],
+      "tokens_gen": 2482,
+      "tokens_total": 8902,
+      "retries": 2
+    }
+  },
+  {
+    "id": 619,
+    "type": "fmsr",
+    "category": "",
+    "question": "When the Liquid Refrigerant Evaporator Temperature of Chiller 6 at MAIN site drops, what failure is most likely to occur?",
+    "passed": true,
+    "score": 0.8571428571428571,
+    "latency_ms": 5510.042713023722,
+    "response": "When the Liquid Refrigerant Evaporator Temperature of Chiller 6 at the MAIN site drops, there are two failures that are most likely to occur, both with a high likelihood. The first potential failure is \"Evaporator Water side fouling,\" which indicates that there might be a buildup or obstruction on the water side of the evaporator, affecting its efficiency. The second potential failure is \"Refrigerant Operated Control Valve Failed spring,\" suggesting that the spring mechanism within the control valve may not be functioning properly, potentially impacting the regulation of refrigerant flow. Both of these issues are considered highly likely in this scenario.",
+    "rationale": "Keyword overlap: 14/31; 4/7 items",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)-[:MONITORS]->(fm:FailureMode)\nWHERE s.name = 'Chiller 6 Liquid Refrigerant Evaporator Temperature'\nRETURN fm.name, fm.description, fm.severity"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 2,
+          "execution_ms": 0.16050098929554224
+        }
+      ],
+      "tokens_gen": 2456,
+      "tokens_total": 2725,
+      "retries": 0
+    }
+  },
+  {
+    "id": 620,
+    "type": "fmsr",
+    "category": "",
+    "question": "I want to build an anomaly model for identifying a chiller trip failure for MAIN chiller 6. Provide me a list of sensors that I should use, along with the temporal behavior,",
+    "passed": true,
+    "score": 1.0,
+    "latency_ms": 6945.330316026229,
+    "response": "To build an anomaly model for identifying a chiller trip failure for MAIN chiller 6, you should consider using the following sensors, which provide a comprehensive view of the chiller's operational parameters:\n\n1. **Chiller % Loaded**: This sensor measures the percentage of load on Chiller 6, indicating how much of its capacity is being utilized.\n\n2. **Chiller Efficiency**: This sensor tracks the efficiency of Chiller 6, providing insights into how effectively it is operating under various conditions.\n\n3. **Condenser Water Flow**: This sensor monitors the flow rate of water through the condenser, which is crucial for heat exchange processes.\n\n4. **Condenser Water Return To Tower Temperature**: This sensor measures the temperature of the water returning to the cooling tower from the condenser, which can affect the chiller's performance.\n\n5. **Liquid Refrigerant Evaporator Temperature**: This sensor provides the temperature of the refrigerant in the evaporator, which is important for understanding the refrigeration cycle's efficiency.\n\n6. **Power Input**: This sensor records the amount of power being consumed by Chiller 6, which can help identify unusual power usage patterns.\n\n7. **Return Temperature**: This sensor measures the temperature of the water returning to the chiller, which can indicate the cooling load and efficiency.\n\n8. **Schedule**: This sensor provides information on the operational schedule of Chiller 6, which can be used to correlate operational anomalies with scheduled activities.\n\n9. **Supply Temperature**: This sensor measures the temperature of the water being supplied by the chiller, which is critical for maintaining desired cooling levels.\n\n10. **Tonnage**: This sensor indicates the cooling capacity being delivered by Chiller 6, which is essential for assessing its performance relative to demand.\n\nBy analyzing the temporal behavior of these sensors, you can identify patterns and anomalies that may indicate a potential trip failure. Monitoring these parameters over time will help in understanding normal operational ranges and detecting deviations that could signal issues.",
+    "rationale": "Keyword overlap: 11/13",
+    "error": null,
+    "nlq_details": {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "knowledge_only": false,
+      "cypher_generated": [
+        "MATCH (e:Equipment {name: 'Chiller 6'})-[:HAS_SENSOR]->(s:Sensor)\nRETURN s.name, s.sensor_type"
+      ],
+      "cypher_results": [
+        {
+          "success": true,
+          "record_count": 10,
+          "execution_ms": 0.10247400496155024
+        }
+      ],
+      "tokens_gen": 2592,
+      "tokens_total": 3255,
+      "retries": 0
+    }
+  }
+]

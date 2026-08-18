@@ -32,5 +32,17 @@ for f in alert_events event anomaly_events; do
       > "$S/src/tmp/assetopsbench/sample_data/$f.csv"
 done
 
+# Scenario utterance files (also relocated to graph-scenarios) — needed by
+# load_ibm_scenarios in run_nlq.py / run_ibm_scenarios.py.
+mkdir -p "$S/src/tmp/assetopsbench/scenarios/single_agent" \
+         "$S/src/tmp/assetopsbench/scenarios/multi_agent"
+for f in single_agent/iot_utterance_meta single_agent/fmsr_utterance \
+         single_agent/wo_utterance single_agent/tsfm_utterance \
+         multi_agent/end2end_utterance; do
+  git -C "$A" show "$REF:src/tmp/assetopsbench/scenarios/$f.json" \
+      > "$S/src/tmp/assetopsbench/scenarios/$f.json" 2>/dev/null || \
+      echo "  [warn] scenario file $f.json not on $REF"
+done
+
 echo "staged full-graph data-dir at: $S"
 echo "upstream ref: $REF ($(git -C "$A" rev-parse --short "$REF"))"
