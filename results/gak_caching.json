@@ -1,0 +1,11 @@
+{
+  "goal": "G-05",
+  "metric": "gak_caching_call_reduction_x",
+  "enrichment_calls_no_cache": 88,
+  "enrichment_calls_with_cache": 10,
+  "call_reduction_x": 8.8,
+  "source": "results/gak_full.json",
+  "definition": "GAK enriches once per equipment type (by-entity cache in run_gak.py); without the cache it enriches once per scenario. reduction = scenarios / distinct equipment types.",
+  "excluded": "judge calls (1 per scenario) are constant across both regimes",
+  "supersedes_claim": "the earlier '0->100% answerability lift' is circular and dropped; a no-graph control (89.8%) beats GAK (81.8%) on accuracy \u2014 the real contribution of generation-augmented knowledge is this call reduction, not accuracy"
+}
