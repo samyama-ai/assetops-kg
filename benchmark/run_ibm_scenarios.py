@@ -2085,6 +2085,12 @@ def main() -> None:
         "--output", type=str, default=None,
         help="Path to write JSON results",
     )
+    parser.add_argument(
+        "--empty-graph", action="store_true",
+        help="Skip the ETL load and run against an empty graph (G-04 control): "
+             "isolates how much of the deterministic tier is real graph lookups "
+             "vs hardcoded fallbacks.",
+    )
     args = parser.parse_args()
 
     # Load scenarios
@@ -2100,11 +2106,14 @@ def main() -> None:
     print(f"\nInitializing Samyama graph '{GRAPH_NAME}'...")
     client = SamyamaClient.embedded()
 
-    print("Loading IBM data via ETL pipeline...")
-    try:
-        load_ibm_data(client, args.data_dir, GRAPH_NAME)
-    except Exception as e:
-        print(f"[WARN] ETL load error (continuing anyway): {e}", file=sys.stderr)
+    if args.empty_graph:
+        print("[G-04 CONTROL] --empty-graph: skipping ETL; running against an EMPTY graph.")
+    else:
+        print("Loading IBM data via ETL pipeline...")
+        try:
+            load_ibm_data(client, args.data_dir, GRAPH_NAME)
+        except Exception as e:
+            print(f"[WARN] ETL load error (continuing anyway): {e}", file=sys.stderr)
 
     # Run scenarios
     print(f"\nRunning {len(scenarios)} scenarios...\n")
