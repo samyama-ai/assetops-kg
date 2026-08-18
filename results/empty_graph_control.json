@@ -1,0 +1,470 @@
+{
+  "goal": "G-04",
+  "control": "empty-graph vs ETL-populated, same run_scenario, deterministic handlers, 0 LLM calls",
+  "source_scenarios": "AssetOpsBench/data/hf_scenarios.json (current HF layout)",
+  "n": 81,
+  "deterministic_only": true,
+  "populated_pass": 74,
+  "populated_pass_pct": 91.4,
+  "empty_pass": 64,
+  "empty_pass_pct": 79.0,
+  "graph_flips": 10,
+  "flips_populated_only": [
+    400,
+    401,
+    402,
+    404,
+    405,
+    406,
+    407,
+    408,
+    413,
+    414
+  ],
+  "flips_empty_only": [],
+  "by_type": {
+    "FMSA": {
+      "n": 3,
+      "populated": 3,
+      "empty": 3,
+      "graph_flips": 0
+    },
+    "IoT": {
+      "n": 20,
+      "populated": 20,
+      "empty": 20,
+      "graph_flips": 0
+    },
+    "TSFM": {
+      "n": 23,
+      "populated": 18,
+      "empty": 18,
+      "graph_flips": 0
+    },
+    "Workorder": {
+      "n": 12,
+      "populated": 12,
+      "empty": 2,
+      "graph_flips": 10
+    },
+    "multiagent": {
+      "n": 23,
+      "populated": 21,
+      "empty": 21,
+      "graph_flips": 0
+    }
+  },
+  "graph_dependent_types": [
+    "Workorder"
+  ],
+  "populated_node_count": 12647,
+  "upstream_ref": "AssetOpsBench graph-scenarios (7faedac)",
+  "interpretation": "the empty graph reproduces 79.0% vs the populated 91.4%; the graph flips 10 of 81 deterministic outcomes, ALL of type ['Workorder']. Every other scenario type scores identically with an empty graph \u2014 those are hardcoded fallbacks, not lookups. The audit's 'graph flips zero outcomes' is thus refined: true for all types except work orders, where real relational data does the work.",
+  "per_scenario": {
+    "1": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "2": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "3": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "4": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "5": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "6": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "7": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "8": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "9": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "10": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "11": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "12": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "41": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "42": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "43": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "44": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "45": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "46": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "47": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "48": {
+      "populated": true,
+      "empty": true,
+      "type": "IoT"
+    },
+    "101": {
+      "populated": true,
+      "empty": true,
+      "type": "FMSA"
+    },
+    "102": {
+      "populated": true,
+      "empty": true,
+      "type": "FMSA"
+    },
+    "104": {
+      "populated": true,
+      "empty": true,
+      "type": "FMSA"
+    },
+    "201": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "202": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "203": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "204": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "205": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "206": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "207": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "208": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "209": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "210": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "211": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "212": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "213": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "214": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "215": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "216": {
+      "populated": false,
+      "empty": false,
+      "type": "TSFM"
+    },
+    "217": {
+      "populated": false,
+      "empty": false,
+      "type": "TSFM"
+    },
+    "218": {
+      "populated": false,
+      "empty": false,
+      "type": "TSFM"
+    },
+    "219": {
+      "populated": false,
+      "empty": false,
+      "type": "TSFM"
+    },
+    "220": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "221": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "222": {
+      "populated": true,
+      "empty": true,
+      "type": "TSFM"
+    },
+    "223": {
+      "populated": false,
+      "empty": false,
+      "type": "TSFM"
+    },
+    "400": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "401": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "402": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "403": {
+      "populated": true,
+      "empty": true,
+      "type": "Workorder"
+    },
+    "404": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "405": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "406": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "407": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "408": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "410": {
+      "populated": true,
+      "empty": true,
+      "type": "Workorder"
+    },
+    "413": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "414": {
+      "populated": true,
+      "empty": false,
+      "type": "Workorder"
+    },
+    "501": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "502": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "503": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "504": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "505": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "506": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "507": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "508": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "509": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "510": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "511": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "512": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "513": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "514": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "515": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "516": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "517": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "518": {
+      "populated": false,
+      "empty": false,
+      "type": "multiagent"
+    },
+    "519": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "520": {
+      "populated": false,
+      "empty": false,
+      "type": "multiagent"
+    },
+    "601": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "602": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    },
+    "603": {
+      "populated": true,
+      "empty": true,
+      "type": "multiagent"
+    }
+  }
+}

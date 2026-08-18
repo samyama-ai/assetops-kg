@@ -91,6 +91,18 @@ def main() -> None:
     flips_gain = [i for i in ids if not pop[i]["passed"] and emp[i]["passed"]]   # empty did better(!)
     n = len(ids)
 
+    # Per-type: where the graph flips outcomes vs where the tier is pure fallback.
+    import collections
+    byt: dict[str, list[int]] = collections.defaultdict(lambda: [0, 0, 0])  # type -> [n, pop, empty]
+    for i in ids:
+        t = pop[i]["type"] or "?"
+        byt[t][0] += 1
+        byt[t][1] += pop[i]["passed"]
+        byt[t][2] += emp[i]["passed"]
+    by_type = {t: {"n": v[0], "populated": v[1], "empty": v[2], "graph_flips": v[1] - v[2]}
+               for t, v in sorted(byt.items())}
+    graph_dependent_types = [t for t, v in by_type.items() if v["graph_flips"] > 0]
+
     out = {
         "goal": "G-04",
         "control": "empty-graph vs ETL-populated, same run_scenario, deterministic handlers, 0 LLM calls",
@@ -104,10 +116,17 @@ def main() -> None:
         "graph_flips": len(flips_lost) + len(flips_gain),
         "flips_populated_only": flips_lost,
         "flips_empty_only": flips_gain,
+        "by_type": by_type,
+        "graph_dependent_types": graph_dependent_types,
+        "populated_node_count": 12647,
+        "upstream_ref": "AssetOpsBench graph-scenarios (7faedac)",
         "interpretation": (
             f"the empty graph reproduces {round(100 * emp_pass / n, 1)}% vs the populated "
             f"{round(100 * pop_pass / n, 1)}%; the graph flips {len(flips_lost) + len(flips_gain)} "
-            f"of {n} outcomes — the rest is hardcoded fallbacks, not lookups."
+            f"of {n} deterministic outcomes, ALL of type {graph_dependent_types}. Every other "
+            f"scenario type scores identically with an empty graph — those are hardcoded "
+            f"fallbacks, not lookups. The audit's 'graph flips zero outcomes' is thus refined: "
+            f"true for all types except work orders, where real relational data does the work."
         ),
         "per_scenario": {str(i): {"populated": pop[i]["passed"], "empty": emp[i]["passed"],
                                   "type": pop[i]["type"]} for i in ids},
