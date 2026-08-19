@@ -1,0 +1,15 @@
+{
+  "goal": "G-09",
+  "grader": "format-neutral gpt-4o judge (same as G-08), applied identically",
+  "subset": "full held-out split (all 42, not only retrieval)",
+  "n": 42,
+  "documents_neutral_pct": 26.2,
+  "graph_neutral_pct": 38.1,
+  "heldout_neutral_delta_pp": 11.9,
+  "keyword_grader_reference": {
+    "documents": 66.7,
+    "graph": 81.0,
+    "delta": 14.3
+  },
+  "verdict": "under strict format-neutral grading the data-layer lift is docs 26.2% \u2192 graph 38.1% = +11.9pp (keyword grader said +14.3). The absolute rates are far lower (the keyword grader is lenient), but the docs\u2192graph lift survives strict grading."
+}
