@@ -1,0 +1,157 @@
+{
+  "goal": "G-08",
+  "grader": "format-neutral gpt-4o LLM-judge, applied identically to all three arches",
+  "subset": "retrieval-only held-out scenarios (generative dropped)",
+  "n": 27,
+  "format_neutral_pass_pct": {
+    "documents": 25.9,
+    "graph": 37.0,
+    "sql": 11.1
+  },
+  "graph_minus_sql_pp": 25.9,
+  "graph_minus_docs_pp": 11.1,
+  "sql_minus_docs_pp": -14.8,
+  "keyword_grader_reference": {
+    "note": "under the keyword grader (G-07), SQL retrieval was 11.1% \u2014 the delta below is how much of that was format artifact"
+  },
+  "per_scenario": {
+    "5": {
+      "documents": true,
+      "graph": true,
+      "sql": true
+    },
+    "7": {
+      "documents": false,
+      "graph": true,
+      "sql": false
+    },
+    "10": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "11": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "42": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "44": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "108": {
+      "documents": false,
+      "graph": true,
+      "sql": false
+    },
+    "111": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "113": {
+      "documents": true,
+      "graph": true,
+      "sql": false
+    },
+    "115": {
+      "documents": true,
+      "graph": true,
+      "sql": false
+    },
+    "117": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "120": {
+      "documents": false,
+      "graph": true,
+      "sql": false
+    },
+    "205": {
+      "documents": true,
+      "graph": false,
+      "sql": true
+    },
+    "209": {
+      "documents": true,
+      "graph": true,
+      "sql": false
+    },
+    "222": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "401": {
+      "documents": true,
+      "graph": false,
+      "sql": false
+    },
+    "407": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "408": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "420": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "427": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "509": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "517": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    },
+    "602": {
+      "documents": false,
+      "graph": true,
+      "sql": true
+    },
+    "614": {
+      "documents": true,
+      "graph": false,
+      "sql": false
+    },
+    "616": {
+      "documents": false,
+      "graph": true,
+      "sql": false
+    },
+    "619": {
+      "documents": false,
+      "graph": true,
+      "sql": false
+    },
+    "620": {
+      "documents": false,
+      "graph": false,
+      "sql": false
+    }
+  },
+  "corrects_g07": "G-07 attributed SQL's low retrieval score mainly to a grading format artifact. The format-neutral judge shows that was mostly wrong: SQL stays at 11.1% on retrieval even when format is credited neutrally \u2014 raw text-to-SQL genuinely underperforms on these scenarios. The format artifact was concentrated in the generative scenarios (e.g. the 'ML recipe' id 116) that are excluded from this retrieval subset.",
+  "grader_leniency_finding": "Every tier collapses vs the keyword grader (graph 81.0%->37.0%, docs 66.7%->25.9%). Spot-check shows why: the graph/doc tiers pass many keyword-grader scenarios with fluent prose that ECHOES the expected entity names but contains no actual answer (e.g. ids 10/11/42 return prose about Chiller 6/Tonnage with zero values, because the sensor time-series isn't in the graph). A format-neutral judge correctly fails those. So the AssetOpsBench-style keyword grader materially INFLATES scores via prose-echo leniency.",
+  "verdict": "Format-neutral, retrieval-only: documents 25.9% / graph 37.0% / SQL 11.1%. The graph advantage is REAL even neutral (+11.1pp over documents, +25.9pp over SQL), but far smaller in absolute terms than the keyword-grader headline suggested \u2014 most of the graph tier's 81% was grader leniency, and raw SQL genuinely trails on retrieval (not merely a format artifact)."
+}
