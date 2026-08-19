@@ -1,0 +1,21 @@
+{
+  "goal": "G-11",
+  "grader": "format-neutral gpt-4o judge (same as G-08/G-09)",
+  "all_139": {
+    "n": 139,
+    "documents": 23.7,
+    "graph": 43.9,
+    "delta_pp": 20.2
+  },
+  "matched_95": {
+    "n": 95,
+    "documents": 28.4,
+    "graph": 52.6,
+    "delta_pp": 24.2
+  },
+  "keyword_reference": {
+    "all_139": "+23.0 (58.3\u219281.3)",
+    "matched": "+17.9 (66.3\u219284.2)"
+  },
+  "verdict": "in-sample under strict format-neutral grading: all-139 docs 23.7%\u2192graph 43.9% = +20.2pp (keyword +23.0); matched docs 28.4%\u2192graph 52.6% = +24.2pp (keyword +17.9). Absolute rates collapse (grader leniency) but the data-layer delta survives strict grading."
+}
